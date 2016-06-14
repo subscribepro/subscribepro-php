@@ -1,0 +1,36 @@
+{
+  "name": "subscribepro/subscribepro-php",
+  "homepage": "http://www.subscribepro.com",
+  "description": "SubscribePro PHP SDK",
+  "keywords": ["subscribepro", "sdk"],
+  "type": "library",
+  "version": "0.9.0",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Swarming Tech",
+      "homepage": "http://swarmingtech.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/subscribepro/subscribepro-php/issues"
+  },
+  "require": {
+    "php": ">=5.5",
+    "guzzlehttp/guzzle": "~6.0.1|~6.1|~6.2",
+    "monolog/monolog": "1.16.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0|~5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SubscribePro\\": "src/SubscribePro/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SubscribePro\\Tests\\": "tests/"
+    }
+  }
+}
