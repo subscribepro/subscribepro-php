@@ -1,15 +1,19 @@
 {
   "name": "subscribepro/subscribepro-php",
   "homepage": "http://www.subscribepro.com",
-  "description": "SubscribePro PHP SDK",
-  "keywords": ["subscribepro", "sdk"],
+  "description": "Subscribe Pro PHP SDK",
+  "keywords": ["subscribe", "pro", "sdk"],
   "type": "library",
   "version": "0.9.0",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "authors": [
     {
       "name": "Swarming Tech",
       "homepage": "http://swarmingtech.com"
+    },
+    {
+      "name": "SUBSCRIBE PRO INC",
+      "homepage": "http://www.subscribepro.com"
     }
   ],
   "support": {
