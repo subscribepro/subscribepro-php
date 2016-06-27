@@ -4,7 +4,6 @@
   "description": "Subscribe Pro PHP SDK",
   "keywords": ["subscribe", "pro", "sdk"],
   "type": "library",
-  "version": "0.9.0",
   "license": "MIT",
   "authors": [
     {
