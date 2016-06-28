@@ -16,6 +16,7 @@ use Psr\Log\LogLevel;
  * @method \SubscribePro\Service\Token\TokenService getTokenService()
  * @method \SubscribePro\Service\Webhook\WebhookService getWebhookService()
  * @method \SubscribePro\Tools\Report getReportTool()
+ * @method \SubscribePro\Tools\Config getConfigTool()
  */
 class Sdk
 {
