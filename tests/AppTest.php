@@ -21,7 +21,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
      */
     protected $clientSecret = 'client_secret';
 
-    public function setUp()
+    protected function setUp()
     {
         $this->app = new App($this->clientId, $this->clientSecret);
     }

@@ -2,10 +2,16 @@
 
 namespace SubscribePro\Service\Token;
 
-use SubscribePro\Sdk;
+use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
-use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * Config options for token service:
+ * - instance_name
+ *   Specified class must implement \SubscribePro\Service\Token\TokenInterface interface
+ *   Default value is \SubscribePro\Service\Token\Token
+ *   @see \SubscribePro\Service\Token\TokenInterface
+ */
 class TokenService extends AbstractService
 {
     /**
@@ -14,17 +20,6 @@ class TokenService extends AbstractService
     const NAME = 'token';
 
     const API_NAME_TOKEN = 'token';
-
-    /**
-     * @param \SubscribePro\Sdk $sdk
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    protected function createDataFactory(Sdk $sdk)
-    {
-        return new TokenFactory(
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\Token\Token')
-        );
-    }
 
     /**
      * @param array $tokenData
@@ -49,13 +44,13 @@ class TokenService extends AbstractService
     /**
      * @param \SubscribePro\Service\Token\TokenInterface $token
      * @return \SubscribePro\Service\Token\TokenInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveToken(TokenInterface $token)
     {
         if (!$token->isValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $response = $this->httpClient->post('/services/v1/vault/token.json', [self::API_NAME_TOKEN => $token->getFormData()]);

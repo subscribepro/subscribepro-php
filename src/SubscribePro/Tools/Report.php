@@ -2,20 +2,14 @@
 
 namespace SubscribePro\Tools;
 
-use SubscribePro\Sdk;
 use SubscribePro\Exception\InvalidArgumentException;
 
-class Report
+class Report extends AbstractTool
 {
     /**
      * Tool name
      */
     const NAME = 'report';
-
-    /**
-     * @var \SubscribePro\Http
-     */
-    protected $httpClient;
 
     /**
      * Report codes
@@ -48,14 +42,6 @@ class Report
     ];
 
     /**
-     * @param \SubscribePro\Sdk $sdk
-     */
-    public function __construct(Sdk $sdk)
-    {
-        $this->httpClient = $sdk->getHttp();
-    }
-
-    /**
      * Get report in csv format
      *  Allowed code values:
      * - daily_subscriptions
@@ -81,11 +67,20 @@ class Report
             throw new InvalidArgumentException('Invalid report code. Allowed values: ' . implode(', ', $this->reportCodes));
         }
 
-        if (!is_resource($filePath) && !$this->isWritable($filePath)) {
+        if (!$this->isResource($filePath) && !$this->isWritable($filePath)) {
             throw new InvalidArgumentException("{$filePath} is not writable or a directory.");
         }
 
         $this->httpClient->getToSink("/services/v2/reports/{$code}", $filePath);
+    }
+
+    /**
+     * @param string $filePath
+     * @return bool
+     */
+    protected function isResource($filePath)
+    {
+        return is_resource($filePath);
     }
 
     /**

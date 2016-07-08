@@ -2,10 +2,16 @@
 
 namespace SubscribePro\Service\Product;
 
-use SubscribePro\Sdk;
+use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
-use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * Config options for product service:
+ * - instance_name
+ *   Specified class must implement \SubscribePro\Service\Product\ProductInterface interface
+ *   Default value is \SubscribePro\Service\Product\Product
+ *   @see \SubscribePro\Service\Product\ProductInterface
+ */
 class ProductService extends AbstractService
 {
     /**
@@ -15,17 +21,6 @@ class ProductService extends AbstractService
 
     const API_NAME_PRODUCT = 'product';
     const API_NAME_PRODUCTS = 'products';
-
-    /**
-     * @param \SubscribePro\Sdk $sdk
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    protected function createDataFactory(Sdk $sdk)
-    {
-        return new ProductFactory(
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\Product\Product')
-        );
-    }
 
     /**
      * @param array $productData
@@ -39,13 +34,13 @@ class ProductService extends AbstractService
     /**
      * @param \SubscribePro\Service\Product\ProductInterface $product
      * @return \SubscribePro\Service\Product\ProductInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveProduct(ProductInterface $product)
     {
         if (!$product->isValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $url = $product->isNew() ? '/services/v2/product.json' : "/services/v2/products/{$product->getId()}.json";

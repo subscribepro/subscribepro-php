@@ -2,11 +2,24 @@
 
 namespace SubscribePro\Service\Webhook;
 
-use SubscribePro\Sdk;
 use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\HttpException;
-use SubscribePro\Service\Webhook\Event\DestinationFactory;
 
+/**
+ * Config options for webhook service:
+ * - instance_name
+ *   Specified class must implement \SubscribePro\Service\Webhook\EventInterface interface
+ *   Default value is \SubscribePro\Service\Webhook\Event
+ *   @see \SubscribePro\Service\Webhook\EventInterface
+ * - instance_name_destination
+ *   Specified class must implement \SubscribePro\Service\Webhook\Event\DestinationInterface interface
+ *   Default value is \SubscribePro\Service\Webhook\Event\Destination
+ *   @see \SubscribePro\Service\Webhook\Event\DestinationInterface
+ * - instance_name_endpoint
+ *   Specified class must implement \SubscribePro\Service\Webhook\Event\Destination\EndpointInterface interface
+ *   Default value is \SubscribePro\Service\Webhook\Event\Destination\Endpoint
+ *   @see \SubscribePro\Service\Webhook\Event\Destination\EndpointInterface
+ */
 class WebhookService extends AbstractService
 {
     /**
@@ -18,24 +31,6 @@ class WebhookService extends AbstractService
 
     const CONFIG_INSTANCE_NAME_DESTINATION = 'instance_name_destination';
     const CONFIG_INSTANCE_NAME_ENDPOINT = 'instance_name_endpoint';
-
-    /**
-     * @param \SubscribePro\Sdk $sdk
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    protected function createDataFactory(Sdk $sdk)
-    {
-        $destinationFactory = new DestinationFactory(
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME_DESTINATION, '\SubscribePro\Service\Webhook\Event\Destination'),
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME_ENDPOINT, '\SubscribePro\Service\Webhook\Event\Destination\Endpoint')
-        );
-        return new EventFactory(
-            $sdk->getCustomerService()->getDataFactory(),
-            $sdk->getSubscriptionService()->getDataFactory(),
-            $destinationFactory,
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\Webhook\Event')
-        );
-    }
 
     /**
      * @return bool
@@ -53,6 +48,7 @@ class WebhookService extends AbstractService
     /**
      * @param int $eventId
      * @return \SubscribePro\Service\Webhook\EventInterface
+     * @throws \SubscribePro\Exception\HttpException
      */
     public function loadEvent($eventId)
     {

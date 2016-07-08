@@ -2,10 +2,17 @@
 
 namespace SubscribePro\Service\Customer;
 
-use SubscribePro\Sdk;
+use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * Config options for customer service:
+ * - instance_name
+ *   Specified class must implement \SubscribePro\Service\Customer\CustomerInterface interface
+ *   Default value is \SubscribePro\Service\Customer\Customer
+ *   @see \SubscribePro\Service\Customer\CustomerInterface
+ */
 class CustomerService extends AbstractService
 {
     /**
@@ -27,17 +34,6 @@ class CustomerService extends AbstractService
     ];
 
     /**
-     * @param \SubscribePro\Sdk $sdk
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    protected function createDataFactory(Sdk $sdk)
-    {
-        return new CustomerFactory(
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\Customer\Customer')
-        );
-    }
-
-    /**
      * @param array $customerData
      * @return \SubscribePro\Service\Customer\CustomerInterface
      */
@@ -49,13 +45,13 @@ class CustomerService extends AbstractService
     /**
      * @param \SubscribePro\Service\Customer\CustomerInterface $customer
      * @return \SubscribePro\Service\Customer\CustomerInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveCustomer(CustomerInterface $customer)
     {
         if (!$customer->isValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $url = $customer->isNew() ? '/services/v2/customer.json' : "/services/v2/customers/{$customer->getId()}.json";
@@ -82,7 +78,7 @@ class CustomerService extends AbstractService
      * - first_name
      * - last_name
      *
-     * @param array|null $filters
+     * @param array $filters
      * @return \SubscribePro\Service\Customer\CustomerInterface[]
      * @throws \SubscribePro\Exception\InvalidArgumentException
      * @throws \SubscribePro\Exception\HttpException

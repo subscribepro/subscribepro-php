@@ -2,10 +2,16 @@
 
 namespace SubscribePro\Service\Subscription;
 
-use SubscribePro\Sdk;
+use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
-use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * Config options for subscription service:
+ * - instance_name
+ *   Specified class must implement \SubscribePro\Service\Subscription\SubscriptionInterface interface
+ *   Default value is \SubscribePro\Service\Subscription\Subscription
+ *   @see \SubscribePro\Service\Subscription\SubscriptionInterface
+ */
 class SubscriptionService extends AbstractService
 {
     /**
@@ -15,19 +21,6 @@ class SubscriptionService extends AbstractService
 
     const API_NAME_SUBSCRIPTION = 'subscription';
     const API_NAME_SUBSCRIPTIONS = 'subscriptions';
-
-    /**
-     * @param \SubscribePro\Sdk $sdk
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    protected function createDataFactory(Sdk $sdk)
-    {
-        return new SubscriptionFactory(
-            $sdk->getAddressService()->getDataFactory(),
-            $sdk->getPaymentProfileService()->getDataFactory(),
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\Subscription\Subscription')
-        );
-    }
 
     /**
      * @param array $subscriptionData
@@ -41,13 +34,13 @@ class SubscriptionService extends AbstractService
     /**
      * @param \SubscribePro\Service\Subscription\SubscriptionInterface $subscription
      * @return \SubscribePro\Service\Subscription\SubscriptionInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveSubscription(SubscriptionInterface $subscription)
     {
         if (!$subscription->isValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $url = $subscription->isNew() ? '/services/v2/subscription.json' : "/services/v2/subscriptions/{$subscription->getId()}.json";

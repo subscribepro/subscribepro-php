@@ -2,10 +2,16 @@
 
 namespace SubscribePro\Service\Address;
 
-use SubscribePro\Sdk;
+use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
-use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * Config options for address service:
+ * - instance_name
+ *   Specified class must implement \SubscribePro\Service\Address\AddressInterface interface
+ *   Default value is \SubscribePro\Service\Address\Address
+ *   @see \SubscribePro\Service\Address\AddressInterface
+ */
 class AddressService extends AbstractService
 {
     /**
@@ -15,17 +21,6 @@ class AddressService extends AbstractService
 
     const API_NAME_ADDRESS = 'address';
     const API_NAME_ADDRESSES = 'addresses';
-
-    /**
-     * @param \SubscribePro\Sdk $sdk
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    protected function createDataFactory(Sdk $sdk)
-    {
-        return new AddressFactory(
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\Address\Address')
-        );
-    }
 
     /**
      * @param array $addressData
@@ -50,12 +45,13 @@ class AddressService extends AbstractService
     /**
      * @param \SubscribePro\Service\Address\AddressInterface $address
      * @return \SubscribePro\Service\Address\AddressInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveAddress(AddressInterface $address)
     {
         if (!$address->isValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $url = $address->isNew() ? '/services/v2/address.json' : "/services/v2/addresses/{$address->getId()}.json";
@@ -66,13 +62,13 @@ class AddressService extends AbstractService
     /**
      * @param \SubscribePro\Service\Address\AddressInterface $address
      * @return \SubscribePro\Service\Address\AddressInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function findOrSave($address)
     {
         if (!$address->isValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $response = $this->httpClient->post('/services/v2/address/find-or-create.json', [self::API_NAME_ADDRESS => $address->getFormData()]);
