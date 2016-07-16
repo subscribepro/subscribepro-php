@@ -4,7 +4,9 @@ namespace SubscribePro;
 
 use SubscribePro\Exception\InvalidArgumentException;
 use SubscribePro\Exception\BadMethodCallException;
-use Psr\Log\LogLevel;
+use SubscribePro\Service\ServiceFactoryResolver;
+use SubscribePro\Tools\ToolFactory;
+use SubscribePro\Utils\StringUtils;
 
 /**
  * @method \SubscribePro\Service\Product\ProductService getProductService()
@@ -20,13 +22,8 @@ use Psr\Log\LogLevel;
  */
 class Sdk
 {
-    /**
-     * Version SDK
-     *
-     * @const string
-     */
-    const VERSION = '0.1.0';
-
+    use StringUtils;
+    
     /**
      * The name of the environment variable that contains the client ID
      *
@@ -42,19 +39,14 @@ class Sdk
     const CLIENT_SECRET_ENV_NAME = 'SUBSCRIBEPRO_CLIENT_SECRET';
 
     /**
-     * @var \SubscribePro\App
+     * @var \SubscribePro\Service\ServiceFactoryResolver
      */
-    protected $app;
+    protected $serviceFactoryResolver;
 
     /**
-     * @var \SubscribePro\Http
+     * @var \SubscribePro\Tools\ToolFactory
      */
-    protected $http;
-
-    /**
-     * @var array
-     */
-    protected $config;
+    protected $toolFactory;
 
     /**
      * @var array
@@ -67,6 +59,22 @@ class Sdk
     protected $tools = [];
 
     /**
+     * Config options:
+     * - client_id
+     * - client_secret
+     * - logging_enable
+     *   default value false
+     * - logging_level
+     *   default value @see \Psr\Log\LogLevel::INFO
+     * - logging_file_name
+     *   default value @see SubscribePro\Http::DEFAULT_LOG_FILE_NAME
+     * - logging_line_format
+     *   default value  @see SubscribePro\Http::DEFAULT_LOG_LINE_FORMAT
+     * - logging_message_format
+     *   default value @see SubscribePro\Http::DEFAULT_LOG_MESSAGE_FORMAT
+     * - <service_name>
+     *   Config options for specified service
+     *
      * @param array $config
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
@@ -76,9 +84,9 @@ class Sdk
             'client_id' => getenv(static::CLIENT_ID_ENV_NAME),
             'client_secret' => getenv(static::CLIENT_SECRET_ENV_NAME),
             'logging_enable' => false,
-            'logging_level' => LogLevel::INFO,
+            'logging_level' => null,
             'logging_file_name' => null,
-            'logging_file_format' => null,
+            'logging_line_format' => null,
             'logging_message_format' => null
         ], $config);
 
@@ -89,45 +97,28 @@ class Sdk
             throw new InvalidArgumentException('Required "client_secret" key is not supplied in config and could not find fallback environment variable "' . static::CLIENT_SECRET_ENV_NAME . '"');
         }
 
-        $this->app = new App($config['client_id'], $config['client_secret']);
+        $app = new App($config['client_id'], $config['client_secret']);
         unset($config['client_id']);
         unset($config['client_secret']);
 
-        $this->http = new Http($this->app);
+        $http = new Http($app);
 
         if ($config['logging_enable']) {
-            $this->http->initDefaultLogger(
+            $http->initDefaultLogger(
                 $config['logging_file_name'],
-                $config['logging_file_format'],
+                $config['logging_line_format'],
                 $config['logging_message_format'],
                 $config['logging_level']
             );
-            unset($config['logging_enable']);
-            unset($config['logging_level']);
-            unset($config['logging_file_name']);
-            unset($config['logging_file_format']);
-            unset($config['logging_message_format']);
         }
+        unset($config['logging_enable']);
+        unset($config['logging_level']);
+        unset($config['logging_file_name']);
+        unset($config['logging_line_format']);
+        unset($config['logging_message_format']);
 
-        $this->config = $config;
-    }
-
-    /**
-     * @return \SubscribePro\Http
-     */
-    public function getHttp()
-    {
-        return $this->http;
-    }
-
-    /**
-     * @param string $name
-     * @return array
-     */
-    protected function getServiceConfig($name)
-    {
-        $name = $this->underscore($name);
-        return (array)(empty($this->config[$name]) ? [] : $this->config[$name]);
+        $this->serviceFactoryResolver = new ServiceFactoryResolver($http, $config);
+        $this->toolFactory = new ToolFactory($http);
     }
 
     /**
@@ -146,48 +137,20 @@ class Sdk
     }
 
     /**
-     * Create service by name
-     *
      * @param string $name
      * @return \SubscribePro\Service\AbstractService
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
-    protected function createService($name)
+    private function createService($name)
     {
-        $name = $this->camelize($name);
-        $serviceClient = "SubscribePro\\Service\\{$name}\\{$name}Service";
-
-        if (!class_exists($serviceClient)) {
-            throw new InvalidArgumentException("Service with '{$name}' name does not exist.");
-        }
-
-        return new $serviceClient($this, $this->getServiceConfig($name));
-    }
-
-    /**
-     * Create tool by name
-     *
-     * @param string $name
-     * @return mixed
-     * @throws \SubscribePro\Exception\InvalidArgumentException
-     */
-    protected function createTool($name)
-    {
-        $name = $this->camelize($name);
-        $tool = "SubscribePro\\Tools\\{$name}";
-
-        if (!class_exists($tool)) {
-            throw new InvalidArgumentException("Tool with '{$name}' name does not exist.");
-        }
-
-        return new $tool($this);
+        return $this->serviceFactoryResolver->getServiceFactory($name)->create();
     }
 
     /**
      * Get tool by name
      *
      * @param string $name
-     * @return mixed
+     * @return \SubscribePro\Tools\AbstractTool
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function getTool($name)
@@ -199,9 +162,18 @@ class Sdk
     }
 
     /**
+     * @param $name
+     * @return \SubscribePro\Tools\AbstractTool
+     */
+    private function createTool($name)
+    {
+        return $this->toolFactory->create($name);
+    }
+
+    /**
      * @param string $method
      * @param array $args
-     * @return mixed
+     * @return \SubscribePro\Service\AbstractService|\SubscribePro\Tools\AbstractTool
      * @throws \BadMethodCallException
      */
     public function __call($method, $args)
@@ -215,23 +187,5 @@ class Sdk
         }
 
         throw new BadMethodCallException("Method {$method} does not exist.");
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected function camelize($name)
-    {
-        return implode('', array_map('ucfirst', explode('_', $name)));
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected function underscore($name)
-    {
-        return strtolower(trim(preg_replace('/([A-Z]|[0-9]+)/', '_$1', $name), '_'));
     }
 }

@@ -2,9 +2,7 @@
 
 namespace SubscribePro\Tools;
 
-use SubscribePro\Sdk;
-
-class Config
+class Config extends AbstractTool
 {
     /**
      * Tool name
@@ -58,19 +56,6 @@ class Config
     const CONFIG_CURRENCY = 'currency';
     const CONFIG_CREATED = 'created';
     const CONFIG_UPDATED = 'updated';
-
-    /**
-     * @var \SubscribePro\Http
-     */
-    protected $httpClient;
-
-    /**
-     * @param \SubscribePro\Sdk $sdk
-     */
-    public function __construct(Sdk $sdk)
-    {
-        $this->httpClient = $sdk->getHttp();
-    }
 
     /**
      * @return array

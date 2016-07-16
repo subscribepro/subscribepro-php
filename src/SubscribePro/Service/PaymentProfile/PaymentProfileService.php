@@ -2,10 +2,17 @@
 
 namespace SubscribePro\Service\PaymentProfile;
 
-use SubscribePro\Sdk;
+use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * Config options for payment profile service:
+ * - instance_name
+ *   Specified class must implement \SubscribePro\Service\PaymentProfile\PaymentProfileInterface interface
+ *   Default value is \SubscribePro\Service\PaymentProfile\PaymentProfile
+ *   @see \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+ */
 class PaymentProfileService extends AbstractService
 {
     /**
@@ -25,18 +32,6 @@ class PaymentProfileService extends AbstractService
     ];
 
     /**
-     * @param \SubscribePro\Sdk $sdk
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    protected function createDataFactory(Sdk $sdk)
-    {
-        return new PaymentProfileFactory(
-            $sdk->getAddressService()->getDataFactory(),
-            $this->getConfigValue(self::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\PaymentProfile\PaymentProfile')
-        );
-    }
-
-    /**
      * @param array $paymentProfileData
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
@@ -48,13 +43,13 @@ class PaymentProfileService extends AbstractService
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveProfile(PaymentProfileInterface $paymentProfile)
     {
         if (!$paymentProfile->isValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
@@ -112,13 +107,13 @@ class PaymentProfileService extends AbstractService
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveThirdPartyToken(PaymentProfileInterface $paymentProfile)
     {
         if (!$paymentProfile->isThirdPartyDataValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $response = $this->httpClient->post(
@@ -132,13 +127,13 @@ class PaymentProfileService extends AbstractService
      * @param string $token
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveToken($token, PaymentProfileInterface $paymentProfile)
     {
         if (!$paymentProfile->isTokenDataValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $response = $this->httpClient->post(
@@ -152,13 +147,13 @@ class PaymentProfileService extends AbstractService
      * @param string $token
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
-     * @throws \SubscribePro\Exception\InvalidArgumentException
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function verifyAndSaveToken($token, PaymentProfileInterface $paymentProfile)
     {
         if (!$paymentProfile->isTokenDataValid()) {
-            throw new InvalidArgumentException('Not all required fields are set.');
+            throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
         $response = $this->httpClient->post(

@@ -158,7 +158,8 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function isThirdPartyDataValid()
     {
-        return $this->checkRequiredFields($this->savingThirdPartyTokenFields);
+        return $this->checkRequiredFields($this->savingThirdPartyTokenFields)
+            && $this->getBillingAddress()->isAsChildValid(true);
     }
 
     /**

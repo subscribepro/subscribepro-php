@@ -2,7 +2,7 @@
 
 namespace SubscribePro\Service;
 
-use SubscribePro\Sdk;
+use SubscribePro\Http;
 
 abstract class AbstractService
 {
@@ -10,7 +10,7 @@ abstract class AbstractService
      * Config instance name
      */
     const CONFIG_INSTANCE_NAME = 'instance_name';
-
+    
     /**
      * @var \SubscribePro\Http
      */
@@ -22,43 +22,13 @@ abstract class AbstractService
     protected $dataFactory;
 
     /**
-     * @var array
+     * @param Http $http
+     * @param DataFactoryInterface $factory
      */
-    protected $config;
-
-    /**
-     * @param \SubscribePro\Sdk $sdk
-     * @param array $config
-     */
-    public function __construct(Sdk $sdk, array $config = [])
+    public function __construct(Http $http, DataFactoryInterface $factory)
     {
-        $this->httpClient = $sdk->getHttp();
-        $this->config = $config;
-        $this->dataFactory = $this->createDataFactory($sdk);
-    }
-
-    /**
-     * @param string $key
-     * @param mixed|null $defaultValue
-     * @return mixed|null
-     */
-    protected function getConfigValue($key, $defaultValue = null)
-    {
-        return isset($this->config[$key]) ? $this->config[$key] : $defaultValue;
-    }
-
-    /**
-     * @param \SubscribePro\Sdk $sdk
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    abstract protected function createDataFactory(Sdk $sdk);
-
-    /**
-     * @return \SubscribePro\Service\DataFactoryInterface
-     */
-    protected function getDataFactory()
-    {
-        return $this->dataFactory;
+        $this->httpClient = $http;
+        $this->dataFactory = $factory;
     }
 
     /**
@@ -90,7 +60,7 @@ abstract class AbstractService
      * @param array $data
      * @return \SubscribePro\Service\DataInterface[]
      */
-    protected function createItems(array $data = [])
+    private function createItems(array $data = [])
     {
         return array_map(function ($itemData) {
             return $this->dataFactory->create($itemData);

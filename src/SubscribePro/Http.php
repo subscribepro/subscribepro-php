@@ -56,17 +56,28 @@ class Http
     public function __construct($app)
     {
         $this->app = $app;
-        $this->handlerStack = HandlerStack::create();
+        $this->handlerStack = $this->createHandlerStack();
     }
 
-    protected function initClient()
+    /**
+     * @return \GuzzleHttp\Client
+     */
+    protected function createClient()
     {
-        $this->client = new Client([
+        return new Client([
             'base_uri' => $this->baseUrl,
             'handler'  => $this->handlerStack,
             RequestOptions::HTTP_ERRORS => false,
             RequestOptions::AUTH => [$this->app->getClientId(), $this->app->getClientSecret()]
         ]);
+    }
+
+    /**
+     * @return \GuzzleHttp\HandlerStack
+     */
+    protected function createHandlerStack()
+    {
+        return HandlerStack::create();
     }
 
     /**
@@ -81,14 +92,15 @@ class Http
      * @param string|null $fileName
      * @param string|null $lineFormat
      * @param string|null $messageFormat
-     * @param string $logLevel
+     * @param string|null $logLevel
      * @return Http
      */
-    public function initDefaultLogger($fileName = null, $lineFormat = null, $messageFormat = null, $logLevel = LogLevel::INFO)
+    public function initDefaultLogger($fileName = null, $lineFormat = null, $messageFormat = null, $logLevel = null)
     {
         $fileName = $fileName ?: static::DEFAULT_LOG_FILE_NAME;
         $lineFormat = $lineFormat ?: static::DEFAULT_LOG_LINE_FORMAT;
         $messageFormat = $messageFormat ?: static::DEFAULT_LOG_MESSAGE_FORMAT;
+        $logLevel = $logLevel ?: LogLevel::INFO;
 
         $logHandler = new RotatingFileHandler($fileName);
         $logHandler->setFormatter(new LineFormatter($lineFormat, null, true));
@@ -104,18 +116,32 @@ class Http
      */
     public function addLogger($logger, $messageFormatter, $logLevel = LogLevel::INFO)
     {
-        $this->handlerStack->push(Middleware::log($logger, $messageFormatter, $logLevel), 'logger');
+        $this->getHandlerStack()
+            ->push(
+                $this->createMiddlewareLogCallback($logger, $messageFormatter, $logLevel),
+                'logger'
+            );
         return $this;
     }
 
     /**
-     * @param bool $force
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \GuzzleHttp\MessageFormatter $messageFormatter
+     * @param string $logLevel
+     * @return callable
+     */
+    protected function createMiddlewareLogCallback($logger, $messageFormatter, $logLevel = LogLevel::INFO)
+    {
+        return Middleware::log($logger, $messageFormatter, $logLevel);
+    }
+
+    /**
      * @return \GuzzleHttp\Client
      */
-    public function getClient($force = false)
+    protected function getClient()
     {
-        if (null === $this->client || $force) {
-            $this->initClient();
+        if (null === $this->client) {
+            $this->client = $this->createClient();
         }
         return $this->client;
     }
@@ -187,16 +213,6 @@ class Http
             return !empty($body) ? json_decode($body, true) : $response->getStatusCode();
         }
 
-        throw new HttpException($this->getErrorMessage($response), $response->getStatusCode());
-    }
-
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @return string
-     */
-    protected function getErrorMessage($response)
-    {
-        $errorBody = json_decode((string)$response->getBody(), true);
-        return !empty($errorBody['message']) ? $errorBody['message'] : $response->getReasonPhrase();
+        throw new HttpException($response);
     }
 }

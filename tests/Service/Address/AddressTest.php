@@ -1,0 +1,273 @@
+<?php
+
+namespace SubscribePro\Tests\Service\Address;
+
+use SubscribePro\Service\Address\Address;
+use SubscribePro\Service\Address\AddressInterface;
+
+class AddressTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \SubscribePro\Service\Address\AddressInterface
+     */
+    protected $address;
+
+    protected function setUp()
+    {
+        $this->address = new Address();
+    }
+
+    /**
+     * @param array $data
+     * @param bool $isValid
+     * @dataProvider isValidDataProvider
+     */
+    public function testIsValid($data, $isValid)
+    {
+        $this->address->importData($data);
+        $this->assertEquals($isValid, $this->address->isValid());
+    }
+
+    /**
+     * @return array
+     */
+    public function isValidDataProvider()
+    {
+        return [
+            'Not valid: new: without customer ID' => [
+                'data' => [
+                    AddressInterface::LAST_NAME => 'surname',
+                    AddressInterface::FIRST_NAME => 'name',
+                ],
+                'isValid' => false
+            ],
+            'Not valid: new: without first name' => [
+                'data' => [
+                    AddressInterface::LAST_NAME => 'surname',
+                    AddressInterface::CUSTOMER_ID => 111,
+                ],
+                'isValid' => false
+            ],
+            'Not valid: new: without last name' => [
+                'data' => [
+                    AddressInterface::FIRST_NAME => 'name',
+                    AddressInterface::CUSTOMER_ID => 111,
+                ],
+                'isValid' => false
+            ],
+            'Valid: new' => [
+                'data' => [
+                    AddressInterface::FIRST_NAME => 'name',
+                    AddressInterface::LAST_NAME => 'surname',
+                    AddressInterface::CUSTOMER_ID => 111,
+                ],
+                'isValid' => true
+            ],
+            'Valid: not new' => [
+                'data' => [
+                    AddressInterface::ID => 123,
+                ],
+                'isValid' => true
+            ]
+        ];
+    }
+
+    /**
+     * @param array $data
+     * @param bool $isNew
+     * @param bool $isValid
+     * @dataProvider isAsChildValidDataProvider
+     */
+    public function testIsAsChildValid($data, $isNew, $isValid)
+    {
+        $this->address->importData($data);
+        $this->assertEquals($isValid, $this->address->isAsChildValid($isNew));
+    }
+
+    /**
+     * @return array
+     */
+    public function isAsChildValidDataProvider()
+    {
+        return [
+            'Not valid: new: without last name' => [
+                'data' => [
+                    AddressInterface::FIRST_NAME => 'name',
+                ],
+                'isNew' => true,
+                'isValid' => false,
+            ],
+            'Not valid: new: without first name' => [
+                'data' => [
+                    AddressInterface::LAST_NAME => 'surname',
+                ],
+                'isNew' => true,
+                'isValid' => false,
+            ],
+            'Valid: new' => [
+                'data' => [
+                    AddressInterface::LAST_NAME => 'surname',
+                    AddressInterface::FIRST_NAME => 'name',
+                ],
+                'isNew' => true,
+                'isValid' => true,
+            ],
+            'Valid: not new' => [
+                'data' => [],
+                'isNew' => false,
+                'isValid' => true,
+            ]
+        ];
+    }
+
+    /**
+     * @param array $data
+     * @param array $expectedData
+     * @dataProvider getFormDataProvider
+     */
+    public function testGetFormData($data, $expectedData)
+    {
+        $this->address->importData($data);
+        $this->assertEquals($expectedData, $this->address->getFormData());
+    }
+
+    /**
+     * @return array
+     */
+    public function getFormDataProvider()
+    {
+        return [
+            'New address' => [
+                'data' => [
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::COMPANY => 'company',
+                    AddressInterface::FIRST_NAME => 'first name',
+                    AddressInterface::LAST_NAME => 'last name',
+                    AddressInterface::MAGENTO_ADDRESS_ID => '23',
+                    AddressInterface::MIDDLE_NAME => 'middle name',
+                    AddressInterface::PHONE => 'phone',
+                    AddressInterface::POSTCODE => 'postcode',
+                    AddressInterface::REGION => 'region',
+                    AddressInterface::CREATED => '2016-12-12',
+                    AddressInterface::STREET1 => 'street1',
+                    AddressInterface::STREET2 => 'street2',
+                ],
+                'expectedData' => [
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::COMPANY => 'company',
+                    AddressInterface::FIRST_NAME => 'first name',
+                    AddressInterface::LAST_NAME => 'last name',
+                    AddressInterface::MIDDLE_NAME => 'middle name',
+                    AddressInterface::PHONE => 'phone',
+                    AddressInterface::POSTCODE => 'postcode',
+                    AddressInterface::REGION => 'region',
+                    AddressInterface::STREET1 => 'street1',
+                    AddressInterface::STREET2 => 'street2',
+                ],
+            ],
+            'Not new address' => [
+                'data' => [
+                    AddressInterface::ID => 111,
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::COMPANY => 'company',
+                    AddressInterface::FIRST_NAME => 'first name',
+                    AddressInterface::LAST_NAME => 'last name',
+                    AddressInterface::MIDDLE_NAME => 'middle name',
+                    AddressInterface::CUSTOMER_ID => '111',
+                    AddressInterface::MAGENTO_ADDRESS_ID => '23',
+                    AddressInterface::PHONE => 'phone',
+                    AddressInterface::POSTCODE => 'postcode',
+                    AddressInterface::REGION => 'region',
+                    AddressInterface::CREATED => '2016-12-12',
+                    AddressInterface::STREET1 => 'street1',
+                    AddressInterface::STREET2 => 'street2',
+                ],
+                'expectedData' => [
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::COMPANY => 'company',
+                    AddressInterface::FIRST_NAME => 'first name',
+                    AddressInterface::LAST_NAME => 'last name',
+                    AddressInterface::MIDDLE_NAME => 'middle name',
+                    AddressInterface::PHONE => 'phone',
+                    AddressInterface::POSTCODE => 'postcode',
+                    AddressInterface::REGION => 'region',
+                    AddressInterface::STREET1 => 'street1',
+                    AddressInterface::STREET2 => 'street2',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param array $data
+     * @dataProvider getAsChildFormDataProvider
+     */
+    public function testGetAsChildFormData($data)
+    {
+        $expectedData = [
+            AddressInterface::CITY => 'city',
+            AddressInterface::COUNTRY => 'country',
+            AddressInterface::COMPANY => 'company',
+            AddressInterface::FIRST_NAME => 'first name',
+            AddressInterface::LAST_NAME => 'last name',
+            AddressInterface::MIDDLE_NAME => 'middle name',
+            AddressInterface::PHONE => 'phone',
+            AddressInterface::POSTCODE => 'postcode',
+            AddressInterface::REGION => 'region',
+            AddressInterface::STREET1 => 'street1',
+            AddressInterface::STREET2 => 'street2',
+        ];
+        
+        $this->address->importData($data);
+        $this->assertEquals($expectedData, $this->address->getFormData());
+    }
+
+    /**
+     * @return array
+     */
+    public function getAsChildFormDataProvider()
+    {
+        return [
+            'New address' => [
+                'data' => [
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::COMPANY => 'company',
+                    AddressInterface::FIRST_NAME => 'first name',
+                    AddressInterface::LAST_NAME => 'last name',
+                    AddressInterface::MAGENTO_ADDRESS_ID => '23',
+                    AddressInterface::MIDDLE_NAME => 'middle name',
+                    AddressInterface::PHONE => 'phone',
+                    AddressInterface::POSTCODE => 'postcode',
+                    AddressInterface::REGION => 'region',
+                    AddressInterface::CREATED => '2016-12-12',
+                    AddressInterface::STREET1 => 'street1',
+                    AddressInterface::STREET2 => 'street2',
+                ],
+            ],
+            'Not new address' => [
+                'data' => [
+                    AddressInterface::ID => 111,
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::COMPANY => 'company',
+                    AddressInterface::FIRST_NAME => 'first name',
+                    AddressInterface::LAST_NAME => 'last name',
+                    AddressInterface::MIDDLE_NAME => 'middle name',
+                    AddressInterface::CUSTOMER_ID => '111',
+                    AddressInterface::MAGENTO_ADDRESS_ID => '23',
+                    AddressInterface::PHONE => 'phone',
+                    AddressInterface::POSTCODE => 'postcode',
+                    AddressInterface::REGION => 'region',
+                    AddressInterface::CREATED => '2016-12-12',
+                    AddressInterface::STREET1 => 'street1',
+                    AddressInterface::STREET2 => 'street2',
+                ],
+            ],
+        ];
+    }
+}
