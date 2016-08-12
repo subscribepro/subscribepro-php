@@ -86,6 +86,8 @@ class Report extends AbstractTool
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param string $filePath
      * @return bool
      */
