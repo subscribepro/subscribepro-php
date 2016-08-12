@@ -4,6 +4,9 @@ namespace SubscribePro\Service\Address;
 
 use SubscribePro\Service\AbstractServiceFactory;
 
+/**
+ * @codeCoverageIgnore
+ */
 class AddressServiceFactory extends AbstractServiceFactory
 {
     /**

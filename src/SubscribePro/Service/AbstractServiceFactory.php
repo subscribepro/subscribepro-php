@@ -2,6 +2,9 @@
 
 namespace SubscribePro\Service;
 
+/**
+ * @codeCoverageIgnore
+ */
 abstract class AbstractServiceFactory implements ServiceFactoryInterface
 {
     /**

@@ -4,6 +4,9 @@ namespace SubscribePro\Service\Transaction;
 
 use SubscribePro\Service\AbstractServiceFactory;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TransactionServiceFactory extends AbstractServiceFactory
 {
     /**

@@ -117,6 +117,8 @@ class Product extends DataObject implements ProductInterface
         return $this->checkRequiredFields($this->getFormFields());
     }
 
+    //@codeCoverageIgnoreStart
+
     /**
      * @param int|null $id
      * @return $this
@@ -243,7 +245,7 @@ class Product extends DataObject implements ProductInterface
      */
     public function setDiscount($discount)
     {
-        return $this->getData(self::DISCOUNT, $discount);
+        return $this->setData(self::DISCOUNT, $discount);
     }
 
     /**
@@ -518,4 +520,6 @@ class Product extends DataObject implements ProductInterface
     {
         return $this->getDatetimeData(self::UPDATED, $format);
     }
+
+    //@codeCoverageIgnoreEnd
 }

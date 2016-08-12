@@ -6,6 +6,9 @@ use SubscribePro\Service\AbstractServiceFactory;
 use SubscribePro\Service\Address\AddressService;
 use SubscribePro\Service\PaymentProfile\PaymentProfileService;
 
+/**
+ * @codeCoverageIgnore
+ */
 class SubscriptionServiceFactory extends AbstractServiceFactory
 {
     /**

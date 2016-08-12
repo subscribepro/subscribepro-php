@@ -6,6 +6,8 @@ use SubscribePro\Service\DataObject;
 
 class Destination extends DataObject implements DestinationInterface
 {
+    //@codeCoverageIgnoreStart
+
     /**
      * @return string
      */
@@ -38,6 +40,8 @@ class Destination extends DataObject implements DestinationInterface
     {
         return $this->getData(self::ENDPOINT);
     }
+
+    //@codeCoverageIgnoreEnd
 
     /**
      * @return array

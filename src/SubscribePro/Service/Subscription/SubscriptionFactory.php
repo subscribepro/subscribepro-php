@@ -5,6 +5,9 @@ namespace SubscribePro\Service\Subscription;
 use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * @codeCoverageIgnore
+ */
 class SubscriptionFactory implements DataFactoryInterface
 {
     /**

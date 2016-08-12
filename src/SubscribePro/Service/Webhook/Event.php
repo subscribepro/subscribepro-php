@@ -7,6 +7,8 @@ use SubscribePro\Service\Webhook\Event\DestinationInterface;
 
 class Event extends DataObject implements EventInterface
 {
+    //@codeCoverageIgnoreStart
+
     /**
      * @return \SubscribePro\Service\Customer\CustomerInterface
      */
@@ -56,6 +58,8 @@ class Event extends DataObject implements EventInterface
     {
         return $this->getDatetimeData(self::UPDATED, $format);
     }
+
+    //@codeCoverageIgnoreEnd
 
     /**
      * @return array

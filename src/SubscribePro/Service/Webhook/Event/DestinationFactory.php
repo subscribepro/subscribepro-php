@@ -5,6 +5,9 @@ namespace SubscribePro\Service\Webhook\Event;
 use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * @codeCoverageIgnore
+ */
 class DestinationFactory implements DataFactoryInterface
 {
     /**

@@ -114,6 +114,8 @@ class Address extends DataObject implements AddressInterface
         return $isNew ? $this->creatingAsChildFields : $this->updatingFields;
     }
 
+    //@codeCoverageIgnoreStart
+
     /**
      * @param int|null $id
      * @return $this
@@ -353,4 +355,6 @@ class Address extends DataObject implements AddressInterface
     {
         return $this->getDatetimeData(self::UPDATED, $format);
     }
+
+    //@codeCoverageIgnoreEnd
 }

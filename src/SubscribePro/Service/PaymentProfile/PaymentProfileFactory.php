@@ -5,6 +5,9 @@ namespace SubscribePro\Service\PaymentProfile;
 use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * @codeCoverageIgnore
+ */
 class PaymentProfileFactory implements DataFactoryInterface
 {
     /**

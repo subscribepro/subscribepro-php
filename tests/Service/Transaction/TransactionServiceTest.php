@@ -87,9 +87,10 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testVerifyProfile()
     {
-        $paymentProfileId = 1234;
-        $formData = [TransactionInterface::AMOUNT => '1230'];
-        $expectedImportData = [TransactionInterface::ID => '111'];
+        $paymentProfileId = 5555;
+        $formData = [TransactionInterface::AMOUNT => '1111'];
+        $expectedImportData = [TransactionInterface::ID => '32323'];
+        $url = "/services/v1/vault/paymentprofiles/{$paymentProfileId}/verify.json";
 
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())->method('isVerifyDataValid')->willReturn(true);
@@ -101,10 +102,13 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('post')
-            ->with("/services/v1/vault/paymentprofiles/{$paymentProfileId}/verify.json", [TransactionService::API_NAME_TRANSACTION => $formData])
+            ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
             ->willReturn([TransactionService::API_NAME_TRANSACTION => $expectedImportData]);
 
-        $this->assertSame($transactionMock, $this->transactionService->verifyProfile($paymentProfileId, $transactionMock));
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->verifyProfile($paymentProfileId, $transactionMock)
+        );
     }
 
     /**
@@ -127,9 +131,10 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthorizeByProfile()
     {
-        $paymentProfileId = 1234;
+        $paymentProfileId = 4451;
         $formData = [TransactionInterface::AMOUNT => '1230'];
         $expectedImportData = [TransactionInterface::ID => '111'];
+        $url = "/services/v1/vault/paymentprofiles/{$paymentProfileId}/authorize.json";
 
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())->method('isValid')->willReturn(true);
@@ -141,10 +146,13 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('post')
-            ->with("/services/v1/vault/paymentprofiles/{$paymentProfileId}/authorize.json", [TransactionService::API_NAME_TRANSACTION => $formData])
+            ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
             ->willReturn([TransactionService::API_NAME_TRANSACTION => $expectedImportData]);
 
-        $this->assertSame($transactionMock, $this->transactionService->authorizeByProfile($paymentProfileId, $transactionMock));
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->authorizeByProfile($paymentProfileId, $transactionMock)
+        );
     }
 
     /**
@@ -170,6 +178,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         $paymentProfileId = 1234;
         $formData = [TransactionInterface::AMOUNT => '1230'];
         $expectedImportData = [TransactionInterface::ID => '111'];
+        $url = "/services/v1/vault/paymentprofiles/{$paymentProfileId}/purchase.json";
 
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())->method('isValid')->willReturn(true);
@@ -181,262 +190,245 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('post')
-            ->with("/services/v1/vault/paymentprofiles/{$paymentProfileId}/purchase.json", [TransactionService::API_NAME_TRANSACTION => $formData])
+            ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
             ->willReturn([TransactionService::API_NAME_TRANSACTION => $expectedImportData]);
 
-        $this->assertSame($transactionMock, $this->transactionService->purchaseByProfile($paymentProfileId, $transactionMock));
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->purchaseByProfile($paymentProfileId, $transactionMock)
+        );
     }
 
     /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $addressMock
-     * @param \PHPUnit_Framework_MockObject_MockObject|null $addressParameter
-     * @param string $token
-     * @param bool $isValidTransaction
-     * @param bool $isValidAddress
-     * @param string $expectedMessage
-     * @dataProvider failToAuthorizeByTokenIfNotValidDataProvider
      * @expectedException \SubscribePro\Exception\EntityInvalidDataException
+     * @expectedExceptionMessage Not all required Transaction fields are set.
      */
-    public function testFailToAuthorizeByTokenIfNotValid($addressMock, $addressParameter, $token, $isValidTransaction, $isValidAddress, $expectedMessage)
+    public function testFailToAuthorizeByTokenIfNotValidTransaction()
     {
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
             ->method('isTokenDataValid')
-            ->willReturn($isValidTransaction);
-
-        $addressMock->expects($this->any())
-            ->method('isAsChildValid')
-            ->willReturn($isValidAddress);
+            ->willReturn(false);
 
         $this->httpClientMock->expects($this->never())->method('post');
 
-        $this->expectExceptionMessage($expectedMessage);
-
-        $this->transactionService->authorizeByToken($token, $transactionMock, $addressParameter);
+        $this->transactionService->authorizeByToken('token', $transactionMock, null);
     }
 
     /**
-     * @return array
-     */
-    public function failToAuthorizeByTokenIfNotValidDataProvider()
-    {
-        $address1Mock = $this->createAddressMock();
-        $address2Mock = $this->createAddressMock();
-        $address3Mock = $this->createAddressMock();
-
-        return [
-            'Not valid transaction without address' => [
-                'addressMock' => $address1Mock,
-                'addressParameter' => null,
-                'token' => 'token',
-                'isValidTransaction' => false,
-                'isValidAddress' => false,
-                'expectedMessage' => 'Not all required Transaction fields are set.',
-            ],
-            'Not valid transaction with address' => [
-                'addressMock' => $address2Mock,
-                'addressParameter' => $address2Mock,
-                'token' => 'token',
-                'isValidTransaction' => false,
-                'isValidAddress' => true,
-                'expectedMessage' => 'Not all required Transaction fields are set.',
-            ],
-            'Not valid address' => [
-                'addressMock' => $address3Mock,
-                'addressParameter' => $address3Mock,
-                'token' => 'token',
-                'isValidTransaction' => true,
-                'isValidAddress' => false,
-                'expectedMessage' => 'Not all required Address fields are set.',
-            ],
-        ];
-    }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $addressMock
-     * @param \PHPUnit_Framework_MockObject_MockObject|null $addressParameter
-     * @param array $formData
-     * @param string $token
-     * @param string $url
-     * @param array $resultData
-     * @dataProvider authorizeByTokenDataProvider
-     */
-    public function testAuthorizeByToken($addressMock, $addressParameter, $formData, $token, $url, $resultData)
-    {
-        $transactionMock = $this->createTransactionMock();
-        $transactionMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
-        $transactionMock->expects($this->once())
-            ->method('getTokenFormData')
-            ->with($addressParameter)
-            ->willReturn($formData);
-        $transactionMock->expects($this->once())
-            ->method('importData')
-            ->with($resultData)
-            ->willReturnSelf();
-
-        $addressMock->expects($this->any())->method('isAsChildValid')->willReturn(true);
-
-        $this->httpClientMock->expects($this->once())
-            ->method('post')
-            ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
-            ->willReturn([TransactionService::API_NAME_TRANSACTION => $resultData]);
-
-        $this->assertSame($transactionMock, $this->transactionService->authorizeByToken($token, $transactionMock, $addressParameter));
-    }
-
-    /**
-     * @return array
-     */
-    public function authorizeByTokenDataProvider()
-    {
-        $address1Mock = $this->createAddressMock();
-        $address2Mock = $this->createAddressMock();
-
-        return [
-            'Authorize without address' => [
-                'addressMock' => $address1Mock,
-                'addressParameter' => null,
-                'formData' => [TransactionInterface::AMOUNT => '1230'],
-                'token' => 'token',
-                'url' => '/services/v1/vault/tokens/token/authorize.json',
-                'resultData' => [TransactionInterface::ID => '111'],
-            ],
-            'Authorize with address' => [
-                'addressMock' => $address2Mock,
-                'addressParameter' => $address2Mock,
-                'formData' => [TransactionInterface::AMOUNT => '1230'],
-                'token' => 'token',
-                'url' => '/services/v1/vault/tokens/token/authorize.json',
-                'resultData' => [TransactionInterface::ID => '111'],
-            ],
-        ];
-    }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $addressMock
-     * @param \PHPUnit_Framework_MockObject_MockObject|null $addressParameter
-     * @param string $token
-     * @param bool $isValidTransaction
-     * @param bool $isValidAddress
-     * @param string $expectedMessage
-     * @dataProvider failToPurchaseByTokenIfNotValidDataProvider
      * @expectedException \SubscribePro\Exception\EntityInvalidDataException
+     * @expectedExceptionMessage Not all required Transaction fields are set.
      */
-    public function testFailToPurchaseByTokenIfNotValid($addressMock, $addressParameter, $token, $isValidTransaction, $isValidAddress, $expectedMessage)
+    public function testFailToAuthorizeByTokenWithAddressIfNotValidTransaction()
     {
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
             ->method('isTokenDataValid')
-            ->willReturn($isValidTransaction);
-
-        $addressMock->expects($this->any())
-            ->method('isAsChildValid')
-            ->willReturn($isValidAddress);
+            ->willReturn(false);
+        $addressMock = $this->createAddressMock();
+        $addressMock->expects($this->never())->method('isAsChildValid');
 
         $this->httpClientMock->expects($this->never())->method('post');
 
-        $this->expectExceptionMessage($expectedMessage);
-
-        $this->transactionService->purchaseByToken($token, $transactionMock, $addressParameter);
+        $this->transactionService->authorizeByToken('token', $transactionMock, $addressMock);
     }
 
     /**
-     * @return array
+     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
+     * @expectedExceptionMessage Not all required Address fields are set.
      */
-    public function failToPurchaseByTokenIfNotValidDataProvider()
-    {
-        $address1Mock = $this->createAddressMock();
-        $address2Mock = $this->createAddressMock();
-        $address3Mock = $this->createAddressMock();
-
-        return [
-            'Not valid transaction without address' => [
-                'addressMock' => $address1Mock,
-                'addressParameter' => null,
-                'token' => 'token',
-                'isValidTransaction' => false,
-                'isValidAddress' => false,
-                'expectedMessage' => 'Not all required Transaction fields are set.',
-            ],
-            'Not valid transaction with address' => [
-                'addressMock' => $address2Mock,
-                'addressParameter' => $address2Mock,
-                'token' => 'token',
-                'isValidTransaction' => false,
-                'isValidAddress' => true,
-                'expectedMessage' => 'Not all required Transaction fields are set.',
-            ],
-            'Not valid address' => [
-                'addressMock' => $address3Mock,
-                'addressParameter' => $address3Mock,
-                'token' => 'token',
-                'isValidTransaction' => true,
-                'isValidAddress' => false,
-                'expectedMessage' => 'Not all required Address fields are set.',
-            ],
-        ];
-    }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $addressMock
-     * @param \PHPUnit_Framework_MockObject_MockObject|null $addressParameter
-     * @param array $formData
-     * @param string $token
-     * @param string $url
-     * @param array $resultData
-     * @dataProvider purchaseByTokenDataProvider
-     */
-    public function testPurchaseByToken($addressMock, $addressParameter, $formData, $token, $url, $resultData)
+    public function testFailToAuthorizeByTokenIfNotValidAddress()
     {
         $transactionMock = $this->createTransactionMock();
-        $transactionMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
         $transactionMock->expects($this->once())
-            ->method('getTokenFormData')
-            ->with($addressParameter)
-            ->willReturn($formData);
-        $transactionMock->expects($this->once())
-            ->method('importData')
-            ->with($resultData)
-            ->willReturnSelf();
-
-        $addressMock->expects($this->any())
-            ->method('isAsChildValid')
+            ->method('isTokenDataValid')
             ->willReturn(true);
 
+        $addressMock = $this->createAddressMock();
+        $addressMock->expects($this->once())
+            ->method('isAsChildValid')
+            ->willReturn(false);
+
+        $this->httpClientMock->expects($this->never())->method('post');
+
+        $this->transactionService->authorizeByToken('token', $transactionMock, $addressMock);
+    }
+
+    public function testAuthorizeByToken()
+    {
+        $resultData = [TransactionInterface::ID => '111'];
+        $formData = [TransactionInterface::AMOUNT => '1230'];
+        $token = 'simple-token';
+        $url = '/services/v1/vault/tokens/simple-token/authorize.json';
+
+        $transactionMock = $this->createTransactionMock();
+        $transactionMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
+        $transactionMock->expects($this->once())
+            ->method('getTokenFormData')
+            ->with(null)
+            ->willReturn($formData);
+        $transactionMock->expects($this->once())
+            ->method('importData')
+            ->with($resultData)
+            ->willReturnSelf();
+
         $this->httpClientMock->expects($this->once())
             ->method('post')
             ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
             ->willReturn([TransactionService::API_NAME_TRANSACTION => $resultData]);
 
-        $this->assertSame($transactionMock, $this->transactionService->purchaseByToken($token, $transactionMock, $addressParameter));
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->authorizeByToken($token, $transactionMock, null)
+        );
+    }
+
+    public function testAuthorizeByTokenWithAddress()
+    {
+        $resultData = [TransactionInterface::ID => '123'];
+        $formData = [TransactionInterface::AMOUNT => '52525'];
+        $token = 'token1';
+        $url = '/services/v1/vault/tokens/token1/authorize.json';
+
+        $addressMock = $this->createAddressMock();
+        $addressMock->expects($this->once())->method('isAsChildValid')->willReturn(true);
+
+        $transactionMock = $this->createTransactionMock();
+        $transactionMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
+        $transactionMock->expects($this->once())
+            ->method('getTokenFormData')
+            ->with($addressMock)
+            ->willReturn($formData);
+        $transactionMock->expects($this->once())
+            ->method('importData')
+            ->with($resultData)
+            ->willReturnSelf();
+
+        $this->httpClientMock->expects($this->once())
+            ->method('post')
+            ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
+            ->willReturn([TransactionService::API_NAME_TRANSACTION => $resultData]);
+
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->authorizeByToken($token, $transactionMock, $addressMock)
+        );
     }
 
     /**
-     * @return array
+     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
+     * @expectedExceptionMessage Not all required Transaction fields are set.
      */
-    public function purchaseByTokenDataProvider()
+    public function testFailToPurchaseByTokenIfNotValidTransaction()
     {
-        $address1Mock = $this->createAddressMock();
-        $address2Mock = $this->createAddressMock();
+        $transactionMock = $this->createTransactionMock();
+        $transactionMock->expects($this->once())
+            ->method('isTokenDataValid')
+            ->willReturn(false);
 
-        return [
-            'Purchase without address' => [
-                'addressMock' => $address1Mock,
-                'addressParameter' => null,
-                'formData' => [TransactionInterface::AMOUNT => '1230'],
-                'token' => 'token',
-                'url' => '/services/v1/vault/tokens/token/purchase.json',
-                'resultData' => [TransactionInterface::ID => '111'],
-            ],
-            'Purchase with address' => [
-                'addressMock' => $address2Mock,
-                'addressParameter' => $address2Mock,
-                'formData' => [TransactionInterface::AMOUNT => '1111'],
-                'token' => 'token',
-                'url' => '/services/v1/vault/tokens/token/purchase.json',
-                'resultData' => [TransactionInterface::ID => '222'],
-            ],
-        ];
+        $this->httpClientMock->expects($this->never())->method('post');
+
+        $this->transactionService->purchaseByToken('token', $transactionMock, null);
+    }
+
+    /**
+     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
+     * @expectedExceptionMessage Not all required Transaction fields are set.
+     */
+    public function testFailToPurchaseByTokenWithAddressIfNotValidTransaction()
+    {
+        $transactionMock = $this->createTransactionMock();
+        $transactionMock->expects($this->once())
+            ->method('isTokenDataValid')
+            ->willReturn(false);
+        $addressMock = $this->createAddressMock();
+        $addressMock->expects($this->never())->method('isAsChildValid');
+
+        $this->httpClientMock->expects($this->never())->method('post');
+
+        $this->transactionService->purchaseByToken('token', $transactionMock, $addressMock);
+    }
+
+    /**
+     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
+     * @expectedExceptionMessage Not all required Address fields are set.
+     */
+    public function testFailToPurchaseByTokenIfNotValidAddress()
+    {
+        $transactionMock = $this->createTransactionMock();
+        $transactionMock->expects($this->once())
+            ->method('isTokenDataValid')
+            ->willReturn(true);
+
+        $addressMock = $this->createAddressMock();
+        $addressMock->expects($this->once())
+            ->method('isAsChildValid')
+            ->willReturn(false);
+
+        $this->httpClientMock->expects($this->never())->method('post');
+
+        $this->transactionService->purchaseByToken('token', $transactionMock, $addressMock);
+    }
+
+    public function testPurchaseByToken()
+    {
+        $resultData = [TransactionInterface::ID => '444'];
+        $formData = [TransactionInterface::AMOUNT => '222'];
+        $token = 'simple-token';
+        $url = "/services/v1/vault/tokens/{$token}/purchase.json";
+
+        $transactionMock = $this->createTransactionMock();
+        $transactionMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
+        $transactionMock->expects($this->once())
+            ->method('getTokenFormData')
+            ->with(null)
+            ->willReturn($formData);
+        $transactionMock->expects($this->once())
+            ->method('importData')
+            ->with($resultData)
+            ->willReturnSelf();
+
+        $this->httpClientMock->expects($this->once())
+            ->method('post')
+            ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
+            ->willReturn([TransactionService::API_NAME_TRANSACTION => $resultData]);
+
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->purchaseByToken($token, $transactionMock, null)
+        );
+    }
+
+    public function testPurchaseByTokenWithAddress()
+    {
+        $resultData = [TransactionInterface::ID => '44124'];
+        $formData = [TransactionInterface::AMOUNT => '12312'];
+        $token = 'token2';
+        $url = "/services/v1/vault/tokens/{$token}/purchase.json";
+
+        $addressMock = $this->createAddressMock();
+        $addressMock->expects($this->once())->method('isAsChildValid')->willReturn(true);
+
+        $transactionMock = $this->createTransactionMock();
+        $transactionMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
+        $transactionMock->expects($this->once())
+            ->method('getTokenFormData')
+            ->with($addressMock)
+            ->willReturn($formData);
+        $transactionMock->expects($this->once())
+            ->method('importData')
+            ->with($resultData)
+            ->willReturnSelf();
+
+        $this->httpClientMock->expects($this->once())
+            ->method('post')
+            ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
+            ->willReturn([TransactionService::API_NAME_TRANSACTION => $resultData]);
+
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->purchaseByToken($token, $transactionMock, $addressMock)
+        );
     }
 
     /**
@@ -497,7 +489,10 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
             ->willReturn([TransactionService::API_NAME_TRANSACTION => $resultData]);
 
-        $this->assertSame($transactionMock, $this->transactionService->capture($transactionId, $transactionMock));
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->capture($transactionId, $transactionMock)
+        );
     }
 
     /**
@@ -506,7 +501,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailToCreditIfNotValid()
     {
-        $transactionId = '121';
+        $transactionId = 212;
 
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
@@ -520,8 +515,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCredit()
     {
-        $transactionId = '121';
-        $url = "/services/v1/vault/transactions/{$transactionId}/credit.json";
+        $transactionId = 121;
         $resultData = [TransactionInterface::ID => $transactionId];
 
         $transactionMock = $this->createTransactionMock();
@@ -532,7 +526,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('post')
-            ->with($url, [])
+            ->with("/services/v1/vault/transactions/{$transactionId}/credit.json", [])
             ->willReturn([TransactionService::API_NAME_TRANSACTION => $resultData]);
 
         $this->assertSame($transactionMock, $this->transactionService->credit($transactionId));
@@ -540,7 +534,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreditWithTransaction()
     {
-        $transactionId = '121';
+        $transactionId = 123456;
         $url = "/services/v1/vault/transactions/{$transactionId}/credit.json";
         $formData = [TransactionInterface::AMOUNT => '1230'];
         $resultData = [TransactionInterface::ID => $transactionId];
@@ -558,12 +552,15 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
             ->with($url, [TransactionService::API_NAME_TRANSACTION => $formData])
             ->willReturn([TransactionService::API_NAME_TRANSACTION => $resultData]);
 
-        $this->assertSame($transactionMock, $this->transactionService->credit($transactionId, $transactionMock));
+        $this->assertSame(
+            $transactionMock,
+            $this->transactionService->credit($transactionId, $transactionMock)
+        );
     }
 
     public function testVoid()
     {
-        $itemId = 111;
+        $itemId = 12321;
         $resultData = [TransactionInterface::ID => $itemId];
 
         $transactionMock = $this->createTransactionMock();

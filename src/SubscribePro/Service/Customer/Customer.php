@@ -63,6 +63,8 @@ class Customer extends DataObject implements CustomerInterface
         return $this->checkRequiredFields($this->getFormFields());
     }
 
+    //@codeCoverageIgnoreStart
+
     /**
      * @param int|null $id
      * @return $this
@@ -275,4 +277,6 @@ class Customer extends DataObject implements CustomerInterface
     {
         return $this->getDatetimeData(self::UPDATED, $format);
     }
+
+    //@codeCoverageIgnoreEnd
 }

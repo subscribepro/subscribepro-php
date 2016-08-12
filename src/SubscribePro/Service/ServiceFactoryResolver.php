@@ -5,6 +5,9 @@ namespace SubscribePro\Service;
 use SubscribePro\Exception\InvalidArgumentException;
 use SubscribePro\Utils\StringUtils;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ServiceFactoryResolver
 {
     use StringUtils;

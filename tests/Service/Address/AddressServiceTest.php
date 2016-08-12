@@ -103,14 +103,14 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
                 'url' => '/services/v2/address.json',
                 'itemId' => null,
                 'isNew' => true,
-                'formData' => [AddressInterface::CITY => 'city'],
+                'formData' => [AddressInterface::CITY => 'city one'],
                 'resultData' => [AddressInterface::ID => 12],
             ],
             'Update existing address' => [
                 'url' => "/services/v2/addresses/11.json",
                 'itemId' => 11,
                 'isNew' => false,
-                'formData' => [AddressInterface::CITY => 'city'],
+                'formData' => [AddressInterface::CITY => 'city two'],
                 'resultData' => [AddressInterface::ID => 11],
             ],
         ];

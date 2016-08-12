@@ -7,6 +7,9 @@ use SubscribePro\Service\Customer\CustomerService;
 use SubscribePro\Service\Subscription\SubscriptionService;
 use SubscribePro\Service\Webhook\Event\DestinationFactory;
 
+/**
+ * @codeCoverageIgnore
+ */
 class WebhookServiceFactory extends AbstractServiceFactory
 {
     /**

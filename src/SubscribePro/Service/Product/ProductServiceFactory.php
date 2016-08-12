@@ -4,6 +4,9 @@ namespace SubscribePro\Service\Product;
 
 use SubscribePro\Service\AbstractServiceFactory;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ProductServiceFactory extends AbstractServiceFactory
 {
     /**

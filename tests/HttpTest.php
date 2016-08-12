@@ -129,20 +129,17 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @param array $params
      * @param array $expectedRequestParams
      * @param string $url
-     * @param string $bodyText
-     * @param array $body
      * @param \GuzzleHttp\Psr7\Response $response
      * @dataProvider failToGetIfStatusCodeIsNotSuccessDataProvider
      * @expectedException \SubscribePro\Exception\HttpException
+     * @expectedExceptionMessageRegExp /[first|second] error message/
      */
-    public function testFailToGetIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $bodyText, $body, $response)
+    public function testFailToGetIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
         $this->clientMock->expects($this->once())
             ->method('get')
             ->with($url, $expectedRequestParams)
             ->willReturn($response);
-
-        $this->expectExceptionMessage($bodyText);
 
         $this->httpMock->get($url, $params);
     }
@@ -156,18 +153,14 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             'Without params' => [
                 'params' => [],
                 'expectedRequestParams' => [],
-                'url' => 'site/url',
-                'bodyText' => 'error',
-                'body' => ['message' => 'error'],
-                'response' => new Response(300, [], json_encode(['message' => 'error'])),
+                'url' => 'site-one/url',
+                'response' => new Response(300, [], json_encode(['message' => 'first error message'])),
             ],
             'With params' => [
                 'params' => ['name' => 'John'],
                 'expectedRequestParams' => [RequestOptions::QUERY => ['name' => 'John']],
-                'url' => 'site/url',
-                'bodyText' => 'error',
-                'body' => ['message' => 'error'],
-                'response' => new Response(400, [], json_encode(['message' => 'error'])),
+                'url' => 'site-two/url',
+                'response' => new Response(400, [], json_encode(['message' => 'second error message'])),
             ],
         ];
     }
@@ -197,14 +190,14 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Not empty response' => [
-                'url' => 'site/url',
+                'url' => 'site-one/url',
                 'response' => new Response(200, [], json_encode(['message' => 'success'])),
                 'params' => ['name' => 'John'],
                 'expectedRequestParams' => [RequestOptions::QUERY => ['name' => 'John']],
                 'result' => ['message' => 'success'],
             ],
             'Empty response' => [
-                'url' => 'site/url',
+                'url' => 'site-two/url',
                 'response' => new Response(201, [], ''),
                 'params' => [],
                 'expectedRequestParams' => [],
@@ -217,20 +210,17 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @param array $params
      * @param array $expectedRequestParams
      * @param string $url
-     * @param string $bodyText
-     * @param array $body
      * @param \GuzzleHttp\Psr7\Response $response
      * @dataProvider failToPostIfStatusCodeIsNotSuccessDataProvider
      * @expectedException \SubscribePro\Exception\HttpException
+     * @expectedExceptionMessageRegExp /[api|http] error/
      */
-    public function testFailToPostIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $bodyText, $body, $response)
+    public function testFailToPostIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
         $this->clientMock->expects($this->once())
             ->method('post')
             ->with($url, $expectedRequestParams)
             ->willReturn($response);
-
-        $this->expectExceptionMessage($bodyText);
 
         $this->httpMock->post($url, $params);
     }
@@ -240,7 +230,20 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function failToPostIfStatusCodeIsNotSuccessDataProvider()
     {
-        return $this->getErrorPostData();
+        return [
+            'Empty params' => [
+                'params' => [],
+                'expectedRequestParams' => [],
+                'url' => 'site-one/url',
+                'response' => new Response(300, [], json_encode(['message' => 'api error'])),
+            ],
+            'Not empty params' => [
+                'params' => ['name' => 'John'],
+                'expectedRequestParams' => [RequestOptions::JSON => ['name' => 'John']],
+                'url' => 'site-one/url',
+                'response' => new Response(400, [], json_encode(['message' => 'http error'])),
+            ],
+        ];
     }
 
     /**
@@ -266,27 +269,39 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function postDataProvider()
     {
-        return $this->getSuccessPostData();
+        return [
+            'Not empty response' => [
+                'url' => 'site-one/url',
+                'response' => new Response(200, [], json_encode(['message' => 'success'])),
+                'params' => ['name' => 'John'],
+                'expectedRequestParams' => [RequestOptions::JSON => ['name' => 'John']],
+                'result' => ['message' => 'success'],
+            ],
+            'Empty response' => [
+                'url' => 'site-two/url',
+                'response' => new Response(201, [], ''),
+                'params' => [],
+                'expectedRequestParams' => [],
+                'result' => 201,
+            ],
+        ];
     }
 
     /**
      * @param array $params
      * @param array $expectedRequestParams
      * @param string $url
-     * @param string $bodyText
-     * @param array $body
      * @param \GuzzleHttp\Psr7\Response $response
      * @dataProvider failToPutIfStatusCodeIsNotSuccessDataProvider
      * @expectedException \SubscribePro\Exception\HttpException
+     * @expectedExceptionMessageRegExp /[one|another] error/
      */
-    public function testFailToPutIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $bodyText, $body, $response)
+    public function testFailToPutIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
         $this->clientMock->expects($this->once())
             ->method('put')
             ->with($url, $expectedRequestParams)
             ->willReturn($response);
-
-        $this->expectExceptionMessage($bodyText);
 
         $this->httpMock->put($url, $params);
     }
@@ -296,7 +311,20 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function failToPutIfStatusCodeIsNotSuccessDataProvider()
     {
-        return $this->getErrorPostData();
+        return [
+            'Empty params' => [
+                'params' => [],
+                'expectedRequestParams' => [],
+                'url' => 'site-one/url',
+                'response' => new Response(300, [], json_encode(['message' => 'one error'])),
+            ],
+            'Not empty params' => [
+                'params' => ['name' => 'John'],
+                'expectedRequestParams' => [RequestOptions::JSON => ['name' => 'John']],
+                'url' => 'site-two/url',
+                'response' => new Response(400, [], json_encode(['message' => 'another error'])),
+            ],
+        ];
     }
 
     /**
@@ -322,7 +350,22 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function putDataProvider()
     {
-        return $this->getSuccessPostData();
+        return [
+            'Not empty response' => [
+                'url' => 'site-one/path',
+                'response' => new Response(200, [], json_encode(['message' => 'success'])),
+                'params' => ['name' => 'John'],
+                'expectedRequestParams' => [RequestOptions::JSON => ['name' => 'John']],
+                'result' => ['message' => 'success'],
+            ],
+            'Empty response' => [
+                'url' => 'site-two/url',
+                'response' => new Response(201, [], ''),
+                'params' => [],
+                'expectedRequestParams' => [],
+                'result' => 201,
+            ],
+        ];
     }
 
     /**
@@ -367,63 +410,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Not empty response' => [
-                'url' => 'site/url',
+                'url' => 'site-one/url',
                 'response' => new Response(200, [], json_encode(['message' => 'success'])),
                 'filePath' => 'file/path',
                 'result' => ['message' => 'success'],
             ],
             'Empty response' => [
-                'url' => 'site/url',
+                'url' => 'site-two/url',
                 'response' => new Response(201, [], ''),
                 'filePath' => 'file/path',
-                'result' => 201,
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    private function getErrorPostData()
-    {
-        return [
-            'Empty params' => [
-                'params' => [],
-                'expectedRequestParams' => [],
-                'url' => 'site/url',
-                'bodyText' => 'error',
-                'body' => ['message' => 'error'],
-                'response' => new Response(300, [], json_encode(['message' => 'error'])),
-            ],
-            'Not empty params' => [
-                'params' => ['name' => 'John'],
-                'expectedRequestParams' => [RequestOptions::JSON => ['name' => 'John']],
-                'url' => 'site/url',
-                'bodyText' => 'error',
-                'body' => ['message' => 'error'],
-                'response' => new Response(400, [], json_encode(['message' => 'error'])),
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    private function getSuccessPostData()
-    {
-        return [
-            'Not empty response' => [
-                'url' => 'site/url',
-                'response' => new Response(200, [], json_encode(['message' => 'success'])),
-                'params' => ['name' => 'John'],
-                'expectedRequestParams' => [RequestOptions::JSON => ['name' => 'John']],
-                'result' => ['message' => 'success'],
-            ],
-            'Empty response' => [
-                'url' => 'site/url',
-                'response' => new Response(201, [], ''),
-                'params' => [],
-                'expectedRequestParams' => [],
                 'result' => 201,
             ],
         ];

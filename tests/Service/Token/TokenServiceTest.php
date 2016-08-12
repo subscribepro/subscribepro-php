@@ -89,7 +89,7 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadToken()
     {
-        $tokenValue = 'token';
+        $token = 'token-value';
         $itemData = [
             TokenInterface::TOKEN => 'token',
             TokenInterface::CITY => 'city',
@@ -98,7 +98,7 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('get')
-            ->with("/services/v1/vault/tokens/{$tokenValue}.json")
+            ->with("/services/v1/vault/tokens/{$token}.json")
             ->willReturn([TokenService::API_NAME_TOKEN => $itemData]);
 
         $this->tokenFactoryMock->expects($this->once())
@@ -106,7 +106,7 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
             ->with($itemData)
             ->willReturn($tokenMock);
 
-        $this->assertSame($tokenMock, $this->tokenService->loadToken($tokenValue));
+        $this->assertSame($tokenMock, $this->tokenService->loadToken($token));
     }
 
     /**

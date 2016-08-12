@@ -114,7 +114,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
                 'itemId' => 22,
                 'isNew' => false,
                 'method' => 'put',
-                'formData' => [PaymentProfileInterface::CREDITCARD_FIRST_DIGITS => '123'],
+                'formData' => [PaymentProfileInterface::CREDITCARD_FIRST_DIGITS => '521'],
                 'resultData' => [PaymentProfileInterface::ID => '22'],
             ],
         ];
@@ -122,7 +122,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadProfile()
     {
-        $itemId = 111;
+        $itemId = 512;
         $itemData = [PaymentProfileInterface::ID => $itemId];
         $paymentProfileMock = $this->createProfileMock();
 
@@ -141,7 +141,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadProfileByToken()
     {
-        $token = 'token';
+        $token = 'my_token';
         $itemData = [PaymentProfileInterface::PAYMENT_TOKEN => $token];
         $paymentProfileMock = $this->createProfileMock();
 
@@ -160,7 +160,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testRedactProfile()
     {
-        $itemId = 111;
+        $itemId = 12341;
         $itemData = [PaymentProfileInterface::ID => $itemId];
         $paymentProfileMock = $this->createProfileMock();
 
@@ -183,7 +183,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailToLoadProfilesIfFilterIsNotValid()
     {
-        $filters = ['invalid' => true];
+        $filters = ['invalid_key' => 'value'];
 
         $this->httpClientMock->expects($this->never())->method('get');
         
@@ -259,6 +259,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
     {
         $formData = [PaymentProfileInterface::CREDITCARD_FIRST_DIGITS => '123'];
         $expectedImportData = [PaymentProfileInterface::ID => '111'];
+        $url = '/services/v2/paymentprofile/third-party-token.json';
 
         $paymentProfileMock = $this->createProfileMock();
         $paymentProfileMock->expects($this->once())->method('isThirdPartyDataValid')->willReturn(true);
@@ -270,10 +271,13 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('post')
-            ->with('/services/v2/paymentprofile/third-party-token.json', [PaymentProfileService::API_NAME_PROFILE => $formData])
+            ->with($url, [PaymentProfileService::API_NAME_PROFILE => $formData])
             ->willReturn([PaymentProfileService::API_NAME_PROFILE => $expectedImportData]);
 
-        $this->assertSame($paymentProfileMock, $this->paymentProfileService->saveThirdPartyToken($paymentProfileMock));
+        $this->assertSame(
+            $paymentProfileMock,
+            $this->paymentProfileService->saveThirdPartyToken($paymentProfileMock)
+        );
     }
 
     /**
@@ -282,7 +286,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailToSaveTokenIfProfileIsNotValid()
     {
-        $token = 'token';
+        $token = 'token-value';
         $paymentProfileMock = $this->createProfileMock();
         $paymentProfileMock->expects($this->once())
             ->method('isTokenDataValid')
@@ -296,9 +300,10 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveToken()
     {
-        $token = 'token';
+        $token = 'custom_token';
         $formData = [PaymentProfileInterface::CREDITCARD_FIRST_DIGITS => '123'];
         $expectedImportData = [PaymentProfileInterface::ID => '111'];
+        $url = "/services/v1/vault/tokens/{$token}/store.json";
 
         $paymentProfileMock = $this->createProfileMock();
         $paymentProfileMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
@@ -310,10 +315,13 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('post')
-            ->with("/services/v1/vault/tokens/{$token}/store.json", [PaymentProfileService::API_NAME_PROFILE => $formData])
+            ->with($url, [PaymentProfileService::API_NAME_PROFILE => $formData])
             ->willReturn([PaymentProfileService::API_NAME_PROFILE => $expectedImportData]);
 
-        $this->assertSame($paymentProfileMock, $this->paymentProfileService->saveToken($token, $paymentProfileMock));
+        $this->assertSame(
+            $paymentProfileMock,
+            $this->paymentProfileService->saveToken($token, $paymentProfileMock)
+        );
     }
 
     /**
@@ -336,9 +344,10 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testVerifyAndSaveToken()
     {
-        $token = 'token';
+        $token = 'test-token';
         $formData = [PaymentProfileInterface::CREDITCARD_FIRST_DIGITS => '123'];
         $expectedImportData = [PaymentProfileInterface::ID => '111'];
+        $url = "/services/v1/vault/tokens/{$token}/verifyandstore.json";
 
         $paymentProfileMock = $this->createProfileMock();
         $paymentProfileMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
@@ -350,10 +359,13 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('post')
-            ->with("/services/v1/vault/tokens/{$token}/verifyandstore.json", [PaymentProfileService::API_NAME_PROFILE => $formData])
+            ->with($url, [PaymentProfileService::API_NAME_PROFILE => $formData])
             ->willReturn([PaymentProfileService::API_NAME_PROFILE => $expectedImportData]);
 
-        $this->assertSame($paymentProfileMock, $this->paymentProfileService->verifyAndSaveToken($token, $paymentProfileMock));
+        $this->assertSame(
+            $paymentProfileMock,
+            $this->paymentProfileService->verifyAndSaveToken($token, $paymentProfileMock)
+        );
     }
 
     /**

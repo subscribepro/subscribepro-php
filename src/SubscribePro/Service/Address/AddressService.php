@@ -65,7 +65,7 @@ class AddressService extends AbstractService
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function findOrSave($address)
+    public function findOrSave(AddressInterface $address)
     {
         if (!$address->isValid()) {
             throw new EntityInvalidDataException('Not all required fields are set.');

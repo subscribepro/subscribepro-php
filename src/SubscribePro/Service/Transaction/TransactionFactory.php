@@ -5,6 +5,9 @@ namespace SubscribePro\Service\Transaction;
 use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TransactionFactory implements DataFactoryInterface
 {
     /**

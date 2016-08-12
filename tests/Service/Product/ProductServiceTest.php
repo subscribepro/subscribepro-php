@@ -36,9 +36,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateProduct()
     {
         $productMock = $this->createProductMock();
-        $productData = [
-            ProductInterface::SKU => 'sku'
-        ];
+        $productData = [ProductInterface::SKU => 'sku'];
 
         $this->productFactoryMock->expects($this->once())
             ->method('create')
@@ -117,7 +115,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadProduct()
     {
-        $itemId = 111;
+        $itemId = 4123;
         $itemData = [ProductInterface::ID => $itemId];
         $productMock = $this->createProductMock();
 

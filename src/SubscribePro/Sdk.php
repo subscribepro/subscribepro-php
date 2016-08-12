@@ -19,6 +19,8 @@ use SubscribePro\Utils\StringUtils;
  * @method \SubscribePro\Service\Webhook\WebhookService getWebhookService()
  * @method \SubscribePro\Tools\Report getReportTool()
  * @method \SubscribePro\Tools\Config getConfigTool()
+ *
+ * @codeCoverageIgnore
  */
 class Sdk
 {
