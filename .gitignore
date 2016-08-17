@@ -10,3 +10,6 @@ vendor/
 
 # Ignore PHPUnit coverage file
 clover.xml
+
+# Ignore PHPStorm files
+.idea/
