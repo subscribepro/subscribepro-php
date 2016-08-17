@@ -175,6 +175,8 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $tokenFormData;
     }
 
+    //@codeCoverageIgnoreStart
+
     /**
      * @param int|null $id
      * @return $this
@@ -467,4 +469,6 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     {
         return $this->getDatetimeData(self::UPDATED, $format);
     }
+
+    //@codeCoverageIgnoreEnd
 }

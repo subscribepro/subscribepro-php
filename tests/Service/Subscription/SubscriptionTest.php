@@ -637,6 +637,77 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $date
+     * @param string $format
+     * @param string $result
+     * @dataProvider dateFormatDataProvider
+     */
+    public function testDateFormat($date, $format, $result)
+    {
+        $subscription = new Subscription([
+            SubscriptionInterface::NEXT_ORDER_DATE => $date,
+            SubscriptionInterface::LAST_ORDER_DATE => $date,
+            SubscriptionInterface::EXPIRATION_DATE => $date,
+            SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
+            SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock
+        ]);
+
+        $this->assertEquals($result, $subscription->getLastOrderDate($format));
+        $this->assertEquals($result, $subscription->getNextOrderDate($format));
+        $this->assertEquals($result, $subscription->getExpirationDate($format));
+
+    }
+
+    /**
+     * @return array
+     */
+    public function dateFormatDataProvider()
+    {
+        return [
+            ['2012-01-01', 'Y m d', '2012 01 01'],
+            ['2016-01-01', 'Y', '2016'],
+            ['2016-01-01', 'M d Y', 'Jan 01 2016']
+        ];
+    }
+
+    /**
+     * @param string $date
+     * @param string $format
+     * @param string $result
+     * @dataProvider datetimeFormatDataProvider
+     */
+    public function testDatetimeFormat($date, $format, $result)
+    {
+        $subscription = new Subscription([
+            SubscriptionInterface::CREATED => $date,
+            SubscriptionInterface::UPDATED => $date,
+            SubscriptionInterface::CANCELLED => $date,
+            SubscriptionInterface::RETRY_AFTER => $date,
+            SubscriptionInterface::ERROR_TIME => $date,
+            SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
+            SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock
+        ]);
+
+        $this->assertEquals($result, $subscription->getCreated($format));
+        $this->assertEquals($result, $subscription->getUpdated($format));
+        $this->assertEquals($result, $subscription->getCancelled($format));
+        $this->assertEquals($result, $subscription->getRetryAfter($format));
+        $this->assertEquals($result, $subscription->getErrorTime($format));
+    }
+
+    /**
+     * @return array
+     */
+    public function datetimeFormatDataProvider()
+    {
+        return [
+            ['2016-01-10T09:03:00+0000', 'Y d m', '2016 10 01'],
+            ['2020-12-31T09:03:00+0000', 'Y', '2020'],
+            ['2018-05-10T09:03:00+0000', 'M d Y i:s', 'May 10 2018 03:00']
+        ];
+    }
+
+    /**
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private function createProfileMock()

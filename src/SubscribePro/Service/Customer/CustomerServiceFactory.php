@@ -4,6 +4,9 @@ namespace SubscribePro\Service\Customer;
 
 use SubscribePro\Service\AbstractServiceFactory;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CustomerServiceFactory extends AbstractServiceFactory
 {
     /**

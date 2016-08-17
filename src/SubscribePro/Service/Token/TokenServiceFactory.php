@@ -4,6 +4,9 @@ namespace SubscribePro\Service\Token;
 
 use SubscribePro\Service\AbstractServiceFactory;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TokenServiceFactory extends AbstractServiceFactory
 {
     /**

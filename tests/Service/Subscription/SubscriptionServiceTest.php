@@ -191,7 +191,7 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testPauseSubscription()
     {
-        $subscriptionId = 17;
+        $subscriptionId = 23;
         
         $this->httpClientMock->expects($this->once())
             ->method('post')
@@ -202,7 +202,7 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testRestartSubscription()
     {
-        $subscriptionId = 17;
+        $subscriptionId = 41;
         
         $this->httpClientMock->expects($this->once())
             ->method('post')
@@ -213,7 +213,7 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSkipSubscription()
     {
-        $subscriptionId = 17;
+        $subscriptionId = 3;
         
         $this->httpClientMock->expects($this->once())
             ->method('post')

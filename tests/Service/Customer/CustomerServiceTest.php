@@ -145,10 +145,9 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailToLoadCustomersIfFilterIsNotValid()
     {
-        $filters = ['invalid' => true];
+        $filters = ['invalid_key' => 'value'];
 
-        $this->httpClientMock->expects($this->never())
-            ->method('get');
+        $this->httpClientMock->expects($this->never())->method('get');
 
         $this->customerService->loadCustomers($filters);
     }

@@ -5,6 +5,9 @@ namespace SubscribePro\Service\Webhook;
 use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * @codeCoverageIgnore
+ */
 class EventFactory implements DataFactoryInterface
 {
     /**

@@ -4,6 +4,9 @@ namespace SubscribePro\Service\Webhook\Event\Destination;
 
 use SubscribePro\Service\DataObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Endpoint extends DataObject implements EndpointInterface
 {
     /**

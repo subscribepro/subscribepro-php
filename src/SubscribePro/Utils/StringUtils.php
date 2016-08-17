@@ -2,6 +2,9 @@
 
 namespace SubscribePro\Utils;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait StringUtils
 {
     /**

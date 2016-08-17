@@ -60,6 +60,8 @@ class Http
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return \GuzzleHttp\Client
      */
     protected function createClient()
@@ -73,6 +75,8 @@ class Http
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return \GuzzleHttp\HandlerStack
      */
     protected function createHandlerStack()
@@ -81,6 +85,8 @@ class Http
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return \GuzzleHttp\HandlerStack
      */
     public function getHandlerStack()
@@ -125,6 +131,8 @@ class Http
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param \Psr\Log\LoggerInterface $logger
      * @param \GuzzleHttp\MessageFormatter $messageFormatter
      * @param string $logLevel

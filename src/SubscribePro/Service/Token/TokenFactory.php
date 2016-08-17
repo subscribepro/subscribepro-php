@@ -5,6 +5,9 @@ namespace SubscribePro\Service\Token;
 use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TokenFactory implements DataFactoryInterface
 {
     /**

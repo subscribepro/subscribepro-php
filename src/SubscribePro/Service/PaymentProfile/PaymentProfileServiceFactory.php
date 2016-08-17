@@ -5,6 +5,9 @@ namespace SubscribePro\Service\PaymentProfile;
 use SubscribePro\Service\AbstractServiceFactory;
 use SubscribePro\Service\Address\AddressService;
 
+/**
+ * @codeCoverageIgnore
+ */
 class PaymentProfileServiceFactory extends AbstractServiceFactory
 {
     /**

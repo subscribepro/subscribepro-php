@@ -57,7 +57,7 @@ class WebhookServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadEvent()
     {
-        $eventId = 111;
+        $eventId = 52231;
         $itemData = [EventInterface::ID => $eventId];
         $eventMock = $this->getMockBuilder('SubscribePro\Service\Webhook\EventInterface')->getMock();
 

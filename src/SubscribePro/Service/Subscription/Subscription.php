@@ -130,6 +130,8 @@ class Subscription extends DataObject implements SubscriptionInterface
             && $this->checkRequiredFields($this->getFormFields());
     }
 
+    //@codeCoverageIgnoreStart
+
     /**
      * @param int|null $id
      * @return $this
@@ -598,4 +600,6 @@ class Subscription extends DataObject implements SubscriptionInterface
     {
         return $this->getDatetimeData(self::CANCELLED, $format);
     }
+
+    //@codeCoverageIgnoreEnd
 }

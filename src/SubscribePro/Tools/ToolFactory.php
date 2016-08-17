@@ -5,6 +5,9 @@ namespace SubscribePro\Tools;
 use SubscribePro\Exception\InvalidArgumentException;
 use SubscribePro\Utils\StringUtils;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ToolFactory
 {
     use StringUtils;

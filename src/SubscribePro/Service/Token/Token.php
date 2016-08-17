@@ -47,6 +47,8 @@ class Token extends DataObject implements TokenInterface
         return $this->checkRequiredFields($this->creatingFields);
     }
 
+    //@codeCoverageIgnoreStart
+
     /**
      * @return string|null
      */
@@ -382,4 +384,6 @@ class Token extends DataObject implements TokenInterface
     {
         return $this->getDatetimeData(self::UPDATED_AT, $format);
     }
+
+    //@codeCoverageIgnoreEnd
 }

@@ -124,6 +124,8 @@ class Transaction extends DataObject implements TransactionInterface
         return $this->checkRequiredFields($this->serviceFields);
     }
 
+    //@codeCoverageIgnoreStart
+
     /**
      * @return int|null
      */
@@ -455,4 +457,6 @@ class Transaction extends DataObject implements TransactionInterface
     {
         return $this->getDatetimeData(self::CREATED, $format);
     }
+
+    //@codeCoverageIgnoreEnd
 }
