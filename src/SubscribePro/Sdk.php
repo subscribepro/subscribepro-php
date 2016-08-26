@@ -51,6 +51,11 @@ class Sdk
     protected $toolFactory;
 
     /**
+     * @var \SubscribePro\Http
+     */
+    protected $http;
+
+    /**
      * @var array
      */
     protected $services = [];
@@ -64,6 +69,7 @@ class Sdk
      * Config options:
      * - client_id
      * - client_secret
+     * - base_url
      * - logging_enable
      *   default value false
      * - logging_level
@@ -85,6 +91,7 @@ class Sdk
         $config = array_merge([
             'client_id' => getenv(static::CLIENT_ID_ENV_NAME),
             'client_secret' => getenv(static::CLIENT_SECRET_ENV_NAME),
+            'base_url' => null,
             'logging_enable' => false,
             'logging_level' => null,
             'logging_file_name' => null,
@@ -103,10 +110,11 @@ class Sdk
         unset($config['client_id']);
         unset($config['client_secret']);
 
-        $http = new Http($app);
+        $this->http = new Http($app, $config['base_url']);
+        unset($config['base_url']);
 
         if ($config['logging_enable']) {
-            $http->initDefaultLogger(
+            $this->http->addDefaultLogger(
                 $config['logging_file_name'],
                 $config['logging_line_format'],
                 $config['logging_message_format'],
@@ -119,8 +127,16 @@ class Sdk
         unset($config['logging_line_format']);
         unset($config['logging_message_format']);
 
-        $this->serviceFactoryResolver = new ServiceFactoryResolver($http, $config);
-        $this->toolFactory = new ToolFactory($http);
+        $this->serviceFactoryResolver = new ServiceFactoryResolver($this->http, $config);
+        $this->toolFactory = new ToolFactory($this->http);
+    }
+
+    /**
+     * @return \SubscribePro\Http
+     */
+    public function getHttp()
+    {
+        return $this->http;
     }
 
     /**
