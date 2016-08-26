@@ -57,9 +57,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @param \Psr\Log\LoggerInterface $logger
      * @param \GuzzleHttp\MessageFormatter $messageFormatter
      * @param callable $middlewareCallback
-     * @dataProvider initDefaultLoggerDataProvider
+     * @dataProvider addDefaultLoggerDataProvider
      */
-    public function testInitDefaultLogger($fileName, $lineFormat, $messageFormat, $logLevel, $logger, $messageFormatter, $middlewareCallback)
+    public function testAddDefaultLogger($fileName, $lineFormat, $messageFormat, $logLevel, $logger, $messageFormatter, $middlewareCallback)
     {
         $this->httpMock->expects($this->once())
             ->method('createMiddlewareLogCallback')
@@ -70,13 +70,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->method('push')
             ->with($middlewareCallback, 'logger');
 
-        $this->httpMock->initDefaultLogger($fileName, $lineFormat, $messageFormat, $logLevel);
+        $this->httpMock->addDefaultLogger($fileName, $lineFormat, $messageFormat, $logLevel);
     }
 
     /**
      * @return array
      */
-    public function initDefaultLoggerDataProvider()
+    public function addDefaultLoggerDataProvider()
     {
         $logHandler1 = new RotatingFileHandler(Http::DEFAULT_LOG_FILE_NAME);
         $logHandler1->setFormatter(new LineFormatter(Http::DEFAULT_LOG_LINE_FORMAT, null, true));

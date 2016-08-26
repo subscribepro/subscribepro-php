@@ -16,6 +16,11 @@ use SubscribePro\Exception\HttpException;
 class Http
 {
     /**
+     * Default API base url
+     */
+    const API_BASE_URL = 'https://api.subscribepro.com';
+
+    /**
      * Default log file name
      */
     const DEFAULT_LOG_FILE_NAME = 'log/subscribepro.log';
@@ -33,7 +38,7 @@ class Http
     /**
      * @var string
      */
-    protected $baseUrl = 'https://api.subscribepro.com';
+    protected $baseUrl;
 
     /**
      * @var \SubscribePro\App
@@ -51,11 +56,13 @@ class Http
     protected $handlerStack;
 
     /**
-     * @param App $app
+     * @param \SubscribePro\App $app
+     * @param string|null $baseUrl
      */
-    public function __construct($app)
+    public function __construct($app, $baseUrl = null)
     {
         $this->app = $app;
+        $this->baseUrl = $baseUrl ?: self::API_BASE_URL;
         $this->handlerStack = $this->createHandlerStack();
     }
 
@@ -101,7 +108,7 @@ class Http
      * @param string|null $logLevel
      * @return Http
      */
-    public function initDefaultLogger($fileName = null, $lineFormat = null, $messageFormat = null, $logLevel = null)
+    public function addDefaultLogger($fileName = null, $lineFormat = null, $messageFormat = null, $logLevel = null)
     {
         $fileName = $fileName ?: static::DEFAULT_LOG_FILE_NAME;
         $lineFormat = $lineFormat ?: static::DEFAULT_LOG_LINE_FORMAT;
