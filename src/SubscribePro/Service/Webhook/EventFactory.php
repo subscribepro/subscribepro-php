@@ -21,24 +21,10 @@ class EventFactory implements DataFactoryInterface
     protected $destinationFactory;
 
     /**
-     * @var \SubscribePro\Service\DataFactoryInterface
-     */
-    protected $customerFactory;
-
-    /**
-     * @var \SubscribePro\Service\DataFactoryInterface
-     */
-    protected $subscriptionFactory;
-
-    /**
-     * @param \SubscribePro\Service\DataFactoryInterface $customerFactory
-     * @param \SubscribePro\Service\DataFactoryInterface $subscriptionFactory
      * @param \SubscribePro\Service\DataFactoryInterface $destinationFactory
      * @param string $instanceName
      */
     public function __construct(
-        \SubscribePro\Service\DataFactoryInterface $customerFactory,
-        \SubscribePro\Service\DataFactoryInterface $subscriptionFactory,
         \SubscribePro\Service\DataFactoryInterface $destinationFactory,
         $instanceName = '\SubscribePro\Service\Webhook\Event'
     ) {
@@ -48,8 +34,6 @@ class EventFactory implements DataFactoryInterface
         
         $this->instanceName = $instanceName;
         $this->destinationFactory = $destinationFactory;
-        $this->customerFactory = $customerFactory;
-        $this->subscriptionFactory = $subscriptionFactory;
     }
 
     /**
@@ -58,19 +42,12 @@ class EventFactory implements DataFactoryInterface
      */
     public function create(array $data = [])
     {
-        $jsonData = $this->getJsonData($data, EventInterface::DATA);
-        $customerData = $this->getFieldData($jsonData, EventInterface::CUSTOMER);
-        $subscriptionData = $this->getFieldData($jsonData, EventInterface::SUBSCRIPTION);
+        $eventData = $this->getEventData($data);
         $destinationsData = $this->getFieldData($data, EventInterface::DESTINATIONS);
             
         $data[EventInterface::DESTINATIONS] = $this->createDestinationItems($destinationsData);
-        $data[EventInterface::CUSTOMER] = $this->customerFactory->create($customerData);
-        $data[EventInterface::SUBSCRIPTION] = $this->subscriptionFactory->create($subscriptionData);
-        
-        if (isset($data[EventInterface::DATA])) {
-            unset($data[EventInterface::DATA]);
-        }
-        
+        $data[EventInterface::DATA] = $eventData;
+
         return new $this->instanceName($data);
     }
 
@@ -86,10 +63,20 @@ class EventFactory implements DataFactoryInterface
 
     /**
      * @param array $data
-     * @param string $field
      * @return array
      */
-    protected function getJsonData($data, $field)
+    protected function getEventData($data)
+    {
+        $eventData = $this->getJsonData($data, EventInterface::DATA);
+        return is_array($eventData) ? $eventData : [];
+    }
+
+    /**
+     * @param array $data
+     * @param string $field
+     * @return mixed
+     */
+    private function getJsonData($data, $field)
     {
         return isset($data[$field]) && is_string($data[$field]) ? json_decode($data[$field], true) : [];
     }
