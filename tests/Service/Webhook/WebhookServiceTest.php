@@ -55,6 +55,58 @@ class WebhookServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->webhookService->ping());
     }
 
+    /**
+     * @param string $request
+     * @dataProvider readEventDataProvider
+     */
+    public function testReadEventIfWrongRequest($request)
+    {
+        $this->httpClientMock->expects($this->once())
+            ->method('getRawRequest')
+            ->willReturn($request);
+
+        $this->assertFalse($this->webhookService->readEvent());
+    }
+
+    /**
+     * @return array
+     */
+    public function readEventDataProvider()
+    {
+        return [
+            'not array' => [
+                'request' => 'some text'
+            ],
+            'wrong array' => [
+                'request' => ['test' => 'value']
+            ],
+            'empty webhook_event' => [
+                'request' => ['webhook_event' => '']
+            ],
+            'not json webhook_event' => [
+                'request' => ['webhook_event' => 'text']
+            ]
+        ];
+    }
+
+    public function testReadEvent()
+    {
+        $webhookEvent = ['key' => 'value'];
+
+        $this->httpClientMock->expects($this->once())
+            ->method('getRawRequest')
+            ->willReturn(['webhook_event' => json_encode($webhookEvent)]);
+
+        $eventMock = $this->getMockBuilder(EventInterface::class)->getMock();
+
+        $this->eventFactoryMock->expects($this->once())
+            ->method('create')
+            ->with($webhookEvent)
+            ->willReturn($eventMock);
+
+        $this->assertSame($eventMock, $this->webhookService->readEvent());
+    }
+
     public function testLoadEvent()
     {
         $eventId = 52231;

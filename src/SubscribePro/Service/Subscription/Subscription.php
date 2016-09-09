@@ -22,6 +22,7 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::SHIPPING_ADDRESS_ID => false,
         self::SHIPPING_ADDRESS => false,
         self::PRODUCT_SKU => true,
+        self::REQUIRES_SHIPPING => true,
         self::QTY => true,
         self::USE_FIXED_PRICE => true,
         self::FIXED_PRICE => false,
@@ -32,8 +33,9 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::EXPIRATION_DATE => false,
         self::COUPON_CODE => false,
         self::MAGENTO_STORE_CODE => false,
-        self::MAGENTO_SHIPPING_METHOD_CODE => true,
-        self::USER_DEFINED_FIELDS => false
+        self::MAGENTO_SHIPPING_METHOD_CODE => false,
+        self::USER_DEFINED_FIELDS => false,
+        self::PLATFORM_SPECIFIC_FIELDS => false
     ];
 
     /**
@@ -44,6 +46,7 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::SHIPPING_ADDRESS_ID => false,
         self::SHIPPING_ADDRESS => false,
         self::PRODUCT_SKU => true,
+        self::REQUIRES_SHIPPING => true,
         self::QTY => true,
         self::USE_FIXED_PRICE => true,
         self::FIXED_PRICE => false,
@@ -53,8 +56,9 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::EXPIRATION_DATE => false,
         self::COUPON_CODE => false,
         self::MAGENTO_STORE_CODE => false,
-        self::MAGENTO_SHIPPING_METHOD_CODE => true,
-        self::USER_DEFINED_FIELDS => false
+        self::MAGENTO_SHIPPING_METHOD_CODE => false,
+        self::USER_DEFINED_FIELDS => false,
+        self::PLATFORM_SPECIFIC_FIELDS => false
     ];
 
     /**
@@ -126,8 +130,17 @@ class Subscription extends DataObject implements SubscriptionInterface
      */
     public function isValid()
     {
-        return ($this->getData(self::SHIPPING_ADDRESS_ID, false) || $this->getShippingAddress()->isAsChildValid($this->isNew()))
+        return (!$this->getData(self::REQUIRES_SHIPPING) || $this->isShippingValid())
             && $this->checkRequiredFields($this->getFormFields());
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isShippingValid()
+    {
+        return ($this->getData(self::SHIPPING_ADDRESS_ID, false) || $this->getShippingAddress()->isAsChildValid($this->isNew()))
+            && $this->getData(self::MAGENTO_SHIPPING_METHOD_CODE, false);
     }
 
     //@codeCoverageIgnoreStart
@@ -184,6 +197,23 @@ class Subscription extends DataObject implements SubscriptionInterface
     public function setProductSku($productSku)
     {
         return $this->setData(self::PRODUCT_SKU, $productSku);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getRequiresShipping()
+    {
+        return $this->getData(self::REQUIRES_SHIPPING, false);
+    }
+
+    /**
+     * @param bool $useShipping
+     * @return $this
+     */
+    public function setRequiresShipping($useShipping)
+    {
+        return $this->setData(self::REQUIRES_SHIPPING, $useShipping);
     }
 
     /**
@@ -506,6 +536,23 @@ class Subscription extends DataObject implements SubscriptionInterface
     public function setUserDefinedFields(array $userDefinedFields)
     {
         return $this->setData(self::USER_DEFINED_FIELDS, $userDefinedFields);
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlatformSpecificFields()
+    {
+        return $this->getData(self::PLATFORM_SPECIFIC_FIELDS, []);
+    }
+
+    /**
+     * @param array $platformSpecificFields
+     * @return $this
+     */
+    public function setPlatformSpecificFields(array $platformSpecificFields)
+    {
+        return $this->setData(self::PLATFORM_SPECIFIC_FIELDS, $platformSpecificFields);
     }
 
     /**

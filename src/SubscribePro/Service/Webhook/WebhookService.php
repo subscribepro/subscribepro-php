@@ -46,6 +46,20 @@ class WebhookService extends AbstractService
     }
 
     /**
+     * Read webhook event from request
+     *
+     * @return \SubscribePro\Service\Webhook\EventInterface|bool
+     */
+    public function readEvent()
+    {
+        $rawRequestBody = $this->httpClient->getRawRequest();
+        $webhookEvent = !empty($rawRequestBody['webhook_event'])
+            ? json_decode($rawRequestBody['webhook_event'], true)
+            : false;
+        return $webhookEvent ? $this->dataFactory->create($webhookEvent) : false;
+    }
+
+    /**
      * @param int $eventId
      * @return \SubscribePro\Service\Webhook\EventInterface
      * @throws \SubscribePro\Exception\HttpException

@@ -211,6 +211,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $data = [
             SubscriptionInterface::CUSTOMER_ID => 11,
             SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
+            SubscriptionInterface::REQUIRES_SHIPPING => true,
             SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
             SubscriptionInterface::SHIPPING_ADDRESS => $addressData
         ];
@@ -250,10 +251,14 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->with($addressData)
             ->willReturnSelf();
         $this->shippingAddressMock->expects($this->once())->method('getId')->willReturn(null);
-        $this->shippingAddressMock->expects($this->once())
-            ->method('isAsChildValid')
-            ->with($isNew)
-            ->willReturn(true);
+
+        if (!empty($data[SubscriptionInterface::REQUIRES_SHIPPING]) && $data[SubscriptionInterface::REQUIRES_SHIPPING]) {
+            $this->shippingAddressMock->expects($this->once())
+                ->method('isAsChildValid')
+                ->with($isNew)
+                ->willReturn(true);
+        }
+
 
         $this->subscription->importData($data);
         $this->assertEquals($isValid, $this->subscription->isValid());
@@ -279,7 +284,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::QTY => '123',
                     SubscriptionInterface::INTERVAL => 'weekly',
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
                 ],
@@ -295,7 +300,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::QTY => '123',
                     SubscriptionInterface::USE_FIXED_PRICE => true,
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
                 ],
@@ -311,7 +316,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::USE_FIXED_PRICE => true,
                     SubscriptionInterface::INTERVAL => 'weekly',
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
                 ],
@@ -328,7 +333,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::USE_FIXED_PRICE => true,
                     SubscriptionInterface::INTERVAL => 'weekly',
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
                 ],
@@ -345,7 +350,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::USE_FIXED_PRICE => true,
                     SubscriptionInterface::INTERVAL => 'weekly',
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
                 ],
@@ -393,7 +398,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::USE_FIXED_PRICE => true,
                     SubscriptionInterface::INTERVAL => 'weekly',
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => 111,
                 ],
@@ -407,9 +412,64 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::USE_FIXED_PRICE => true,
                     SubscriptionInterface::INTERVAL => 'weekly',
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => 111,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param array $data
+     * @dataProvider isValidIfNotUseShipping
+     */
+    public function testIsValidIfNotUseShipping($data)
+    {
+        $this->paymentProfileMock->expects($this->once())
+            ->method('importData')
+            ->with([])
+            ->willReturnSelf();
+
+        $this->shippingAddressMock->expects($this->once())
+            ->method('importData')
+            ->with([])
+            ->willReturnSelf();
+        $this->shippingAddressMock->expects($this->once())->method('getId')->willReturn(null);
+        $this->shippingAddressMock->expects($this->never())->method('isAsChildValid');
+
+        $this->subscription->importData($data);
+        $this->assertTrue($this->subscription->isValid());
+    }
+
+    /**
+     * @return array
+     */
+    public function isValidIfNotUseShipping()
+    {
+        return [
+            'Valid: new: with use_shipping false' => [
+                'data' => [
+                    SubscriptionInterface::CUSTOMER_ID => 11,
+                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
+                    SubscriptionInterface::PRODUCT_SKU => 'sku',
+                    SubscriptionInterface::QTY => '123',
+                    SubscriptionInterface::USE_FIXED_PRICE => true,
+                    SubscriptionInterface::INTERVAL => 'weekly',
+                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-02-10',
+                    SubscriptionInterface::REQUIRES_SHIPPING => false
+                ],
+            ],
+            'Valid: not new: with use_shipping false' => [
+                'data' => [
+                    SubscriptionInterface::ID => 11,
+                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
+                    SubscriptionInterface::PRODUCT_SKU => 'sku',
+                    SubscriptionInterface::QTY => '123',
+                    SubscriptionInterface::USE_FIXED_PRICE => true,
+                    SubscriptionInterface::INTERVAL => 'weekly',
+                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-03-05',
+                    SubscriptionInterface::REQUIRES_SHIPPING => false
                 ],
             ],
         ];
@@ -465,6 +525,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::AUTHORIZE_NET_PAYMENT_PROFILE_ID => '313',
                     SubscriptionInterface::CREDITCARD_LAST_DIGITS => '311',
                     SubscriptionInterface::MAGENTO_BILLING_ADDRESS_ID => '5242',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
                     SubscriptionInterface::MAGENTO_SHIPPING_ADDRESS_ID => '123',
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
@@ -500,6 +561,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::INTERVAL => 'monthly',
                     SubscriptionInterface::MAGENTO_STORE_CODE => 'code',
                     SubscriptionInterface::PAYMENT_PROFILE_ID => '333',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SEND_CUSTOMER_NOTIFICATION_EMAIL => true,
                     SubscriptionInterface::FIRST_ORDER_ALREADY_CREATED => true,
@@ -527,6 +589,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::CREDITCARD_LAST_DIGITS => '311',
                     SubscriptionInterface::MAGENTO_BILLING_ADDRESS_ID => '5242',
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_ADDRESS_ID => '123',
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SEND_CUSTOMER_NOTIFICATION_EMAIL => true,
@@ -562,6 +625,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::INTERVAL => 'monthly',
                     SubscriptionInterface::MAGENTO_STORE_CODE => 'code',
                     SubscriptionInterface::PAYMENT_PROFILE_ID => '333',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SEND_CUSTOMER_NOTIFICATION_EMAIL => true,
                     SubscriptionInterface::FIRST_ORDER_ALREADY_CREATED => true,
@@ -590,6 +654,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::CREDITCARD_LAST_DIGITS => '311',
                     SubscriptionInterface::MAGENTO_BILLING_ADDRESS_ID => '5242',
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_ADDRESS_ID => '123',
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SEND_CUSTOMER_NOTIFICATION_EMAIL => true,
@@ -623,6 +688,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::INTERVAL => 'monthly',
                     SubscriptionInterface::MAGENTO_STORE_CODE => 'code',
                     SubscriptionInterface::PAYMENT_PROFILE_ID => '333',
+                    SubscriptionInterface::REQUIRES_SHIPPING => true,
                     SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
                     SubscriptionInterface::SEND_CUSTOMER_NOTIFICATION_EMAIL => true,
                     SubscriptionInterface::COUPON_CODE => 'code',

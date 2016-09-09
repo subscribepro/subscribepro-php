@@ -14,6 +14,7 @@ interface SubscriptionInterface extends DataInterface
     const CUSTOMER_ID = 'customer_id';
     const STATUS = 'status';
     const PRODUCT_SKU = 'product_sku';
+    const REQUIRES_SHIPPING = 'requires_shipping';
     const SUBSCRIPTION_PRODUCTS = 'subscription_products';
     const QTY = 'qty';
     const USE_FIXED_PRICE = 'use_fixed_price';
@@ -36,6 +37,7 @@ interface SubscriptionInterface extends DataInterface
     const EXPIRATION_DATE = 'expiration_date';
     const COUPON_CODE = 'coupon_code';
     const USER_DEFINED_FIELDS = 'user_defined_fields';
+    const PLATFORM_SPECIFIC_FIELDS = 'platform_specific_fields';
     const RECURRING_ORDER_COUNT = 'recurring_order_count';
     const ERROR_TIME = 'error_time';
     const ERROR_CLASS = 'error_class';
@@ -97,6 +99,17 @@ interface SubscriptionInterface extends DataInterface
      * @return string|null
      */
     public function getProductSku();
+
+    /**
+     * @return bool
+     */
+    public function getRequiresShipping();
+
+    /**
+     * @param bool $useShipping
+     * @return $this
+     */
+    public function setRequiresShipping($useShipping);
 
     /**
      * @param string $productSku
@@ -306,6 +319,17 @@ interface SubscriptionInterface extends DataInterface
      * @return $this
      */
     public function setUserDefinedFields(array $userDefinedFields);
+
+    /**
+     * @return array
+     */
+    public function getPlatformSpecificFields();
+
+    /**
+     * @param array $platformSpecificFields
+     * @return $this
+     */
+    public function setPlatformSpecificFields(array $platformSpecificFields);
 
     /**
      * @param string|null $format

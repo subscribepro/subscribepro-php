@@ -230,4 +230,15 @@ class Http
 
         throw new HttpException($response);
     }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return array|bool
+     */
+    public function getRawRequest()
+    {
+        $rawRequest = file_get_contents('php://input');
+        return $rawRequest ? json_decode($rawRequest, true) : false;
+    }
 }

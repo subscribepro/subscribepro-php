@@ -19,27 +19,15 @@ class EventTest extends \PHPUnit_Framework_TestCase
             ->method('toArray')
             ->willReturn(['second destination data']);
 
-        $customerMock = $this->getMockBuilder('SubscribePro\Service\Customer\CustomerInterface')->getMock();
-        $customerMock->expects($this->once())
-            ->method('toArray')
-            ->willReturn(['customer data']);
-
-        $subscriptionMock = $this->getMockBuilder('SubscribePro\Service\Subscription\SubscriptionInterface')->getMock();
-        $subscriptionMock->expects($this->once())
-            ->method('toArray')
-            ->willReturn(['subscription data']);
-
         $event = new Event([
             EventInterface::ID => 111,
-            EventInterface::CUSTOMER => $customerMock,
-            EventInterface::SUBSCRIPTION => $subscriptionMock,
+            EventInterface::DATA => ['data'],
             EventInterface::DESTINATIONS => [$destination1Mock, $destination2Mock],
         ]);
         
         $expectedData = [
             EventInterface::ID => 111,
-            EventInterface::CUSTOMER => ['customer data'],
-            EventInterface::SUBSCRIPTION => ['subscription data'],
+            EventInterface::DATA => ['data'],
             EventInterface::DESTINATIONS => [
                 ['first destination data'],
                 ['second destination data']
@@ -47,5 +35,70 @@ class EventTest extends \PHPUnit_Framework_TestCase
         ];
         
         $this->assertEquals($expectedData, $event->toArray());
+    }
+
+    /**
+     * @param array $data
+     * @param string|null $field
+     * @param mixed|null $result
+     * @dataProvider getEventDataDataProvider
+     */
+    public function testGetEventData($data, $field, $result)
+    {
+        $event = new Event($data);
+
+        $this->assertEquals($result, $event->getEventData($field));
+    }
+
+    /**
+     * @return array
+     */
+    public function getEventDataDataProvider()
+    {
+        return [
+            'Event data not set:without field' => [
+                'data' => [
+                    EventInterface::ID => 2312,
+                    EventInterface::TYPE => 'type',
+                ],
+                'field' => null,
+                'result' => null
+            ],
+            'Event data not set:with field' => [
+                'data' => [
+                    EventInterface::ID => 54,
+                    EventInterface::TYPE => 'subscription',
+                ],
+                'field' => 'field_value',
+                'result' => null
+            ],
+            'With event data:without field' => [
+                'data' => [
+                    EventInterface::ID => 897,
+                    EventInterface::CREATED => '2020-12-12',
+                    EventInterface::DATA => ['data'],
+                ],
+                'field' => null,
+                'result' => ['data']
+            ],
+            'With event data:with field:not found in data' => [
+                'data' => [
+                    EventInterface::UPDATED => '2018-08-08',
+                    EventInterface::TYPE => 'payment',
+                    EventInterface::DATA => ['field' => 'data'],
+                ],
+                'field' => 'another_field',
+                'result' => null
+            ],
+            'With event data:with field:field found' => [
+                'data' => [
+                    EventInterface::ID => 65455,
+                    EventInterface::TYPE => 'some_type',
+                    EventInterface::DATA => ['field' => 'value'],
+                ],
+                'field' => 'field',
+                'result' => 'value'
+            ],
+        ];
     }
 }

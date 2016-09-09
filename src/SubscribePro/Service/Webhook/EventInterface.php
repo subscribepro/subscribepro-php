@@ -12,21 +12,15 @@ interface EventInterface extends DataInterface
     const ID = 'id';
     const TYPE = 'type';
     const DATA = 'data';
-    const CUSTOMER = 'customer';
-    const SUBSCRIPTION = 'subscription';
     const DESTINATIONS = 'destinations';
     const CREATED = 'created';
     const UPDATED = 'updated';
 
     /**
-     * @return \SubscribePro\Service\Customer\CustomerInterface
+     * @param string|null $field
+     * @return mixed|null
      */
-    public function getCustomer();
-
-    /**
-     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
-     */
-    public function getSubscription();
+    public function getEventData($field = null);
 
     /**
      * @return string

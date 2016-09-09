@@ -10,22 +10,6 @@ class Event extends DataObject implements EventInterface
     //@codeCoverageIgnoreStart
 
     /**
-     * @return \SubscribePro\Service\Customer\CustomerInterface
-     */
-    public function getCustomer()
-    {
-        return $this->getData(self::CUSTOMER);
-    }
-
-    /**
-     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
-     */
-    public function getSubscription()
-    {
-        return $this->getData(self::SUBSCRIPTION);
-    }
-
-    /**
      * @return string
      */
     public function getType()
@@ -62,13 +46,25 @@ class Event extends DataObject implements EventInterface
     //@codeCoverageIgnoreEnd
 
     /**
+     * @param string|null $field
+     * @return mixed|null
+     */
+    public function getEventData($field = null)
+    {
+        $data = $this->getData(self::DATA);
+        if ($field && $data !== null) {
+            return isset($data[$field]) ? $data[$field] : null;
+        }
+
+        return $data;
+    }
+
+    /**
      * @return array
      */
     public function toArray()
     {
         $data = parent::toArray();
-        $data[self::CUSTOMER] = $this->getCustomer()->toArray();
-        $data[self::SUBSCRIPTION] = $this->getSubscription()->toArray();
         $data[self::DESTINATIONS] = array_map(function (DestinationInterface $destination) {
             return $destination->toArray();
         }, $this->getDestinations());
