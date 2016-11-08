@@ -21,6 +21,7 @@ interface TransactionInterface extends DataInterface
     const CREDITCARD_MONTH = 'creditcard_month';
     const CREDITCARD_YEAR = 'creditcard_year';
     const BILLING_ADDRESS = 'billing_address';
+    const UNIQUE_ID = 'unique_id';
     const REF_PAYMENT_PROFILE_ID = 'ref_payment_profile_id';
     const REF_TRANSACTION_ID = 'ref_transaction_id';
     const REF_GATEWAY_ID = 'ref_gateway_id';
@@ -218,6 +219,17 @@ interface TransactionInterface extends DataInterface
      * @return $this
      */
     public function setCreditcardYear($creditcardYear);
+
+    /**
+     * @return int|null
+     */
+    public function getUniqueId();
+
+    /**
+     * @param int $uniqueId
+     * @return $this
+     */
+    public function setUniqueId($uniqueId);
 
     /**
      * @return int|null

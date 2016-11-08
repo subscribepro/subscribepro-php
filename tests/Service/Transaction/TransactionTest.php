@@ -149,6 +149,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             TransactionInterface::CREDITCARD_MONTH => '04',
             TransactionInterface::CREDITCARD_YEAR => '2019',
             TransactionInterface::BILLING_ADDRESS => '123',
+            TransactionInterface::UNIQUE_ID => '123456789',
             TransactionInterface::REF_PAYMENT_PROFILE_ID => '414',
             TransactionInterface::REF_TRANSACTION_ID => '2323',
             TransactionInterface::REF_GATEWAY_ID => '525',
@@ -178,6 +179,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             TransactionInterface::EMAIL => 'email@example.com',
             TransactionInterface::ORDER_ID => '123',
             TransactionInterface::IP => '0.0.0.0',
+            TransactionInterface::UNIQUE_ID => '123456789'
         ];
 
         $this->transaction->importData($data);
@@ -198,6 +200,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             TransactionInterface::CREDITCARD_MONTH => '04',
             TransactionInterface::CREDITCARD_YEAR => '2019',
             TransactionInterface::BILLING_ADDRESS => '123',
+            TransactionInterface::UNIQUE_ID => '987654321',
             TransactionInterface::REF_PAYMENT_PROFILE_ID => '414',
             TransactionInterface::REF_TRANSACTION_ID => '2323',
             TransactionInterface::REF_GATEWAY_ID => '525',
@@ -225,7 +228,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             TransactionInterface::CURRENCY_CODE => 'currency code',
             TransactionInterface::EMAIL => 'email@example.com',
             TransactionInterface::ORDER_ID => '123',
-            TransactionInterface::IP => '0.0.0.0',
+            TransactionInterface::IP => '0.0.0.0'
         ];
 
         $this->transaction->importData($data);
@@ -246,6 +249,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             TransactionInterface::CREDITCARD_MONTH => '04',
             TransactionInterface::CREDITCARD_YEAR => '2019',
             TransactionInterface::BILLING_ADDRESS => '123',
+            TransactionInterface::UNIQUE_ID => '918273645',
             TransactionInterface::REF_PAYMENT_PROFILE_ID => '414',
             TransactionInterface::REF_TRANSACTION_ID => '2323',
             TransactionInterface::REF_GATEWAY_ID => '525',
@@ -297,6 +301,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             TransactionInterface::CREDITCARD_MONTH => '04',
             TransactionInterface::CREDITCARD_YEAR => '2019',
             TransactionInterface::BILLING_ADDRESS => '123',
+            TransactionInterface::UNIQUE_ID => '129834765',
             TransactionInterface::REF_PAYMENT_PROFILE_ID => '414',
             TransactionInterface::REF_TRANSACTION_ID => '2323',
             TransactionInterface::REF_GATEWAY_ID => '525',
@@ -338,6 +343,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
                     TransactionInterface::IP => '0.0.0.0',
                     TransactionInterface::CREDITCARD_MONTH => '04',
                     TransactionInterface::CREDITCARD_YEAR => '2019',
+                    TransactionInterface::UNIQUE_ID => '129834765'
                 ]
             ],
             'With address' => [
@@ -364,6 +370,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
                     TransactionInterface::IP => '0.0.0.0',
                     TransactionInterface::CREDITCARD_MONTH => '04',
                     TransactionInterface::CREDITCARD_YEAR => '2019',
+                    TransactionInterface::UNIQUE_ID => '129834765',
                     TransactionInterface::BILLING_ADDRESS => [
                         AddressInterface::CITY => 'city',
                         AddressInterface::COUNTRY => 'country',

@@ -21,7 +21,8 @@ class Transaction extends DataObject implements TransactionInterface
         self::CURRENCY_CODE => true,
         self::ORDER_ID => false,
         self::IP => false,
-        self::EMAIL => false
+        self::EMAIL => false,
+        self::UNIQUE_ID => false
     ];
 
     /**
@@ -34,7 +35,8 @@ class Transaction extends DataObject implements TransactionInterface
         self::IP => false,
         self::EMAIL => false,
         self::CREDITCARD_MONTH => false,
-        self::CREDITCARD_YEAR => false
+        self::CREDITCARD_YEAR => false,
+        self::UNIQUE_ID => false
     ];
 
     /**
@@ -307,6 +309,23 @@ class Transaction extends DataObject implements TransactionInterface
     public function setCreditcardYear($creditcardYear)
     {
         return $this->setData(self::CREDITCARD_YEAR, $creditcardYear);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUniqueId()
+    {
+        return $this->getData(self::UNIQUE_ID);
+    }
+
+    /**
+     * @param int $uniqueId
+     * @return $this
+     */
+    public function setUniqueId($uniqueId)
+    {
+        return $this->setData(self::UNIQUE_ID, $uniqueId);
     }
 
     /**
