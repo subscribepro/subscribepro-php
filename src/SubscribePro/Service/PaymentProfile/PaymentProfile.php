@@ -18,7 +18,6 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     protected $creatingFields = [
         self::CUSTOMER_ID => false,
-        self::MAGENTO_CUSTOMER_ID => false,
         self::CREDITCARD_NUMBER => true,
         self::CREDITCARD_VERIFICATION_VALUE => false,
         self::CREDITCARD_MONTH => true,
@@ -40,7 +39,6 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     protected $savingTokenFields = [
         self::CUSTOMER_ID => false,
-        self::MAGENTO_CUSTOMER_ID => false,
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
         self::BILLING_ADDRESS => false
@@ -111,7 +109,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function isValid()
     {
-        $isCustomerDataValid = $this->isNew() ? ($this->getCustomerId() || $this->getMagentoCustomerId()) : true;
+        $isCustomerDataValid = $this->isNew() ? ($this->getCustomerId()) : true;
         return $isCustomerDataValid
             && $this->checkRequiredFields($this->getFormFields())
             && $this->getBillingAddress()->isAsChildValid($this->isNew());
@@ -140,7 +138,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function isTokenDataValid()
     {
-        return ($this->getCustomerId() || $this->getMagentoCustomerId())
+        return ($this->getCustomerId())
             && $this->checkRequiredFields($this->savingTokenFields);
     }
 
@@ -207,26 +205,25 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @return string|null
      */
-    public function getMagentoCustomerId()
+    public function getCustomerEmail()
     {
-        return $this->getData(self::MAGENTO_CUSTOMER_ID);
-    }
-
-    /**
-     * @param string $magentoCustomerId
-     * @return $this
-     */
-    public function setMagentoCustomerId($magentoCustomerId)
-    {
-        return $this->setData(self::MAGENTO_CUSTOMER_ID, $magentoCustomerId);
+        return $this->getData(self::CUSTOMER_EMAIL);
     }
 
     /**
      * @return string|null
      */
-    public function getCustomerEmail()
+    public function getCustomerFacingName()
     {
-        return $this->getData(self::CUSTOMER_EMAIL);
+        return $this->getData(self::CUSTOMER_FACING_NAME);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMerchantFacingName()
+    {
+        return $this->getData(self::MERCHANT_FACING_NAME);
     }
 
     /**
@@ -357,6 +354,51 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->setData(self::CREDITCARD_YEAR, $creditcardYear);
     }
 
+    public function getBankRoutingNumber()
+    {
+        return $this->getData(self::BANK_ROUTING_NUMBER);
+    }
+
+    public function setBankRoutingNumber($routingNumber)
+    {
+        return $this->setData(self::BANK_ROUTING_NUMBER, $routingNumber);
+    }
+
+    public function getBankAccountLastDigits()
+    {
+        return $this->getData(self::BANK_ACCOUNT_LAST_DIGITS);
+    }
+
+    public function getBankName()
+    {
+        return $this->getData(self::BANK_NAME);
+    }
+
+    public function setBankName($name)
+    {
+        return $this->setData(self::BANK_NAME, $name);
+    }
+
+    public function getBankAccountType()
+    {
+        return $this->getData(self::BANK_ACCOUNT_TYPE);
+    }
+
+    public function setBankAccountType($type)
+    {
+        return $this->setData(self::BANK_ACCOUNT_TYPE, $type);
+    }
+
+    public function getBankAccountHolderType()
+    {
+        return $this->getData(self::BANK_ACCOUNT_HOLDER_TYPE);
+    }
+
+    public function setBankAccountHolderType($holderType)
+    {
+        return $this->setData(self::BANK_ACCOUNT_HOLDER_TYPE, $holderType);
+    }
+
     /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
@@ -374,12 +416,9 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->setData(self::BILLING_ADDRESS, $billingAddress);
     }
 
-    /**
-     * @return string
-     */
-    public function getGateway()
+    public function getProfileType()
     {
-        return $this->getData(self::GATEWAY);
+        return $this->getData(self::PROFILE_TYPE);
     }
 
     /**

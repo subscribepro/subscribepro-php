@@ -232,7 +232,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
             ],
             'Valid: new: with magento customer ID' => [
                 'data' => [
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => 11,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2020',
@@ -303,12 +302,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
             'Valid: with customer ID' => [
                 'data' => [
                     PaymentProfileInterface::CUSTOMER_ID => 11,
-                ],
-                'isValid' => true
-            ],
-            'Valid: with magento customer ID' => [
-                'data' => [
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => 11,
                 ],
                 'isValid' => true
             ],
@@ -438,7 +431,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'isNew' => true,
                 'data' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CUSTOMER_EMAIL => '125',
                     PaymentProfileInterface::CREDITCARD_TYPE => 'visa',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
@@ -447,7 +439,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
-                    PaymentProfileInterface::GATEWAY => 'gateway',
                     PaymentProfileInterface::PAYMENT_METHOD_TYPE => 'card',
                     PaymentProfileInterface::PAYMENT_TOKEN => 'token',
                     PaymentProfileInterface::PAYMENT_VAULT => 'vault',
@@ -463,7 +454,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'billingData' => [AddressInterface::MAGENTO_ADDRESS_ID => '23'],
                 'expectedData' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
@@ -475,7 +465,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'isNew' => true,
                 'data' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CUSTOMER_EMAIL => '125',
                     PaymentProfileInterface::CREDITCARD_TYPE => 'visa',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
@@ -484,7 +473,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
-                    PaymentProfileInterface::GATEWAY => 'gateway',
                     PaymentProfileInterface::PAYMENT_METHOD_TYPE => 'card',
                     PaymentProfileInterface::PAYMENT_TOKEN => 'token',
                     PaymentProfileInterface::PAYMENT_VAULT => 'vault',
@@ -526,7 +514,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 ],
                 'expectedData' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
@@ -546,7 +533,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'data' => [
                     PaymentProfileInterface::ID => 555,
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CUSTOMER_EMAIL => '125',
                     PaymentProfileInterface::CREDITCARD_TYPE => 'visa',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
@@ -555,7 +541,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
-                    PaymentProfileInterface::GATEWAY => 'gateway',
                     PaymentProfileInterface::PAYMENT_METHOD_TYPE => 'card',
                     PaymentProfileInterface::PAYMENT_TOKEN => 'token',
                     PaymentProfileInterface::PAYMENT_VAULT => 'vault',
@@ -663,7 +648,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'isNew' => true,
                 'data' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CUSTOMER_EMAIL => '125',
                     PaymentProfileInterface::CREDITCARD_TYPE => 'visa',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
@@ -672,7 +656,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
-                    PaymentProfileInterface::GATEWAY => 'gateway',
                     PaymentProfileInterface::PAYMENT_METHOD_TYPE => 'card',
                     PaymentProfileInterface::PAYMENT_TOKEN => 'token',
                     PaymentProfileInterface::PAYMENT_VAULT => 'vault',
@@ -688,7 +671,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'billingData' => [AddressInterface::MAGENTO_ADDRESS_ID => '23'],
                 'expectedData' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
                 ],
@@ -698,7 +680,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'isNew' => true,
                 'data' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CUSTOMER_EMAIL => '125',
                     PaymentProfileInterface::CREDITCARD_TYPE => 'visa',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
@@ -707,7 +688,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
-                    PaymentProfileInterface::GATEWAY => 'gateway',
                     PaymentProfileInterface::PAYMENT_METHOD_TYPE => 'card',
                     PaymentProfileInterface::PAYMENT_TOKEN => 'token',
                     PaymentProfileInterface::PAYMENT_VAULT => 'vault',
@@ -749,7 +729,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 ],
                 'expectedData' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
                     PaymentProfileInterface::BILLING_ADDRESS => [
@@ -817,7 +796,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'isNew' => true,
                 'data' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CUSTOMER_EMAIL => '125',
                     PaymentProfileInterface::CREDITCARD_TYPE => 'visa',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
@@ -826,7 +804,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
-                    PaymentProfileInterface::GATEWAY => 'gateway',
                     PaymentProfileInterface::PAYMENT_METHOD_TYPE => 'card',
                     PaymentProfileInterface::PAYMENT_TOKEN => 'token',
                     PaymentProfileInterface::PAYMENT_VAULT => 'vault',
@@ -858,7 +835,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'isNew' => true,
                 'data' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => '124',
                     PaymentProfileInterface::CUSTOMER_EMAIL => '125',
                     PaymentProfileInterface::CREDITCARD_TYPE => 'visa',
                     PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
@@ -867,7 +843,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_VERIFICATION_VALUE => 123,
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
-                    PaymentProfileInterface::GATEWAY => 'gateway',
                     PaymentProfileInterface::PAYMENT_METHOD_TYPE => 'card',
                     PaymentProfileInterface::PAYMENT_TOKEN => 'token',
                     PaymentProfileInterface::PAYMENT_VAULT => 'vault',
