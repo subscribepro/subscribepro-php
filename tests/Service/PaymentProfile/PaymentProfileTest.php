@@ -230,23 +230,6 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'isValid' => true,
                 'isAsChildValid' => true
             ],
-            'Valid: new: with magento customer ID' => [
-                'data' => [
-                    PaymentProfileInterface::CREDITCARD_MONTH => '04',
-                    PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
-                    PaymentProfileInterface::CREDITCARD_YEAR => '2020',
-                    PaymentProfileInterface::BILLING_ADDRESS => [
-                        AddressInterface::FIRST_NAME => 'name',
-                        AddressInterface::LAST_NAME => 'surname',
-                    ]
-                ],
-                'billingData' => [
-                    AddressInterface::FIRST_NAME => 'name',
-                    AddressInterface::LAST_NAME => 'surname',
-                ],
-                'isValid' => true,
-                'isAsChildValid' => true
-            ],
             'Valid: not new' => [
                 'data' => [
                     PaymentProfileInterface::ID => 11,

@@ -27,7 +27,6 @@ class PaymentProfileService extends AbstractService
      * @var string
      */
     protected $allowedFilters = [
-        PaymentProfileInterface::MAGENTO_CUSTOMER_ID,
         PaymentProfileInterface::CUSTOMER_EMAIL
     ];
 
@@ -84,7 +83,6 @@ class PaymentProfileService extends AbstractService
     /**
      * Retrieve an array of all payment profiles.
      *  Available filters:
-     * - magento_customer_id
      * - customer_email
      *
      * @param array $filters

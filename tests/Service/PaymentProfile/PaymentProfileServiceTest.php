@@ -229,13 +229,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
                     [PaymentProfileInterface::ID => 222]
                 ],
             ],
-            'Loading by magento_customer_id' => [
-                'filters' => [PaymentProfileInterface::MAGENTO_CUSTOMER_ID => 123],
-                'itemsData' => [[
-                    PaymentProfileInterface::ID => 333,
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => 123
-                ]],
-            ],
         ];
     }
 
