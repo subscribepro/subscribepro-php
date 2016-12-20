@@ -27,7 +27,9 @@ class PaymentProfileService extends AbstractService
      * @var string
      */
     protected $allowedFilters = [
-        PaymentProfileInterface::CUSTOMER_EMAIL
+        PaymentProfileInterface::CUSTOMER_EMAIL,
+        PaymentProfileInterface::PROFILE_TYPE,
+        PaymentProfileInterface::PAYMENT_METHOD_TYPE,
     ];
 
     /**
@@ -84,6 +86,8 @@ class PaymentProfileService extends AbstractService
      * Retrieve an array of all payment profiles.
      *  Available filters:
      * - customer_email
+     * - profile_type
+     * - payment_method_type
      *
      * @param array $filters
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface[]
