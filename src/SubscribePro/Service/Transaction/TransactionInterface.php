@@ -240,11 +240,6 @@ interface TransactionInterface extends DataInterface
     /**
      * @return int|null
      */
-    public function getRefOrderToken();
-
-    /**
-     * @return int|null
-     */
     public function getRefTransactionId();
 
     /**
