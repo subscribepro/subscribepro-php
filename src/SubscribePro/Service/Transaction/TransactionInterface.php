@@ -22,6 +22,7 @@ interface TransactionInterface extends DataInterface
     const CREDITCARD_YEAR = 'creditcard_year';
     const BILLING_ADDRESS = 'billing_address';
     const UNIQUE_ID = 'unique_id';
+    const SUBSCRIBE_PRO_ORDER_TOKEN = 'subscribe_pro_order_token';
     const REF_PAYMENT_PROFILE_ID = 'ref_payment_profile_id';
     const REF_TRANSACTION_ID = 'ref_transaction_id';
     const REF_GATEWAY_ID = 'ref_gateway_id';
@@ -235,6 +236,11 @@ interface TransactionInterface extends DataInterface
      * @return int|null
      */
     public function getRefPaymentProfileId();
+
+    /**
+     * @return int|null
+     */
+    public function getRefOrderToken();
 
     /**
      * @return int|null

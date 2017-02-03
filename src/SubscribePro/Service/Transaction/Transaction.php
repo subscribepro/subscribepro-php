@@ -339,6 +339,14 @@ class Transaction extends DataObject implements TransactionInterface
     /**
      * @return int|null
      */
+    public function getRefOrderToken()
+    {
+        return $this->getData(self::SUBSCRIBE_PRO_ORDER_TOKEN);
+    }
+
+    /**
+     * @return int|null
+     */
     public function getRefTransactionId()
     {
         return $this->getData(self::REF_TRANSACTION_ID);

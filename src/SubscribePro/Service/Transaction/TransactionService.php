@@ -63,21 +63,28 @@ class TransactionService extends AbstractService
     }
 
     /**
-     * @param int $paymentProfileId
+     * @param array $authorizeData
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
+     * @param string $orderToken
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function authorizeByProfile($paymentProfileId, TransactionInterface $transaction)
+    public function authorizeByProfile($authorizeData, TransactionInterface $transaction)
     {
         if (!$transaction->isValid()) {
             throw new EntityInvalidDataException('Not all required fields are set.');
         }
+        $formData = $transaction->getFormData();
+        if (isset($authorizeData['subscribe_pro_order_token'])) {
+            $formData['subscribe_pro_order_token'] = $authorizeData['subscribe_pro_order_token'];
+        }
+
+        $profileId = $authorizeData['profile_id'];
 
         $response = $this->httpClient->post(
-            "/services/v1/vault/paymentprofiles/{$paymentProfileId}/authorize.json",
-            [self::API_NAME_TRANSACTION => $transaction->getFormData()]
+            "/services/v1/vault/paymentprofiles/{$profileId}/authorize.json",
+            [self::API_NAME_TRANSACTION => $formData]
         );
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
@@ -89,15 +96,22 @@ class TransactionService extends AbstractService
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function purchaseByProfile($paymentProfileId, TransactionInterface $transaction)
+    public function purchaseByProfile($authorizeData, TransactionInterface $transaction)
     {
         if (!$transaction->isValid()) {
             throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
+        $formData = $transaction->getFormData();
+        if (isset($authorizeData['subscribe_pro_order_token'])) {
+            $formData['subscribe_pro_order_token'] = $authorizeData['subscribe_pro_order_token'];
+        }
+
+        $profileId = $authorizeData['profile_id'];
+
         $response = $this->httpClient->post(
-            "/services/v1/vault/paymentprofiles/{$paymentProfileId}/purchase.json",
-            [self::API_NAME_TRANSACTION => $transaction->getFormData()]
+            "/services/v1/vault/paymentprofiles/{$profileId}/purchase.json",
+            [self::API_NAME_TRANSACTION => $formData]
         );
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
