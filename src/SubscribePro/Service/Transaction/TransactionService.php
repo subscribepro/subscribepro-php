@@ -90,7 +90,7 @@ class TransactionService extends AbstractService
     }
 
     /**
-     * @param int $paymentProfileId
+     * @param array $authorizeData
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException

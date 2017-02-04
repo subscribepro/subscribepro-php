@@ -118,7 +118,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
     public function testFailToAuthorizeByProfileIfNotValid()
     {
         $paymentProfileId = 1234;
-
+        $authorizeData = ['profile_id' => $paymentProfileId];
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
             ->method('isValid')
@@ -126,12 +126,13 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->never())->method('post');
 
-        $this->transactionService->authorizeByProfile($paymentProfileId, $transactionMock);
+        $this->transactionService->authorizeByProfile($authorizeData, $transactionMock);
     }
 
     public function testAuthorizeByProfile()
     {
         $paymentProfileId = 4451;
+        $authorizeData = ['profile_id' => $paymentProfileId];
         $formData = [TransactionInterface::AMOUNT => '1230'];
         $expectedImportData = [TransactionInterface::ID => '111'];
         $url = "/services/v1/vault/paymentprofiles/{$paymentProfileId}/authorize.json";
@@ -151,7 +152,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             $transactionMock,
-            $this->transactionService->authorizeByProfile($paymentProfileId, $transactionMock)
+            $this->transactionService->authorizeByProfile($authorizeData, $transactionMock)
         );
     }
 
@@ -162,7 +163,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
     public function testFailToPurchaseByProfileIfNotValid()
     {
         $paymentProfileId = 1234;
-
+        $authorizeData = ['profile_id' => $paymentProfileId];
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
             ->method('isValid')
@@ -170,12 +171,13 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->never())->method('post');
 
-        $this->transactionService->purchaseByProfile($paymentProfileId, $transactionMock);
+        $this->transactionService->purchaseByProfile($authorizeData, $transactionMock);
     }
 
     public function testPurchaseByProfile()
     {
         $paymentProfileId = 1234;
+        $authorizeData = ['profile_id' => $paymentProfileId];
         $formData = [TransactionInterface::AMOUNT => '1230'];
         $expectedImportData = [TransactionInterface::ID => '111'];
         $url = "/services/v1/vault/paymentprofiles/{$paymentProfileId}/purchase.json";
@@ -195,7 +197,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             $transactionMock,
-            $this->transactionService->purchaseByProfile($paymentProfileId, $transactionMock)
+            $this->transactionService->purchaseByProfile($authorizeData, $transactionMock)
         );
     }
 
