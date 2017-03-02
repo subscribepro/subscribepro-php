@@ -19,14 +19,14 @@ class OauthTokenService extends AbstractService
      */
     public function retrieveToken($customerEmail)
     {
+        $email = urlencode($customerEmail);
         try {
-            $response = $this->httpClient->get("/oauth/v2/token?grant_type=client_credentials&scope=widget&customer_id=$customerEmail");
-        } catch (SubscribePro\Exception\HttpException $e) {
-            echo $e->getResponse();
+            $response = $this->httpClient->get("/oauth/v2/token?grant_type=client_credentials&scope=widget&customer_email=$email");
+        } catch (\SubscribePro\Exception\HttpException $e) {
+            return false;
         }
 
-        var_dump($response);die();
-        return $this->retrieveItem($response, self::OAUTH_TOKEN);
+        return (isset($response[self::OAUTH_TOKEN])) ? $response[self::OAUTH_TOKEN] : false;
     }
 }
 
