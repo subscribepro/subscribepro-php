@@ -449,6 +449,14 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
+     * @return string
+     */
+    public function getDualVaultMode()
+    {
+        return $this->getData(self::DUAL_VAULT_MODE);
+    }
+
+    /**
      * Payment method type: credit_card or third_party_token
      *
      * @return string|null
