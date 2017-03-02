@@ -23,6 +23,7 @@ interface ProductInterface extends DataInterface
     const DEFAULT_INTERVAL = 'default_interval';
     const INTERVALS = 'intervals';
     const PRODUCT_OPTIONS_MODE = 'product_options_mode';
+    const SHIPPING_MODE = 'shipping_mode';
     const IS_TRIAL_PRODUCT = 'is_trial_product';
     const TRIAL_INTERVAL = 'trial_interval';
     const TRIAL_PRICE = 'trial_price';
@@ -214,6 +215,17 @@ interface ProductInterface extends DataInterface
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setProductOptionsMode($productOptionsMode);
+
+    /**
+     * @return string|null
+     */
+    public function getShippingMode();
+
+    /**
+     * @param string|null $shippingMode
+     * @return $this
+     */
+    public function setShippingMode($shippingMode);
 
     /**
      * @return bool|null
