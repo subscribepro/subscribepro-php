@@ -31,6 +31,7 @@ interface PaymentProfileInterface extends DataInterface
     const BILLING_ADDRESS = 'billing_address';
     const PROFILE_TYPE = 'profile_type';
     const GATEWAY = 'gateway';
+    const DUAL_VAULT_MODE = 'dual_vault_mode';
     const PAYMENT_METHOD_TYPE = 'payment_method_type';
     const PAYMENT_TOKEN = 'payment_token';
     const PAYMENT_VAULT = 'payment_vault';
@@ -297,6 +298,11 @@ interface PaymentProfileInterface extends DataInterface
      * @return string
      */
     public function getGateway();
+
+    /**
+     * @return boolean
+     */
+    public function getDualVaultMode();
 
     /**
      * Payment method type: credit_card or third_party_token

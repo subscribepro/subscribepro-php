@@ -27,6 +27,7 @@ class PaymentProfileService extends AbstractService
      * @var string
      */
     protected $allowedFilters = [
+        PaymentProfileInterface::CUSTOMER_ID,
         PaymentProfileInterface::MAGENTO_CUSTOMER_ID,
         PaymentProfileInterface::CUSTOMER_EMAIL,
         PaymentProfileInterface::PROFILE_TYPE,
