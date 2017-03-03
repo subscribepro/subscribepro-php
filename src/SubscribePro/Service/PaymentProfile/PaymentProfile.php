@@ -38,6 +38,19 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
+    protected $creatingBankAccountFields = [
+        self::CUSTOMER_ID => false,
+        self::MAGENTO_CUSTOMER_ID => false,
+        self::BANK_ROUTING_NUMBER => false,
+        self::BANK_ACCOUNT_LAST_DIGITS => false,
+        self::BANK_NAME => false,
+        self::BANK_ACCOUNT_TYPE => false,
+        self::BANK_ACCOUNT_HOLDER_TYPE => false,
+    ];
+
+    /**
+     * @var array
+     */
     protected $savingTokenFields = [
         self::CUSTOMER_ID => false,
         self::MAGENTO_CUSTOMER_ID => false,

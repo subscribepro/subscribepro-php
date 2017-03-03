@@ -51,13 +51,69 @@ class PaymentProfileService extends AbstractService
      */
     public function saveProfile(PaymentProfileInterface $paymentProfile)
     {
+
+        switch($paymentProfile->getPaymentMethodType()) {
+            case PaymentProfileInterface::TYPE_BANK_ACCOUNT:
+                return $this->saveBankAccountProfile($paymentProfile);
+            case PaymentProfileInterface::TYPE_APPLE_PAY:
+                return $this->saveApplePayProfile($paymentProfile);
+            case PaymentProfileInterface::TYPE_CREDIT_CARD:
+            default:
+                return $this->saveCreditCardProfile($paymentProfile);
+        }
+
+    }
+
+    /**
+     * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    private function saveCreditCardProfile(PaymentProfileInterface $paymentProfile)
+    {
         if (!$paymentProfile->isValid()) {
             throw new EntityInvalidDataException('Not all required fields are set.');
         }
-
         $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
         $response = $paymentProfile->isNew()
-            ? $this->httpClient->post('/services/v1/vault/paymentprofile.json', $postData)
+            ? $this->httpClient->post('/services/v2/vault/paymentprofile/creditcard.json', $postData)
+            : $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
+    }
+
+    /**
+     * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    private function saveApplePayProfile(PaymentProfileInterface $paymentProfile)
+    {
+        if (!$paymentProfile->isValid()) {
+            throw new EntityInvalidDataException('Not all required fields are set.');
+        }
+        $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
+        $response = $paymentProfile->isNew()
+            ? $this->httpClient->post('/services/v2/vault/paymentprofile/applepay.json', $postData)
+            : $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
+    }
+
+    /**
+     * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    private function saveBankAccountProfile(PaymentProfileInterface $paymentProfile)
+    {
+        if (!$paymentProfile->isValid()) {
+            throw new EntityInvalidDataException('Not all required fields are set.');
+        }
+        $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
+        $response = $paymentProfile->isNew()
+            ? $this->httpClient->post('/services/v2/vault/paymentprofile/bankaccount.json', $postData)
             : $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
