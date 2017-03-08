@@ -55,9 +55,6 @@ class SubscriptionFactory implements DataFactoryInterface
         $paymentProfileData = $this->getFieldData($data, SubscriptionInterface::PAYMENT_PROFILE);
         $data[SubscriptionInterface::PAYMENT_PROFILE] = $this->paymentProfileFactory->create($paymentProfileData);
 
-        // Default the customer notification email flag to true
-        $data[SubscriptionInterface::SEND_CUSTOMER_NOTIFICATION_EMAIL] = true;
-
         return new $this->instanceName($data);
     }
 
