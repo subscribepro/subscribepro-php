@@ -29,7 +29,7 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::INTERVAL => true,
         self::NEXT_ORDER_DATE => true,
         self::FIRST_ORDER_ALREADY_CREATED => false,
-        self::SEND_CUSTOMER_NOTIFICATION_EMAIL => false,
+        self::SEND_CUSTOMER_NOTIFICATION_EMAIL => true,
         self::EXPIRATION_DATE => false,
         self::COUPON_CODE => false,
         self::MAGENTO_STORE_CODE => false,
