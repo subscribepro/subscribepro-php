@@ -102,7 +102,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Save new profile' => [
-                'url' => '/services/v1/vault/paymentprofile.json',
+                'url' => '/services/v2/vault/paymentprofile/creditcard.json',
                 'itemId' => null,
                 'isNew' => true,
                 'method' => 'post',

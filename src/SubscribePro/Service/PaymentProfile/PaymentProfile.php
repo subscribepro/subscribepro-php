@@ -38,6 +38,19 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
+    protected $creatingBankAccountFields = [
+        self::CUSTOMER_ID => false,
+        self::MAGENTO_CUSTOMER_ID => false,
+        self::BANK_ROUTING_NUMBER => false,
+        self::BANK_ACCOUNT_LAST_DIGITS => false,
+        self::BANK_NAME => false,
+        self::BANK_ACCOUNT_TYPE => false,
+        self::BANK_ACCOUNT_HOLDER_TYPE => false,
+    ];
+
+    /**
+     * @var array
+     */
     protected $savingTokenFields = [
         self::CUSTOMER_ID => false,
         self::MAGENTO_CUSTOMER_ID => false,
@@ -230,6 +243,22 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
+     * @return string|null
+     */
+    public function getCustomerFacingName()
+    {
+        return $this->getData(self::CUSTOMER_FACING_NAME);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMerchantFacingName()
+    {
+        return $this->getData(self::MERCHANT_FACING_NAME);
+    }
+
+    /**
      * Credit card type: visa, master, american_express, discover, jcb, diners_club or dankort
      *
      * @return string|null
@@ -357,6 +386,51 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->setData(self::CREDITCARD_YEAR, $creditcardYear);
     }
 
+    public function getBankRoutingNumber()
+    {
+        return $this->getData(self::BANK_ROUTING_NUMBER);
+    }
+
+    public function setBankRoutingNumber($routingNumber)
+    {
+        return $this->setData(self::BANK_ROUTING_NUMBER, $routingNumber);
+    }
+
+    public function getBankAccountLastDigits()
+    {
+        return $this->getData(self::BANK_ACCOUNT_LAST_DIGITS);
+    }
+
+    public function getBankName()
+    {
+        return $this->getData(self::BANK_NAME);
+    }
+
+    public function setBankName($name)
+    {
+        return $this->setData(self::BANK_NAME, $name);
+    }
+
+    public function getBankAccountType()
+    {
+        return $this->getData(self::BANK_ACCOUNT_TYPE);
+    }
+
+    public function setBankAccountType($type)
+    {
+        return $this->setData(self::BANK_ACCOUNT_TYPE, $type);
+    }
+
+    public function getBankAccountHolderType()
+    {
+        return $this->getData(self::BANK_ACCOUNT_HOLDER_TYPE);
+    }
+
+    public function setBankAccountHolderType($holderType)
+    {
+        return $this->setData(self::BANK_ACCOUNT_HOLDER_TYPE, $holderType);
+    }
+
     /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
@@ -374,12 +448,25 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->setData(self::BILLING_ADDRESS, $billingAddress);
     }
 
+    public function getProfileType()
+    {
+        return $this->getData(self::PROFILE_TYPE);
+    }
+
     /**
      * @return string
      */
     public function getGateway()
     {
         return $this->getData(self::GATEWAY);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDualVaultMode()
+    {
+        return $this->getData(self::DUAL_VAULT_MODE);
     }
 
     /**
