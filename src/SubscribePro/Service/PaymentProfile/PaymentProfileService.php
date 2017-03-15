@@ -61,7 +61,6 @@ class PaymentProfileService extends AbstractService
             default:
                 return $this->saveCreditCardProfile($paymentProfile);
         }
-
     }
 
     /**
@@ -111,7 +110,7 @@ class PaymentProfileService extends AbstractService
         if (!$paymentProfile->isBankAccountDataValid()) {
             throw new EntityInvalidDataException('Not all required fields are set.');
         }
-        $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
+        $postData = [self::API_NAME_PROFILE => $paymentProfile->getBankAccountCreatingFormData()];
         $response = $paymentProfile->isNew()
             ? $this->httpClient->post('/services/v2/vault/paymentprofile/bankaccount.json', $postData)
             : $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
