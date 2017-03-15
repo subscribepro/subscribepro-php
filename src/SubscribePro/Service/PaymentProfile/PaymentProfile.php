@@ -205,7 +205,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function getBankAccountSavingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->savingBankAccountFields);
+        $tokenFormData = array_intersect_key($this->data, $this->updatingBankAccountFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -214,7 +214,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function getApplePaySavingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->savingBankAccountFields);
+        $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -223,7 +223,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function getApplePayCreatingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->savingBankAccountFields);
+        $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 

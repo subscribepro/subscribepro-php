@@ -107,7 +107,7 @@ class PaymentProfileService extends AbstractService
             $response = $this->httpClient->post('/services/v2/vault/paymentprofile/bankaccount.json', $postData);
         } else {
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getBankAccountSavingFormData()];
-            $response = $this->httpyClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+            $response = $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
