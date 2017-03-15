@@ -50,9 +50,19 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
-    protected $savingBankAccountFields = [
+    protected $updatingBankAccountFields = [
         self::BILLING_ADDRESS => true
     ];
+
+    /**
+     * @var array
+     */
+    protected $creatingApplePayFields = [];
+
+    /**
+     * @var array
+     */
+    protected $updatingApplePayFields = [];
 
     /**
      * @var array
@@ -133,6 +143,13 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->isNew() ? $this->creatingBankAccountFields : $this->updatingBankAccountFields;
     }
 
+    /**
+     * @return array
+     */
+    protected function getApplePayFormFields()
+    {
+        return $this->isNew() ? $this->creatingApplePayFields : $this->updatingApplePayFields;
+    }
 
     /**
      * @return bool
@@ -180,6 +197,33 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getBankAccountCreatingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->creatingBankAccountFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getBankAccountSavingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->savingBankAccountFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getApplePaySavingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->savingBankAccountFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getApplePayCreatingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->savingBankAccountFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
