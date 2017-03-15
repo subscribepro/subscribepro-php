@@ -156,8 +156,8 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function isValid()
     {
-        $isCustomerDataValid = $this->isNew() ? ($this->getCustomerId() || $this->getMagentoCustomerId()) : true;
-        return $isCustomerDataValid
+        $isPaymentProfileDataValid = $this->isNew() ? ($this->getCustomerId() || $this->getMagentoCustomerId()) : true;
+        return $isPaymentProfileDataValid
             && $this->checkRequiredFields($this->getFormFields())
             && $this->getBillingAddress()->isAsChildValid($this->isNew());
     }
@@ -167,8 +167,8 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function isBankAccountDataValid()
     {
-        $isCustomerDataValid = $this->isNew() ? ($this->getCustomerId() || $this->getMagentoCustomerId()) : true;
-        return $isCustomerDataValid
+        $isPaymentProfileDataValid = $this->isNew() ? ($this->getCustomerId() || $this->getMagentoCustomerId()) : true;
+        return $isPaymentProfileDataValid
             && $this->checkRequiredFields($this->getBankAccountFormFields())
             && $this->getBillingAddress()->isAsChildValid($this->isNew());
     }

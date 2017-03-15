@@ -3,6 +3,7 @@
 namespace SubscribePro\Service\Token;
 
 use SubscribePro\Service\AbstractServiceFactory;
+use SubscribePro\Service\Address\AddressService;
 
 /**
  * @codeCoverageIgnore
@@ -27,6 +28,7 @@ class TokenServiceFactory extends AbstractServiceFactory
     protected function createDataFactory()
     {
         return new TokenFactory(
+            $this->serviceFactoryResolver->getServiceFactory(AddressService::NAME)->createDataFactory(),
             $this->getConfigValue(TokenService::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\Token\Token')
         );
     }
