@@ -108,13 +108,30 @@ class PaymentProfileService extends AbstractService
      */
     private function saveBankAccountProfile(PaymentProfileInterface $paymentProfile)
     {
-        if (!$paymentProfile->isValid()) {
+        if (!$paymentProfile->isBankAccountDataValid()) {
             throw new EntityInvalidDataException('Not all required fields are set.');
         }
         $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
         $response = $paymentProfile->isNew()
             ? $this->httpClient->post('/services/v2/vault/paymentprofile/bankaccount.json', $postData)
             : $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
+    }
+
+    /**
+     * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    public function createBankAccountProfile(PaymentProfileInterface $paymentProfile)
+    {
+        if (!$paymentProfile->isBankAccountDataValid()) {
+            throw new EntityInvalidDataException('Not all required fields are set.');
+        }
+        $postData = [self::API_NAME_PROFILE => $paymentProfile->getBankAccountCreatingFormData()];
+        $response = $this->httpClient->post('/services/v2/vault/paymentprofile/bankaccount.json', $postData);
+
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 

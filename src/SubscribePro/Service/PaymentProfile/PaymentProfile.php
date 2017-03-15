@@ -39,13 +39,19 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      * @var array
      */
     protected $creatingBankAccountFields = [
-        self::CUSTOMER_ID => false,
-        self::MAGENTO_CUSTOMER_ID => false,
-        self::BANK_ROUTING_NUMBER => false,
-        self::BANK_ACCOUNT_LAST_DIGITS => false,
-        self::BANK_NAME => false,
-        self::BANK_ACCOUNT_TYPE => false,
-        self::BANK_ACCOUNT_HOLDER_TYPE => false,
+        self::CUSTOMER_ID => true,
+        self::BANK_ACCOUNT_NUMBER => true,
+        self::BANK_ROUTING_NUMBER => true,
+        self::BANK_ACCOUNT_TYPE => true,
+        self::BANK_ACCOUNT_HOLDER_TYPE => true,
+        self::BILLING_ADDRESS => true
+    ];
+
+    /**
+     * @var array
+     */
+    protected $savingBankAccountFields = [
+        self::BILLING_ADDRESS => true
     ];
 
     /**
@@ -107,7 +113,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
             $billingAddressData = isset($data[self::BILLING_ADDRESS]) && is_array($data[self::BILLING_ADDRESS]) ? $data[self::BILLING_ADDRESS] : [];
             $data[self::BILLING_ADDRESS] = $this->getBillingAddress()->importData($billingAddressData);
         }
-            
+
         return parent::importData($data);
     }
 
@@ -120,6 +126,15 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
+     * @return array
+     */
+    protected function getBankAccountFormFields()
+    {
+        return $this->isNew() ? $this->creatingBankAccountFields : $this->updatingBankAccountFields;
+    }
+
+
+    /**
      * @return bool
      */
     public function isValid()
@@ -127,6 +142,17 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         $isCustomerDataValid = $this->isNew() ? ($this->getCustomerId() || $this->getMagentoCustomerId()) : true;
         return $isCustomerDataValid
             && $this->checkRequiredFields($this->getFormFields())
+            && $this->getBillingAddress()->isAsChildValid($this->isNew());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBankAccountDataValid()
+    {
+        $isCustomerDataValid = $this->isNew() ? ($this->getCustomerId() || $this->getMagentoCustomerId()) : true;
+        return $isCustomerDataValid
+            && $this->checkRequiredFields($this->getBankAccountFormFields())
             && $this->getBillingAddress()->isAsChildValid($this->isNew());
     }
 
@@ -145,6 +171,15 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getTokenFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->savingTokenFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getBankAccountCreatingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->creatingBankAccountFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -394,6 +429,16 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function setBankRoutingNumber($routingNumber)
     {
         return $this->setData(self::BANK_ROUTING_NUMBER, $routingNumber);
+    }
+
+    public function getBankAccountNumber()
+    {
+        return $this->getData(self::BANK_ACCOUNT_NUMBER);
+    }
+
+    public function setBankAccountNumber($accountNumber)
+    {
+        return $this->setData(self::BANK_ACCOUNT_NUMBER, $accountNumber);
     }
 
     public function getBankAccountLastDigits()

@@ -9,5 +9,4 @@ function registerSubscribeProSDK($className) {
 }
 
 spl_autoload_register('registerSubscribeProSDK');
-require_once 'PHPUnit/Autoload.php';
 include_once(__DIR__ . '/vendor/autoload.php');

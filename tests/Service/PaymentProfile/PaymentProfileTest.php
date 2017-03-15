@@ -276,6 +276,97 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $data
+     * @param array $billingData
+     * @param bool $isValid
+     * @param bool $isAsChildValid
+     * @dataProvider isBankAccountDataValidDataProvider
+     */
+    public function testIsBankAccountDataValid($data, $billingData, $isValid, $isAsChildValid)
+    {
+        $this->billingAddressMock->expects($this->atLeastOnce())
+            ->method('importData')
+            ->with($billingData)
+            ->willReturnSelf();
+
+        if (null === $isAsChildValid) {
+            $this->billingAddressMock->expects($this->never())->method('isAsChildValid');
+        } else {
+            $this->billingAddressMock->expects($this->atLeastOnce())
+                ->method('isAsChildValid')
+                ->willReturn($isAsChildValid);
+        }
+
+        $this->paymentProfile->importData($data);
+        $this->assertEquals($isValid, $this->paymentProfile->isBankAccountDataValid());
+    }
+
+    /**
+     * @return array
+     */
+    public function isBankAccountDataValidDataProvider()
+    {
+        return [
+            'Not valid: new: empty data' => [
+                'data' => [],
+                'billingData' => [],
+                'isValid' => false,
+                'isAsChildValid' => null
+            ],
+            'Not valid: new: empty billing address' => [
+                'data' => [
+                    PaymentProfileInterface::CUSTOMER_ID => 11,
+                    PaymentProfileInterface::BANK_ACCOUNT_NUMBER => '123456789',
+                    PaymentProfileInterface::BANK_ROUTING_NUMBER => '123456789',
+                    PaymentProfileInterface::BANK_ACCOUNT_TYPE => 'SB',
+                    PaymentProfileInterface::BANK_ACCOUNT_HOLDER_TYPE => '',
+                    PaymentProfileInterface::BILLING_ADDRESS => [],
+                ],
+                'billingData' => [],
+                'isValid' => false,
+                'isAsChildValid' => false
+            ],
+            'Not valid: new: no bank account number' => [
+                'data' => [
+                    PaymentProfileInterface::CUSTOMER_ID => 11,
+                    PaymentProfileInterface::BANK_ROUTING_NUMBER => '123456789',
+                    PaymentProfileInterface::BANK_ACCOUNT_TYPE => 'SB',
+                    PaymentProfileInterface::BANK_ACCOUNT_HOLDER_TYPE => '',
+                    PaymentProfileInterface::BILLING_ADDRESS => [
+                        AddressInterface::FIRST_NAME => 'name',
+                        AddressInterface::LAST_NAME => 'surname',
+                    ]
+                ],
+                'billingData' => [
+                    AddressInterface::FIRST_NAME => 'name',
+                    AddressInterface::LAST_NAME => 'surname',
+                ],
+                'isValid' => false,
+                'isAsChildValid' => null
+            ],
+            'Valid: new:' => [
+                'data' => [
+                    PaymentProfileInterface::CUSTOMER_ID => 11,
+                    PaymentProfileInterface::BANK_ACCOUNT_NUMBER => '123456789',
+                    PaymentProfileInterface::BANK_ROUTING_NUMBER => '123456789',
+                    PaymentProfileInterface::BANK_ACCOUNT_TYPE => 'SB',
+                    PaymentProfileInterface::BANK_ACCOUNT_HOLDER_TYPE => '',
+                    PaymentProfileInterface::BILLING_ADDRESS => [
+                        AddressInterface::FIRST_NAME => 'name',
+                        AddressInterface::LAST_NAME => 'surname',
+                    ]
+                ],
+                'billingData' => [
+                    AddressInterface::FIRST_NAME => 'name',
+                    AddressInterface::LAST_NAME => 'surname',
+                ],
+                'isValid' => true,
+                'isAsChildValid' => true
+            ],
+        ];
+    }
+
+    /**
+     * @param array $data
      * @param bool $isValid
      * @dataProvider isTokenDataValidDataProvider
      */
@@ -781,6 +872,30 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
         ];
+    }
+
+    /**
+     * @param bool $isNew
+     * @param array $data
+     * @param array $billingData
+     * @param array $expectedData
+     * @param array $billingFormData
+     * @dataProvider getTokenFormDataProvider
+     */
+    public function testGetBankAccountCreatingFormData($isNew, $data, $billingData, $expectedData, $billingFormData)
+    {
+        $this->billingAddressMock->expects($this->atLeastOnce())
+            ->method('importData')
+            ->with($billingData)
+            ->willReturnSelf();
+
+        $this->billingAddressMock->expects($this->once())
+            ->method('getAsChildFormData')
+            ->with($isNew)
+            ->willReturn($billingFormData);
+
+        $this->paymentProfile->importData($data);
+        $this->assertEquals($expectedData, $this->paymentProfile->getTokenFormData());
     }
 
     /**

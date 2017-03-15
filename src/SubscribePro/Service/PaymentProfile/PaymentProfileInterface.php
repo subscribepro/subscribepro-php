@@ -24,6 +24,7 @@ interface PaymentProfileInterface extends DataInterface
     const CREDITCARD_MONTH = 'creditcard_month';
     const CREDITCARD_YEAR = 'creditcard_year';
     const BANK_ROUTING_NUMBER = 'bank_routing_number';
+    const BANK_ACCOUNT_NUMBER = 'bank_account_number';
     const BANK_ACCOUNT_LAST_DIGITS = 'bank_account_last_digits';
     const BANK_NAME = 'bank_name';
     const BANK_ACCOUNT_TYPE = 'bank_account_type';
@@ -88,6 +89,13 @@ interface PaymentProfileInterface extends DataInterface
      * @return array
      */
     public function getThirdPartyTokenFormData();
+
+    /**
+     * @return array
+     */
+    public function getBankAccountCreatingFormData();
+
+    /**
 
     /**
      * @return bool
@@ -239,6 +247,17 @@ interface PaymentProfileInterface extends DataInterface
      * @return $this
      */
     public function setBankRoutingNumber($routingNumber);
+
+    /**
+       * @return string
+       */
+    public function getBankAccountNumber();
+
+    /**
+     * @param string $accountNumber
+     * @return $this
+     */
+    public function setBankAccountNumber($accountNumber);
 
     /**
      * @return string
