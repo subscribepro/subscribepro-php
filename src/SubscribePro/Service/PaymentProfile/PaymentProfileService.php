@@ -130,8 +130,7 @@ class PaymentProfileService extends AbstractService
                     case PaymentProfileInterface::TYPE_BANK_ACCOUNT:
                         return $this->saveBankAccountProfile($paymentProfile);
                     case PaymentProfileInterface::TYPE_THIRD_PARTY_TOKEN:
-                        // Not implemented yet
-                        // return $this->saveThirdPartyTokenProfile($paymentProfile);
+                        return $this->saveThirdPartyTokenProfile($paymentProfile);
                     case PaymentProfileInterface::TYPE_APPLE_PAY:
                         return $this->saveApplePayProfile($paymentProfile);
                     case PaymentProfileInterface::TYPE_ANDROID_PAY:
@@ -251,16 +250,16 @@ class PaymentProfileService extends AbstractService
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function saveThirdPartyToken(PaymentProfileInterface $paymentProfile)
+    public function saveThirdPartyTokenProfile(PaymentProfileInterface $paymentProfile)
     {
-        if (!$paymentProfile->isThirdPartyDataValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
+        if ($paymentProfile->isNew()) {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getThirdPartyTokenCreatingFormData()];
+            $response = $this->httpClient->post('/services/v2/paymentprofile/third-party-token.json', $postData);
+        } else {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getThirdPartyTokenSavingFormData()];
+            $response = $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
 
-        $response = $this->httpClient->post(
-            '/services/v2/paymentprofile/third-party-token.json',
-            [self::API_NAME_PROFILE => $paymentProfile->getThirdPartyTokenFormData()]
-        );
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 

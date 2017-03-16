@@ -81,14 +81,14 @@ interface PaymentProfileInterface extends DataInterface
     public function getFormData();
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isValid();
+    public function getThirdPartyTokenCreatingFormData();
 
     /**
      * @return array
      */
-    public function getThirdPartyTokenFormData();
+    public function getThirdPartyTokenSavingFormData();
 
     /**
      * @return array
@@ -98,19 +98,16 @@ interface PaymentProfileInterface extends DataInterface
     /**
 
     /**
-     * @return bool
-     */
-    public function isThirdPartyDataValid();
-
-    /**
      * @return array
      */
     public function getTokenFormData();
 
     /**
+     * @param string
+     * @param string|null
      * @return bool
      */
-    public function isTokenDataValid();
+    public function isType(string $profileType, string $paymentMethodType = '');
 
     /**
      * @param int|null $id

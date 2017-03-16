@@ -78,7 +78,22 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
-    protected $savingThirdPartyTokenFields = [
+    protected $creatingThirdPartyTokenFields = [
+        self::CUSTOMER_ID => true,
+        self::THIRD_PARTY_VAULT_TYPE => false,
+        self::THIRD_PARTY_PAYMENT_TOKEN => true,
+        self::CREDITCARD_TYPE => false,
+        self::CREDITCARD_LAST_DIGITS => false,
+        self::CREDITCARD_FIRST_DIGITS => false,
+        self::CREDITCARD_MONTH => false,
+        self::CREDITCARD_YEAR => false,
+        self::BILLING_ADDRESS => true
+    ];
+
+    /**
+     * @var array
+     */
+    protected $updatingThirdPartyTokenFields = [
         self::CUSTOMER_ID => true,
         self::THIRD_PARTY_VAULT_TYPE => false,
         self::THIRD_PARTY_PAYMENT_TOKEN => true,
@@ -111,6 +126,17 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         $data = parent::toArray();
         $data[self::BILLING_ADDRESS] = $this->getBillingAddress()->toArray();
         return $data;
+    }
+
+    /**
+     * @param string
+     * @param string|null
+     * @return bool
+     */
+    public function isType(string $profileType, string $paymentMethodType = '')
+    {
+        return ($this->data[self::PROFILE_TYPE] == $profileType
+            && ($this->data[self::PAYMENT_METHOD_TYPE] == $paymentMethodType || $paymentMethodType == ''));
     }
 
     /**
@@ -206,30 +232,21 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isTokenDataValid()
+    public function getThirdPartyTokenCreatingFormData()
     {
-        return ($this->getCustomerId() || $this->getMagentoCustomerId())
-            && $this->checkRequiredFields($this->savingTokenFields);
+        $tokenFormData = array_intersect_key($this->data, $this->creatingThirdPartyTokenFields);
+        return $this->updateBillingFormData($tokenFormData);
     }
 
     /**
      * @return array
      */
-    public function getThirdPartyTokenFormData()
+    public function getThirdPartyTokenSavingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->savingThirdPartyTokenFields);
+        $tokenFormData = array_intersect_key($this->data, $this->updatingThirdPartyTokenFields);
         return $this->updateBillingFormData($tokenFormData);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isThirdPartyDataValid()
-    {
-        return $this->checkRequiredFields($this->savingThirdPartyTokenFields)
-            && $this->getBillingAddress()->isAsChildValid(true);
     }
 
     /**
