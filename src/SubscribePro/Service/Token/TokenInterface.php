@@ -22,12 +22,15 @@ interface TokenInterface extends DataInterface
     const FIRST_NAME = 'first_name';
     const LAST_NAME = 'last_name';
     const FULL_NAME = 'full_name';
-    const ADDRESS = 'address1';
+    const ADDRESS1 = 'address1';
+    const ADDRESS2 = 'address2';
     const CITY = 'city';
     const STATE = 'state';
     const ZIP = 'zip';
     const COUNTRY = 'country';
+    const COMPANY = 'company';
     const PHONE_NUMBER = 'phone_number';
+    const TEST = 'test';
     const ELIGIBLE_FOR_CARD_UPDATER = 'eligible_for_card_updater';
     const STORAGE_STATE = 'storage_state';
     const LAST_FOUR_DIGITS = 'last_four_digits';

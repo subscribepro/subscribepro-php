@@ -33,7 +33,7 @@ class Token extends DataObject implements TokenInterface
     public function importData(array $data = [])
     {
         if (!isset($data[self::BILLING_ADDRESS]) || !$data[self::BILLING_ADDRESS] instanceof AddressInterface) {
-            $billingAddressData = isset($data[self::BILLING_ADDRESS]) && is_array($data[self::BILLING_ADDRESS]) ? $data[self::BILLING_ADDRESS] : [];
+            $billingAddressData = (isset($data[self::BILLING_ADDRESS]) && is_array($data[self::BILLING_ADDRESS])) ? $data[self::BILLING_ADDRESS] : [];
             $data[self::BILLING_ADDRESS] = $this->getBillingAddress()->importData($billingAddressData);
         }
 
