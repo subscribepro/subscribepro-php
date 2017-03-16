@@ -84,10 +84,13 @@ class PaymentProfileService extends AbstractService
         if (!$paymentProfile->isApplePayDataValid()) {
             throw new EntityInvalidDataException('Not all required fields are set.');
         }
-        $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
-        $response = $paymentProfile->isNew()
-            ? $this->httpClient->post('/services/v2/vault/paymentprofile/applepay.json', $postData)
-            : $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        if ($paymentProfile->isNew()) {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePayCreatingFormData()];
+            $this->httpClient->post('/services/v2/vault/paymentprofile/applepay.json', $postData);
+        } else {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePaySavingFormData()];
+            $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        }
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 

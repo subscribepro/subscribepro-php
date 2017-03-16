@@ -207,6 +207,78 @@ class Token extends DataObject implements TokenInterface
         return $this->setData(self::BILLING_ADDRESS, $billingAddress);
     }
 
+     /**
+     * @return string|null
+     */
+    public function getFirstName()
+    {
+        return $this->getData(self::FIRST_NAME);
+    }
+
+     /**
+     * @return string|null
+     */
+    public function getLastName()
+    {
+        return $this->getData(self::LAST_NAME);
+    }
+
+     /**
+     * @return string|null
+     */
+    public function getFullName()
+    {
+        return $this->getData(self::FULL_NAME);
+    }
+
+     /**
+     * @return string|null
+     */
+    public function getAddress()
+    {
+        return $this->getData(self::ADDRESS);
+    }
+
+     /**
+     * @return string|null
+     */
+    public function getCity()
+    {
+        return $this->getData(self::CITY);
+    }
+
+     /**
+     * @return string|null
+     */
+    public function getState()
+    {
+        return $this->getData(self::STATE);
+    }
+
+     /**
+     * @return string|null
+     */
+    public function getZip()
+    {
+        return $this->getData(self::ZIP);
+    }
+
+     /**
+     * @return string|null
+     */
+    public function getCountry()
+    {
+        return $this->getData(self::COUNTRY);
+    }
+
+     /**
+     * @return string|null
+     */
+    public function getPhoneNumber()
+    {
+        return $this->getData(self::PHONE_NUMBER);
+    }
+
     /**
      * @return string|null
      */

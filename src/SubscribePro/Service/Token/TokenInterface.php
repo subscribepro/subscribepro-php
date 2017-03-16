@@ -3,6 +3,7 @@
 namespace SubscribePro\Service\Token;
 
 use SubscribePro\Service\DataInterface;
+use SubscribePro\Service\Address\AddressInterface;
 
 interface TokenInterface extends DataInterface
 {
@@ -17,11 +18,20 @@ interface TokenInterface extends DataInterface
     const CREDITCARD_MONTH = 'creditcard_month';
     const CREDITCARD_YEAR = 'creditcard_year';
     const BILLING_ADDRESS = 'billing_address';
-    const LAST_FOUR_DIGITS = 'last_four_digits';
-    const FIRST_SIX_DIGITS = 'first_six_digits';
+
+    const FIRST_NAME = 'first_name';
+    const LAST_NAME = 'last_name';
+    const FULL_NAME = 'full_name';
+    const ADDRESS = 'address1';
+    const CITY = 'city';
+    const STATE = 'state';
+    const ZIP = 'zip';
+    const COUNTRY = 'country';
+    const PHONE_NUMBER = 'phone_number';
     const ELIGIBLE_FOR_CARD_UPDATER = 'eligible_for_card_updater';
     const STORAGE_STATE = 'storage_state';
-    const TEST = 'test';
+    const LAST_FOUR_DIGITS = 'last_four_digits';
+    const FIRST_SIX_DIGITS = 'first_six_digits';
     const FINGERPRINT = 'fingerprint';
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -107,6 +117,61 @@ interface TokenInterface extends DataInterface
     public function setCreditCardYear($year);
 
     /**
+     * @return SubscribePro\Service\Address\AddressInterface
+     */
+    public function getBillingAddress();
+
+     /**
+     * @return string|null
+     */
+    public function getFirstName();
+
+     /**
+     * @return string|null
+     */
+    public function getLastName();
+
+     /**
+     * @return string|null
+     */
+    public function getFullName();
+
+     /**
+     * @return string|null
+     */
+    public function getAddress();
+
+     /**
+     * @return string|null
+     */
+    public function getCity();
+
+     /**
+     * @return string|null
+     */
+    public function getState();
+
+     /**
+     * @return string|null
+     */
+    public function getZip();
+
+     /**
+     * @return string|null
+     */
+    public function getCountry();
+
+     /**
+     * @return string|null
+     */
+    public function getPhoneNumber();
+
+    /**
+     * @return $this
+     */
+    public function setBillingAddress(AddressInterface $address);
+
+    /**
      * @return string|null
      */
     public function getEligibleForCardUpdater();
@@ -115,11 +180,6 @@ interface TokenInterface extends DataInterface
      * @return string|null
      */
     public function getStorageState();
-
-    /**
-     * @return string|null
-     */
-    public function getTest();
 
     /**
      * @return string|null
