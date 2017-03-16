@@ -39,31 +39,21 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
             PaymentProfileInterface::ID => 123,
             PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
         ];
+
+        $createCreditCardProfileData = [
+            PaymentProfileInterface::ID => 123,
+            PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
+            PaymentProfileInterface::PROFILE_TYPE => PaymentProfileInterface::TYPE_SPREEDLY_VAULT,
+            PaymentProfileInterface::PAYMENT_METHOD_TYPE => PaymentProfileInterface::TYPE_CREDIT_CARD,
+        ];
         $profileMock = $this->createProfileMock();
 
         $this->paymentProfileFactoryMock->expects($this->once())
             ->method('create')
-            ->with($paymentProfileData)
+            ->with($createCreditCardProfileData)
             ->willReturn($profileMock);
 
         $this->assertSame($profileMock, $this->paymentProfileService->createProfile($paymentProfileData));
-    }
-
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveProfileIfNotValid()
-    {
-        $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-        $this->httpClientMock->expects($this->never())->method('put');
-        
-        $this->paymentProfileService->saveProfile($paymentProfileMock);
     }
 
     /**
@@ -78,7 +68,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveProfile($url, $itemId, $isNew, $method, $formData, $resultData)
     {
         $profileMock = $this->createProfileMock();
-        $profileMock->expects($this->once())->method('isValid')->willReturn(true);
         $profileMock->expects($this->once())->method('isNew')->willReturn($isNew);
         $profileMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $profileMock->expects($this->any())->method('getId')->willReturn($itemId);
