@@ -56,6 +56,58 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($profileMock, $this->paymentProfileService->createProfile($paymentProfileData));
     }
 
+    public function testCreateCreditCardProfile()
+    {
+        $paymentProfileData = [
+            PaymentProfileInterface::ID => 123,
+            PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
+        ];
+
+        $createCreditCardProfileData = [
+            PaymentProfileInterface::ID => 123,
+            PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
+            PaymentProfileInterface::PROFILE_TYPE => PaymentProfileInterface::TYPE_SPREEDLY_VAULT,
+            PaymentProfileInterface::PAYMENT_METHOD_TYPE => PaymentProfileInterface::TYPE_CREDIT_CARD,
+        ];
+        $profileMock = $this->createProfileMock();
+
+        $this->paymentProfileFactoryMock->expects($this->once())
+            ->method('create')
+            ->with($createCreditCardProfileData)
+            ->willReturn($profileMock);
+
+        $this->assertSame($profileMock, $this->paymentProfileService->createCreditCardProfile($paymentProfileData));
+    }
+
+    public function testCreateBankAccountProfile()
+    {
+        $paymentProfileData = [
+            PaymentProfileInterface::CUSTOMER_ID => 348314,
+            PaymentProfileInterface::BANK_ROUTING_NUMBER => '021000021',
+            PaymentProfileInterface::BANK_ACCOUNT_NUMBER => '9876543210',
+            PaymentProfileInterface::BANK_ACCOUNT_TYPE => 'checking',
+            PaymentProfileInterface::BANK_ACCOUNT_HOLDER_TYPE => 'personal',
+        ];
+
+        $createCreditCardProfileData = [
+            PaymentProfileInterface::CUSTOMER_ID => 348314,
+            PaymentProfileInterface::BANK_ROUTING_NUMBER => '021000021',
+            PaymentProfileInterface::BANK_ACCOUNT_NUMBER => '9876543210',
+            PaymentProfileInterface::BANK_ACCOUNT_TYPE => 'checking',
+            PaymentProfileInterface::BANK_ACCOUNT_HOLDER_TYPE => 'personal',
+            PaymentProfileInterface::PROFILE_TYPE => PaymentProfileInterface::TYPE_SPREEDLY_VAULT,
+            PaymentProfileInterface::PAYMENT_METHOD_TYPE => PaymentProfileInterface::TYPE_BANK_ACCOUNT,
+        ];
+        $profileMock = $this->createProfileMock();
+
+        $this->paymentProfileFactoryMock->expects($this->once())
+            ->method('create')
+            ->with($createCreditCardProfileData)
+            ->willReturn($profileMock);
+
+        $this->assertSame($profileMock, $this->paymentProfileService->createBankAccountProfile($paymentProfileData));
+    }
+
     /**
      * @param string $url
      * @param string $itemId
