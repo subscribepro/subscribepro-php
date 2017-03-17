@@ -272,10 +272,6 @@ class PaymentProfileService extends AbstractService
      */
     public function saveToken($token, PaymentProfileInterface $paymentProfile)
     {
-        if (!$paymentProfile->isTokenDataValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $response = $this->httpClient->post(
             "/services/v1/vault/tokens/{$token}/store.json",
             ['payment_profile' => $paymentProfile->getTokenFormData()]
@@ -292,10 +288,6 @@ class PaymentProfileService extends AbstractService
      */
     public function verifyAndSaveToken($token, PaymentProfileInterface $paymentProfile)
     {
-        if (!$paymentProfile->isTokenDataValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $response = $this->httpClient->post(
             "/services/v1/vault/tokens/{$token}/verifyandstore.json",
             ['payment_profile' => $paymentProfile->getTokenFormData()]

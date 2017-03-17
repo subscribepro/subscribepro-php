@@ -94,12 +94,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      * @var array
      */
     protected $updatingThirdPartyTokenFields = [
-        self::CUSTOMER_ID => true,
-        self::THIRD_PARTY_VAULT_TYPE => false,
         self::THIRD_PARTY_PAYMENT_TOKEN => true,
-        self::CREDITCARD_TYPE => false,
-        self::CREDITCARD_LAST_DIGITS => false,
-        self::CREDITCARD_FIRST_DIGITS => false,
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
         self::BILLING_ADDRESS => true

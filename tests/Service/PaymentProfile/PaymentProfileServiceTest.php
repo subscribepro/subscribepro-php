@@ -280,31 +280,19 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveThirdPartyTokenIfProfileIsNotValid()
-    {
-        $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())
-            ->method('isThirdPartyDataValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->paymentProfileService->saveThirdPartyToken($paymentProfileMock);
-    }
-
-    public function testSaveThirdPartyToken()
+    public function testSaveThirdPartyTokenProfile()
     {
         $formData = [PaymentProfileInterface::CREDITCARD_FIRST_DIGITS => '123'];
         $expectedImportData = [PaymentProfileInterface::ID => '111'];
         $url = '/services/v2/paymentprofile/third-party-token.json';
 
         $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())->method('isThirdPartyDataValid')->willReturn(true);
-        $paymentProfileMock->expects($this->once())->method('getThirdPartyTokenFormData')->willReturn($formData);
+
+        $paymentProfileMock->expects($this->once())
+            ->method('isNew')
+            ->willReturn(true);
+
+        $paymentProfileMock->expects($this->once())->method('getThirdPartyTokenCreatingFormData')->willReturn($formData);
         $paymentProfileMock->expects($this->once())
             ->method('importData')
             ->with($expectedImportData)
@@ -317,26 +305,8 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             $paymentProfileMock,
-            $this->paymentProfileService->saveThirdPartyToken($paymentProfileMock)
+            $this->paymentProfileService->saveThirdPartyTokenProfile($paymentProfileMock)
         );
-    }
-
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveTokenIfProfileIsNotValid()
-    {
-        $token = 'token-value';
-        $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())
-            ->method('isTokenDataValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())
-            ->method('post');
-
-        $this->paymentProfileService->saveToken($token, $paymentProfileMock);
     }
 
     public function testSaveToken()
@@ -347,7 +317,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         $url = "/services/v1/vault/tokens/{$token}/store.json";
 
         $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
         $paymentProfileMock->expects($this->once())->method('getTokenFormData')->willReturn($formData);
         $paymentProfileMock->expects($this->once())
             ->method('importData')
@@ -365,24 +334,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToVerifyAndSaveTokenIfProfileIsNotValid()
-    {
-        $token = 'token';
-        
-        $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())
-            ->method('isTokenDataValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->paymentProfileService->verifyAndSaveToken($token, $paymentProfileMock);
-    }
-
     public function testVerifyAndSaveToken()
     {
         $token = 'test-token';
@@ -391,7 +342,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         $url = "/services/v1/vault/tokens/{$token}/verifyandstore.json";
 
         $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
         $paymentProfileMock->expects($this->once())->method('getTokenFormData')->willReturn($formData);
         $paymentProfileMock->expects($this->once())
             ->method('importData')

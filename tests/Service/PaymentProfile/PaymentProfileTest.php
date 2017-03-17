@@ -552,7 +552,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
             ->willReturn($billingFormData);
 
         $this->paymentProfile->importData($data);
-        $this->assertEquals($expectedData, $this->paymentProfile->getThirdPartyTokenFormData());
+        $this->assertEquals($expectedData, $this->paymentProfile->getThirdPartyTokenCreatingFormData());
     }
 
     /**
