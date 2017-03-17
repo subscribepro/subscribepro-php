@@ -14,6 +14,8 @@ interface PaymentProfileInterface extends DataInterface
     const CUSTOMER_ID = 'customer_id';
     const MAGENTO_CUSTOMER_ID = 'magento_customer_id';
     const CUSTOMER_EMAIL = 'customer_email';
+    const CUSTOMER_FACING_NAME = 'customer_facing_name';
+    const MERCHANT_FACING_NAME = 'merchant_facing_name';
     const CREDITCARD_TYPE = 'creditcard_type';
     const CREDITCARD_NUMBER = 'creditcard_number';
     const CREDITCARD_FIRST_DIGITS = 'creditcard_first_digits';
@@ -21,8 +23,16 @@ interface PaymentProfileInterface extends DataInterface
     const CREDITCARD_VERIFICATION_VALUE = 'creditcard_verification_value';
     const CREDITCARD_MONTH = 'creditcard_month';
     const CREDITCARD_YEAR = 'creditcard_year';
+    const BANK_ROUTING_NUMBER = 'bank_routing_number';
+    const BANK_ACCOUNT_NUMBER = 'bank_account_number';
+    const BANK_ACCOUNT_LAST_DIGITS = 'bank_account_last_digits';
+    const BANK_NAME = 'bank_name';
+    const BANK_ACCOUNT_TYPE = 'bank_account_type';
+    const BANK_ACCOUNT_HOLDER_TYPE = 'bank_account_holder_type';
     const BILLING_ADDRESS = 'billing_address';
+    const PROFILE_TYPE = 'profile_type';
     const GATEWAY = 'gateway';
+    const DUAL_VAULT_MODE = 'dual_vault_mode';
     const PAYMENT_METHOD_TYPE = 'payment_method_type';
     const PAYMENT_TOKEN = 'payment_token';
     const PAYMENT_VAULT = 'payment_vault';
@@ -39,10 +49,20 @@ interface PaymentProfileInterface extends DataInterface
     const STATUS_REDACTED = 'redacted';
 
     /**
+     * Payment profile types
+     */
+    const TYPE_EXTERNAL_VAULT = 'external_vault';
+    const TYPE_SPREEDLY_DUAL_VAULT = 'spreedly_dual_vault';
+    const TYPE_SPREEDLY_VAULT = 'spreedly_vault';
+
+    /**
      * Payment method types
      */
     const TYPE_CREDIT_CARD = 'credit_card';
     const TYPE_THIRD_PARTY_TOKEN = 'third_party_token';
+    const TYPE_BANK_ACCOUNT = 'bank_account';
+    const TYPE_APPLE_PAY = 'apple_pay';
+    const TYPE_ANDROID_PAY = 'android_pay';
 
     /**
      * Credit card types
@@ -61,19 +81,21 @@ interface PaymentProfileInterface extends DataInterface
     public function getFormData();
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isValid();
+    public function getThirdPartyTokenCreatingFormData();
 
     /**
      * @return array
      */
-    public function getThirdPartyTokenFormData();
+    public function getThirdPartyTokenSavingFormData();
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isThirdPartyDataValid();
+    public function getBankAccountCreatingFormData();
+
+    /**
 
     /**
      * @return array
@@ -81,9 +103,11 @@ interface PaymentProfileInterface extends DataInterface
     public function getTokenFormData();
 
     /**
+     * @param string
+     * @param string|null
      * @return bool
      */
-    public function isTokenDataValid();
+    public function isType($profileType, $paymentMethodType = null);
 
     /**
      * @param int|null $id
@@ -117,6 +141,16 @@ interface PaymentProfileInterface extends DataInterface
      * @return string|null
      */
     public function getCustomerEmail();
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerFacingName();
+
+    /**
+     * @return string|null
+     */
+    public function getMerchantFacingName();
 
     /**
      * Credit card type: visa, master, american_express, discover, jcb, diners_club or dankort
@@ -201,6 +235,66 @@ interface PaymentProfileInterface extends DataInterface
     public function setCreditcardYear($creditcardYear);
 
     /**
+     * @return string
+     */
+    public function getBankRoutingNumber();
+
+    /**
+     * @param string $routingNumber
+     * @return $this
+     */
+    public function setBankRoutingNumber($routingNumber);
+
+    /**
+       * @return string
+       */
+    public function getBankAccountNumber();
+
+    /**
+     * @param string $accountNumber
+     * @return $this
+     */
+    public function setBankAccountNumber($accountNumber);
+
+    /**
+     * @return string
+     */
+    public function getBankAccountLastDigits();
+
+    /**
+     * @return string
+     */
+    public function getBankName();
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setBankName($name);
+
+    /**
+     * @return string
+     */
+    public function getBankAccountType();
+
+    /**
+     * @param string $type
+     * @return $this
+     */
+    public function setBankAccountType($type);
+
+    /**
+     * @return string
+     */
+    public function getBankAccountHolderType();
+
+    /**
+     * @param string $holderType
+     * @return $this
+     */
+    public function setBankAccountHolderType($holderType);
+
+    /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
     public function getBillingAddress();
@@ -214,7 +308,17 @@ interface PaymentProfileInterface extends DataInterface
     /**
      * @return string
      */
+    public function getProfileType();
+
+    /**
+     * @return string
+     */
     public function getGateway();
+
+    /**
+     * @return boolean
+     */
+    public function getDualVaultMode();
 
     /**
      * Payment method type: credit_card or third_party_token

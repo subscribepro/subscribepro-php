@@ -29,6 +29,7 @@ class Product extends DataObject implements ProductInterface
         self::DEFAULT_INTERVAL => false,
         self::INTERVALS => false,
         self::PRODUCT_OPTIONS_MODE => false,
+        self::SHIPPING_MODE => false,
         self::IS_TRIAL_PRODUCT => false,
         self::TRIAL_INTERVAL => false,
         self::TRIAL_PRICE => false,
@@ -54,6 +55,7 @@ class Product extends DataObject implements ProductInterface
         self::DEFAULT_SUBSCRIPTION_OPTION => false,
         self::DEFAULT_INTERVAL => false,
         self::INTERVALS => false,
+        self::SHIPPING_MODE => false,
         self::IS_TRIAL_PRODUCT => false,
         self::TRIAL_INTERVAL => false,
         self::TRIAL_PRICE => false,
@@ -374,6 +376,23 @@ class Product extends DataObject implements ProductInterface
             throw new InvalidArgumentException('Unsupported product options mode.');
         }
         return $this->setData(self::PRODUCT_OPTIONS_MODE, $productOptionsMode);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getShippingMode()
+    {
+        return $this->getData(self::SHIPPING_MODE);
+    } 
+
+    /**
+     * @param string|null $shippingMode
+     * @return $this
+     */
+    public function setShippingMode($shippingMode)
+    {
+        return $this->setData(self::SHIPPING_MODE, $shippingMode);
     }
 
     /**

@@ -39,31 +39,73 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
             PaymentProfileInterface::ID => 123,
             PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
         ];
+
+        $createCreditCardProfileData = [
+            PaymentProfileInterface::ID => 123,
+            PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
+            PaymentProfileInterface::PROFILE_TYPE => PaymentProfileInterface::TYPE_SPREEDLY_VAULT,
+            PaymentProfileInterface::PAYMENT_METHOD_TYPE => PaymentProfileInterface::TYPE_CREDIT_CARD,
+        ];
         $profileMock = $this->createProfileMock();
 
         $this->paymentProfileFactoryMock->expects($this->once())
             ->method('create')
-            ->with($paymentProfileData)
+            ->with($createCreditCardProfileData)
             ->willReturn($profileMock);
 
         $this->assertSame($profileMock, $this->paymentProfileService->createProfile($paymentProfileData));
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveProfileIfNotValid()
+    public function testCreateCreditCardProfile()
     {
-        $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
+        $paymentProfileData = [
+            PaymentProfileInterface::ID => 123,
+            PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
+        ];
 
-        $this->httpClientMock->expects($this->never())->method('post');
-        $this->httpClientMock->expects($this->never())->method('put');
-        
-        $this->paymentProfileService->saveProfile($paymentProfileMock);
+        $createCreditCardProfileData = [
+            PaymentProfileInterface::ID => 123,
+            PaymentProfileInterface::CREDITCARD_NUMBER => '4111 1111 1111 1111',
+            PaymentProfileInterface::PROFILE_TYPE => PaymentProfileInterface::TYPE_SPREEDLY_VAULT,
+            PaymentProfileInterface::PAYMENT_METHOD_TYPE => PaymentProfileInterface::TYPE_CREDIT_CARD,
+        ];
+        $profileMock = $this->createProfileMock();
+
+        $this->paymentProfileFactoryMock->expects($this->once())
+            ->method('create')
+            ->with($createCreditCardProfileData)
+            ->willReturn($profileMock);
+
+        $this->assertSame($profileMock, $this->paymentProfileService->createCreditCardProfile($paymentProfileData));
+    }
+
+    public function testCreateBankAccountProfile()
+    {
+        $paymentProfileData = [
+            PaymentProfileInterface::CUSTOMER_ID => 348314,
+            PaymentProfileInterface::BANK_ROUTING_NUMBER => '021000021',
+            PaymentProfileInterface::BANK_ACCOUNT_NUMBER => '9876543210',
+            PaymentProfileInterface::BANK_ACCOUNT_TYPE => 'checking',
+            PaymentProfileInterface::BANK_ACCOUNT_HOLDER_TYPE => 'personal',
+        ];
+
+        $createCreditCardProfileData = [
+            PaymentProfileInterface::CUSTOMER_ID => 348314,
+            PaymentProfileInterface::BANK_ROUTING_NUMBER => '021000021',
+            PaymentProfileInterface::BANK_ACCOUNT_NUMBER => '9876543210',
+            PaymentProfileInterface::BANK_ACCOUNT_TYPE => 'checking',
+            PaymentProfileInterface::BANK_ACCOUNT_HOLDER_TYPE => 'personal',
+            PaymentProfileInterface::PROFILE_TYPE => PaymentProfileInterface::TYPE_SPREEDLY_VAULT,
+            PaymentProfileInterface::PAYMENT_METHOD_TYPE => PaymentProfileInterface::TYPE_BANK_ACCOUNT,
+        ];
+        $profileMock = $this->createProfileMock();
+
+        $this->paymentProfileFactoryMock->expects($this->once())
+            ->method('create')
+            ->with($createCreditCardProfileData)
+            ->willReturn($profileMock);
+
+        $this->assertSame($profileMock, $this->paymentProfileService->createBankAccountProfile($paymentProfileData));
     }
 
     /**
@@ -78,7 +120,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveProfile($url, $itemId, $isNew, $method, $formData, $resultData)
     {
         $profileMock = $this->createProfileMock();
-        $profileMock->expects($this->once())->method('isValid')->willReturn(true);
         $profileMock->expects($this->once())->method('isNew')->willReturn($isNew);
         $profileMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $profileMock->expects($this->any())->method('getId')->willReturn($itemId);
@@ -102,7 +143,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Save new profile' => [
-                'url' => '/services/v1/vault/paymentprofile.json',
+                'url' => '/services/v2/vault/paymentprofile/creditcard.json',
                 'itemId' => null,
                 'isNew' => true,
                 'method' => 'post',
@@ -239,31 +280,19 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveThirdPartyTokenIfProfileIsNotValid()
-    {
-        $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())
-            ->method('isThirdPartyDataValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->paymentProfileService->saveThirdPartyToken($paymentProfileMock);
-    }
-
-    public function testSaveThirdPartyToken()
+    public function testSaveThirdPartyTokenProfile()
     {
         $formData = [PaymentProfileInterface::CREDITCARD_FIRST_DIGITS => '123'];
         $expectedImportData = [PaymentProfileInterface::ID => '111'];
         $url = '/services/v2/paymentprofile/third-party-token.json';
 
         $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())->method('isThirdPartyDataValid')->willReturn(true);
-        $paymentProfileMock->expects($this->once())->method('getThirdPartyTokenFormData')->willReturn($formData);
+
+        $paymentProfileMock->expects($this->once())
+            ->method('isNew')
+            ->willReturn(true);
+
+        $paymentProfileMock->expects($this->once())->method('getThirdPartyTokenCreatingFormData')->willReturn($formData);
         $paymentProfileMock->expects($this->once())
             ->method('importData')
             ->with($expectedImportData)
@@ -276,26 +305,8 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             $paymentProfileMock,
-            $this->paymentProfileService->saveThirdPartyToken($paymentProfileMock)
+            $this->paymentProfileService->saveThirdPartyTokenProfile($paymentProfileMock)
         );
-    }
-
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveTokenIfProfileIsNotValid()
-    {
-        $token = 'token-value';
-        $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())
-            ->method('isTokenDataValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())
-            ->method('post');
-
-        $this->paymentProfileService->saveToken($token, $paymentProfileMock);
     }
 
     public function testSaveToken()
@@ -306,7 +317,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         $url = "/services/v1/vault/tokens/{$token}/store.json";
 
         $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
         $paymentProfileMock->expects($this->once())->method('getTokenFormData')->willReturn($formData);
         $paymentProfileMock->expects($this->once())
             ->method('importData')
@@ -324,24 +334,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToVerifyAndSaveTokenIfProfileIsNotValid()
-    {
-        $token = 'token';
-        
-        $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())
-            ->method('isTokenDataValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->paymentProfileService->verifyAndSaveToken($token, $paymentProfileMock);
-    }
-
     public function testVerifyAndSaveToken()
     {
         $token = 'test-token';
@@ -350,7 +342,6 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         $url = "/services/v1/vault/tokens/{$token}/verifyandstore.json";
 
         $paymentProfileMock = $this->createProfileMock();
-        $paymentProfileMock->expects($this->once())->method('isTokenDataValid')->willReturn(true);
         $paymentProfileMock->expects($this->once())->method('getTokenFormData')->willReturn($formData);
         $paymentProfileMock->expects($this->once())
             ->method('importData')

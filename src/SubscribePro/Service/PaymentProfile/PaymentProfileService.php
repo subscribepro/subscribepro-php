@@ -27,8 +27,11 @@ class PaymentProfileService extends AbstractService
      * @var string
      */
     protected $allowedFilters = [
+        PaymentProfileInterface::CUSTOMER_ID,
         PaymentProfileInterface::MAGENTO_CUSTOMER_ID,
-        PaymentProfileInterface::CUSTOMER_EMAIL
+        PaymentProfileInterface::CUSTOMER_EMAIL,
+        PaymentProfileInterface::PROFILE_TYPE,
+        PaymentProfileInterface::PAYMENT_METHOD_TYPE
     ];
 
     /**
@@ -37,8 +40,75 @@ class PaymentProfileService extends AbstractService
      */
     public function createProfile(array $paymentProfileData = [])
     {
+        // This is an alias for createCreditCardProfile to be backwards compatible
+        return $this->createCreditCardProfile($paymentProfileData);
+    }
+
+    /*
+     * @param array $paymentProfileData
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     */
+    public function createExternalVaultProfile(array $paymentProfileData = [])
+    {
+        $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_EXTERNAL_VAULT;
         return $this->dataFactory->create($paymentProfileData);
     }
+
+    /*
+     * @param array $paymentProfileData
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     */
+    public function createCreditCardProfile(array $paymentProfileData = [])
+    {
+        $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
+        $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_CREDIT_CARD;
+        return $this->dataFactory->create($paymentProfileData);
+    }
+
+    /*
+     * @param array $paymentProfileData
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     */
+    public function createBankAccountProfile(array $paymentProfileData = [])
+    {
+        $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
+        $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_BANK_ACCOUNT;
+        return $this->dataFactory->create($paymentProfileData);
+    }
+
+    /*
+     * @param array $paymentProfileData
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     */
+    public function createApplePayProfile(array $paymentProfileData = [])
+    {
+        $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
+        $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_APPLE_PAY;
+        return $this->dataFactory->create($paymentProfileData);
+    }
+
+    /*
+     * @param array $paymentProfileData
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     */
+    public function createAndroidPayProfile(array $paymentProfileData = [])
+    {
+        $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
+        $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_ANDROID_PAY;
+        return $this->dataFactory->create($paymentProfileData);
+    }
+
+    /*
+     * @param array $paymentProfileData
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     */
+    public function createThirdPartyVaultProfile(array $paymentProfileData = [])
+    {
+        $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
+        $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_THIRD_PARTY_TOKEN;
+        return $this->dataFactory->create($paymentProfileData);
+    }
+
 
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
@@ -48,14 +118,82 @@ class PaymentProfileService extends AbstractService
      */
     public function saveProfile(PaymentProfileInterface $paymentProfile)
     {
-        if (!$paymentProfile->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
+        switch($paymentProfile->getProfileType()) {
+            case PaymentProfileInterface::TYPE_EXTERNAL_VAULT:
+                break;
+            case PaymentProfileInterface::TYPE_SPREEDLY_DUAL_VAULT:
+                break;
+            case PaymentProfileInterface::TYPE_SPREEDLY_VAULT:
+                switch($paymentProfile->getPaymentMethodType()) {
+                    case PaymentProfileInterface::TYPE_CREDIT_CARD:
+                        return $this->saveCreditCardProfile($paymentProfile);
+                    case PaymentProfileInterface::TYPE_BANK_ACCOUNT:
+                        return $this->saveBankAccountProfile($paymentProfile);
+                    case PaymentProfileInterface::TYPE_THIRD_PARTY_TOKEN:
+                        return $this->saveThirdPartyTokenProfile($paymentProfile);
+                    case PaymentProfileInterface::TYPE_APPLE_PAY:
+                        return $this->saveApplePayProfile($paymentProfile);
+                    case PaymentProfileInterface::TYPE_ANDROID_PAY:
+                        // Not implemented yet
+                        // return $this->saveCreditCardProfile($paymentProfile);
+                    default:
+                        // The default is always save credit card profile to be backwards compatible
+                        return $this->saveCreditCardProfile($paymentProfile);
+                }
+            default:
+                return $this->saveCreditCardProfile($paymentProfile);
         }
+    }
 
+    /**
+     * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    private function saveCreditCardProfile(PaymentProfileInterface $paymentProfile)
+    {
         $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
         $response = $paymentProfile->isNew()
-            ? $this->httpClient->post('/services/v1/vault/paymentprofile.json', $postData)
+            ? $this->httpClient->post('/services/v2/vault/paymentprofile/creditcard.json', $postData)
             : $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
+    }
+
+
+    /**
+     * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    private function saveApplePayProfile(PaymentProfileInterface $paymentProfile)
+    {
+        if ($paymentProfile->isNew()) {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePayCreatingFormData()];
+            $this->httpClient->post('/services/v2/vault/paymentprofile/applepay.json', $postData);
+        } else {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePaySavingFormData()];
+            $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        }
+        return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
+    }
+
+    /**
+     * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    private function saveBankAccountProfile(PaymentProfileInterface $paymentProfile)
+    {
+        if ($paymentProfile->isNew()) {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getBankAccountCreatingFormData()];
+            $response = $this->httpClient->post('/services/v2/vault/paymentprofile/bankaccount.json', $postData);
+        } else {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getBankAccountSavingFormData()];
+            $response = $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        }
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 
@@ -86,6 +224,8 @@ class PaymentProfileService extends AbstractService
      *  Available filters:
      * - magento_customer_id
      * - customer_email
+     * - profile_type
+     * - payment_method_type
      *
      * @param array $filters
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface[]
@@ -110,16 +250,16 @@ class PaymentProfileService extends AbstractService
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function saveThirdPartyToken(PaymentProfileInterface $paymentProfile)
+    public function saveThirdPartyTokenProfile(PaymentProfileInterface $paymentProfile)
     {
-        if (!$paymentProfile->isThirdPartyDataValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
+        if ($paymentProfile->isNew()) {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getThirdPartyTokenCreatingFormData()];
+            $response = $this->httpClient->post('/services/v2/paymentprofile/third-party-token.json', $postData);
+        } else {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getThirdPartyTokenSavingFormData()];
+            $response = $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
 
-        $response = $this->httpClient->post(
-            '/services/v2/paymentprofile/third-party-token.json',
-            [self::API_NAME_PROFILE => $paymentProfile->getThirdPartyTokenFormData()]
-        );
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 
@@ -132,10 +272,6 @@ class PaymentProfileService extends AbstractService
      */
     public function saveToken($token, PaymentProfileInterface $paymentProfile)
     {
-        if (!$paymentProfile->isTokenDataValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $response = $this->httpClient->post(
             "/services/v1/vault/tokens/{$token}/store.json",
             ['payment_profile' => $paymentProfile->getTokenFormData()]
@@ -152,10 +288,6 @@ class PaymentProfileService extends AbstractService
      */
     public function verifyAndSaveToken($token, PaymentProfileInterface $paymentProfile)
     {
-        if (!$paymentProfile->isTokenDataValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $response = $this->httpClient->post(
             "/services/v1/vault/tokens/{$token}/verifyandstore.json",
             ['payment_profile' => $paymentProfile->getTokenFormData()]

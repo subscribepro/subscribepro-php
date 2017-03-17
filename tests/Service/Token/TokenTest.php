@@ -4,6 +4,7 @@ namespace SubscribePro\Tests\Service\Token;
 
 use SubscribePro\Service\Token\Token;
 use SubscribePro\Service\Token\TokenInterface;
+use SubscribePro\Service\Address\AddressInterface;
 
 class TokenTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,9 +13,20 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     protected $token;
 
+     /**
+     * @var \SubscribePro\Service\Address\Address|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $billingAddressMock;
+
     protected function setUp()
     {
-        $this->token = new Token();
+        $this->billingAddressMock = $this->getMockBuilder('SubscribePro\Service\Address\Address')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->token = new Token([
+            TokenInterface::BILLING_ADDRESS => $this->billingAddressMock
+        ]);
     }
 
     /**
@@ -22,8 +34,21 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      * @param bool $isValid
      * @dataProvider isValidDataProvider
      */
-    public function testIsValid($data, $isValid)
+    public function testIsValid($data, $isValid, $billingData, $billingDataIsValid)
     {
+        $this->billingAddressMock->expects($this->atLeastOnce())
+            ->method('importData')
+            ->with($billingData)
+            ->willReturnSelf();
+
+        if (null === $billingDataIsValid) {
+            $this->billingAddressMock->expects($this->never())->method('isAsChildValid');
+        } else {
+            $this->billingAddressMock->expects($this->atLeastOnce())
+                ->method('isAsChildValid')
+                ->willReturn($billingDataIsValid);
+        }
+
         $this->token->importData($data);
         $this->assertEquals($isValid, $this->token->isValid());
     }
@@ -36,130 +61,132 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         return [
             'Not valid: empty data' => [
                 'data' => [],
-                'isValid' => false
+                'isValid' => false,
+                'billingData' => [],
+                'billingDataIsValid' => null,
             ],
             'Not valid: without month' => [
                 'data' => [
-                    TokenInterface::NUMBER => 11,
-                    TokenInterface::YEAR => 2024,
-                    TokenInterface::FIRST_NAME => 'name',
-                    TokenInterface::LAST_NAME => 'surname',
-                    TokenInterface::ADDRESS1 => 'address',
-                    TokenInterface::CITY => 'city',
-                    TokenInterface::COUNTRY => 'country',
-                    TokenInterface::ZIP => 'zip',
-                    TokenInterface::STATE => 'state',
+                    TokenInterface::CREDITCARD_NUMBER => 4111111111111111,
+                    TokenInterface::CREDITCARD_YEAR => 2024,
+                    TokenInterface::BILLING_ADDRESS => [
+                        AddressInterface::FIRST_NAME => 'name',
+                        AddressInterface::LAST_NAME => 'surname',
+                        AddressInterface::STREET1 => 'address',
+                        AddressInterface::CITY => 'city',
+                        AddressInterface::REGION => 'MD',
+                        AddressInterface::POSTCODE => '11111',
+                        AddressInterface::COUNTRY => 'country',
+                        AddressInterface::PHONE => 'phone',
+                    ]
                 ],
-                'isValid' => false
+                'isValid' => false,
+                'billingData' => [
+                    AddressInterface::FIRST_NAME => 'name',
+                    AddressInterface::LAST_NAME => 'surname',
+                    AddressInterface::STREET1 => 'address',
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::REGION => 'MD',
+                    AddressInterface::POSTCODE => '11111',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::PHONE => 'phone',
+                ],
+                'billingDataIsValid' => null,
             ],
             'Not valid: without address' => [
                 'data' => [
-                    TokenInterface::NUMBER => 11,
-                    TokenInterface::MONTH => 04,
-                    TokenInterface::YEAR => 2024,
-                    TokenInterface::FIRST_NAME => 'name',
-                    TokenInterface::LAST_NAME => 'surname',
-                    TokenInterface::CITY => 'city',
-                    TokenInterface::COUNTRY => 'country',
-                    TokenInterface::ZIP => 'zip',
-                    TokenInterface::STATE => 'state',
+                    TokenInterface::CREDITCARD_NUMBER => 4111111111111111,
+                    TokenInterface::CREDITCARD_MONTH => 04,
+                    TokenInterface::CREDITCARD_YEAR => 2024,
                 ],
-                'isValid' => false
+                'isValid' => false,
+                'billingData' => [],
+                'billingDataIsValid' => false
             ],
             'Not valid: without number' => [
                 'data' => [
-                    TokenInterface::MONTH => 04,
-                    TokenInterface::YEAR => 2024,
-                    TokenInterface::FIRST_NAME => 'name',
-                    TokenInterface::LAST_NAME => 'surname',
-                    TokenInterface::ADDRESS1 => 'address',
-                    TokenInterface::CITY => 'city',
-                    TokenInterface::COUNTRY => 'country',
-                    TokenInterface::ZIP => 'zip',
-                    TokenInterface::STATE => 'state',
+                    TokenInterface::CREDITCARD_MONTH => 04,
+                    TokenInterface::CREDITCARD_YEAR => 2024,
+                    TokenInterface::BILLING_ADDRESS => [
+                        AddressInterface::FIRST_NAME => 'name',
+                        AddressInterface::LAST_NAME => 'surname',
+                        AddressInterface::STREET1 => 'address',
+                        AddressInterface::CITY => 'city',
+                        AddressInterface::REGION => 'MD',
+                        AddressInterface::POSTCODE => '11111',
+                        AddressInterface::COUNTRY => 'country',
+                        AddressInterface::PHONE => 'phone',
+                    ]
                 ],
-                'isValid' => false
+                'isValid' => false,
+                'billingData' => [
+                    AddressInterface::FIRST_NAME => 'name',
+                    AddressInterface::LAST_NAME => 'surname',
+                    AddressInterface::STREET1 => 'address',
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::REGION => 'MD',
+                    AddressInterface::POSTCODE => '11111',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::PHONE => 'phone',
+                ],
+                'billingDataIsValid' => null
             ],
             'Not valid: without first name' => [
                 'data' => [
-                    TokenInterface::NUMBER => 11,
-                    TokenInterface::MONTH => 04,
-                    TokenInterface::YEAR => 2024,
-                    TokenInterface::LAST_NAME => 'surname',
-                    TokenInterface::ADDRESS1 => 'address',
-                    TokenInterface::CITY => 'city',
-                    TokenInterface::COUNTRY => 'country',
-                    TokenInterface::ZIP => 'zip',
-                    TokenInterface::STATE => 'state',
+                    TokenInterface::CREDITCARD_NUMBER => 11,
+                    TokenInterface::CREDITCARD_MONTH => 04,
+                    TokenInterface::CREDITCARD_YEAR => 2024,
+                    TokenInterface::BILLING_ADDRESS => [
+                        AddressInterface::LAST_NAME => 'surname',
+                        AddressInterface::STREET1 => 'address',
+                        AddressInterface::CITY => 'city',
+                        AddressInterface::REGION => 'MD',
+                        AddressInterface::POSTCODE => '11111',
+                        AddressInterface::COUNTRY => 'country',
+                        AddressInterface::PHONE => 'phone',
+                    ]
                 ],
-                'isValid' => false
+                'isValid' => false,
+                'billingData' => [
+                    AddressInterface::LAST_NAME => 'surname',
+                    AddressInterface::STREET1 => 'address',
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::REGION => 'MD',
+                    AddressInterface::POSTCODE => '11111',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::PHONE => 'phone',
+                ],
+                'billingDataIsValid' => false
             ],
             'Valid' => [
                 'data' => [
-                    TokenInterface::NUMBER => 11,
-                    TokenInterface::MONTH => 04,
-                    TokenInterface::YEAR => 2024,
-                    TokenInterface::FIRST_NAME => 'name',
-                    TokenInterface::LAST_NAME => 'surname',
-                    TokenInterface::ADDRESS1 => 'address',
-                    TokenInterface::CITY => 'city',
-                    TokenInterface::COUNTRY => 'country',
-                    TokenInterface::ZIP => 'zip',
-                    TokenInterface::STATE => 'state',
+                    TokenInterface::CREDITCARD_NUMBER => 11,
+                    TokenInterface::CREDITCARD_MONTH => 04,
+                    TokenInterface::CREDITCARD_YEAR => 2024,
+                    TokenInterface::BILLING_ADDRESS => [
+                        AddressInterface::FIRST_NAME => 'name',
+                        AddressInterface::LAST_NAME => 'surname',
+                        AddressInterface::STREET1 => 'address',
+                        AddressInterface::CITY => 'city',
+                        AddressInterface::REGION => 'MD',
+                        AddressInterface::POSTCODE => '11111',
+                        AddressInterface::COUNTRY => 'country',
+                        AddressInterface::PHONE => 'phone',
+                    ]
                 ],
-                'isValid' => true
+                'isValid' => true,
+                'billingData' => [
+                    AddressInterface::FIRST_NAME => 'name',
+                    AddressInterface::LAST_NAME => 'surname',
+                    AddressInterface::STREET1 => 'address',
+                    AddressInterface::CITY => 'city',
+                    AddressInterface::REGION => 'MD',
+                    AddressInterface::POSTCODE => '11111',
+                    AddressInterface::COUNTRY => 'country',
+                    AddressInterface::PHONE => 'phone',
+                ],
+                'billingDataIsValid' => true
             ],
         ];
-    }
-    
-    public function testGetFormData()
-    {
-        $data = [
-            TokenInterface::TOKEN => 'token',
-            TokenInterface::PAYMENT_METHOD_TYPE => 'type',
-            TokenInterface::CARD_TYPE => 'card type',
-            TokenInterface::NUMBER => '4111 1111 1111 1111',
-            TokenInterface::LAST_FOUR_DIGITS => '1111',
-            TokenInterface::FIRST_SIX_DIGITS => '411111',
-            TokenInterface::VERIFICATION_VALUE => 123,
-            TokenInterface::MONTH => '04',
-            TokenInterface::YEAR => '2019',
-            TokenInterface::FIRST_NAME => 'first name',
-            TokenInterface::LAST_NAME => 'last name',
-            TokenInterface::FULL_NAME => 'full name',
-            TokenInterface::COMPANY => 'company',
-            TokenInterface::ADDRESS1 => 'address',
-            TokenInterface::ADDRESS2 => 'address',
-            TokenInterface::CITY => 'city',
-            TokenInterface::STATE => 'state',
-            TokenInterface::ZIP => 'zip',
-            TokenInterface::COUNTRY => 'country',
-            TokenInterface::PHONE => 'phone',
-            TokenInterface::ELIGIBLE_FOR_CARD_UPDATER => true,
-            TokenInterface::STORAGE_STATE => 'ready',
-            TokenInterface::TEST => 'test',
-            TokenInterface::FINGERPRINT => 'fingerprint',
-            TokenInterface::CREATED_AT => '2016-12-12',
-            TokenInterface::UPDATED_AT => '2016-12-12',
-        ];
-        $expectedData = [
-            TokenInterface::NUMBER => '4111 1111 1111 1111',
-            TokenInterface::VERIFICATION_VALUE => 123,
-            TokenInterface::MONTH => '04',
-            TokenInterface::YEAR => '2019',
-            TokenInterface::FIRST_NAME => 'first name',
-            TokenInterface::LAST_NAME => 'last name',
-            TokenInterface::COMPANY => 'company',
-            TokenInterface::ADDRESS1 => 'address',
-            TokenInterface::ADDRESS2 => 'address',
-            TokenInterface::CITY => 'city',
-            TokenInterface::STATE => 'state',
-            TokenInterface::ZIP => 'zip',
-            TokenInterface::COUNTRY => 'country',
-            TokenInterface::PHONE => 'phone',
-        ];
-        
-        $this->token->importData($data);
-        $this->assertEquals($expectedData, $this->token->getFormData());
     }
 }

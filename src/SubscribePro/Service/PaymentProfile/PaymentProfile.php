@@ -38,6 +38,35 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
+    protected $creatingBankAccountFields = [
+        self::CUSTOMER_ID => true,
+        self::BANK_ACCOUNT_NUMBER => true,
+        self::BANK_ROUTING_NUMBER => true,
+        self::BANK_ACCOUNT_TYPE => true,
+        self::BANK_ACCOUNT_HOLDER_TYPE => true,
+        self::BILLING_ADDRESS => true
+    ];
+
+    /**
+     * @var array
+     */
+    protected $updatingBankAccountFields = [
+        self::BILLING_ADDRESS => true
+    ];
+
+    /**
+     * @var array
+     */
+    protected $creatingApplePayFields = [];
+
+    /**
+     * @var array
+     */
+    protected $updatingApplePayFields = [];
+
+    /**
+     * @var array
+     */
     protected $savingTokenFields = [
         self::CUSTOMER_ID => false,
         self::MAGENTO_CUSTOMER_ID => false,
@@ -49,13 +78,23 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
-    protected $savingThirdPartyTokenFields = [
+    protected $creatingThirdPartyTokenFields = [
         self::CUSTOMER_ID => true,
         self::THIRD_PARTY_VAULT_TYPE => false,
         self::THIRD_PARTY_PAYMENT_TOKEN => true,
         self::CREDITCARD_TYPE => false,
         self::CREDITCARD_LAST_DIGITS => false,
         self::CREDITCARD_FIRST_DIGITS => false,
+        self::CREDITCARD_MONTH => false,
+        self::CREDITCARD_YEAR => false,
+        self::BILLING_ADDRESS => true
+    ];
+
+    /**
+     * @var array
+     */
+    protected $updatingThirdPartyTokenFields = [
+        self::THIRD_PARTY_PAYMENT_TOKEN => true,
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
         self::BILLING_ADDRESS => true
@@ -84,6 +123,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $data;
     }
 
+
     /**
      * @param array $data
      * @return $this
@@ -94,7 +134,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
             $billingAddressData = isset($data[self::BILLING_ADDRESS]) && is_array($data[self::BILLING_ADDRESS]) ? $data[self::BILLING_ADDRESS] : [];
             $data[self::BILLING_ADDRESS] = $this->getBillingAddress()->importData($billingAddressData);
         }
-            
+
         return parent::importData($data);
     }
 
@@ -107,14 +147,19 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isValid()
+    protected function getBankAccountFormFields()
     {
-        $isCustomerDataValid = $this->isNew() ? ($this->getCustomerId() || $this->getMagentoCustomerId()) : true;
-        return $isCustomerDataValid
-            && $this->checkRequiredFields($this->getFormFields())
-            && $this->getBillingAddress()->isAsChildValid($this->isNew());
+        return $this->isNew() ? $this->creatingBankAccountFields : $this->updatingBankAccountFields;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getApplePayFormFields()
+    {
+        return $this->isNew() ? $this->creatingApplePayFields : $this->updatingApplePayFields;
     }
 
     /**
@@ -136,30 +181,57 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isTokenDataValid()
+    public function getBankAccountCreatingFormData()
     {
-        return ($this->getCustomerId() || $this->getMagentoCustomerId())
-            && $this->checkRequiredFields($this->savingTokenFields);
+        $tokenFormData = array_intersect_key($this->data, $this->creatingBankAccountFields);
+        return $this->updateBillingFormData($tokenFormData);
     }
 
     /**
      * @return array
      */
-    public function getThirdPartyTokenFormData()
+    public function getBankAccountSavingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->savingThirdPartyTokenFields);
+        $tokenFormData = array_intersect_key($this->data, $this->updatingBankAccountFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isThirdPartyDataValid()
+    public function getApplePaySavingFormData()
     {
-        return $this->checkRequiredFields($this->savingThirdPartyTokenFields)
-            && $this->getBillingAddress()->isAsChildValid(true);
+        $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getApplePayCreatingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getThirdPartyTokenCreatingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->creatingThirdPartyTokenFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getThirdPartyTokenSavingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->updatingThirdPartyTokenFields);
+        return $this->updateBillingFormData($tokenFormData);
     }
 
     /**
@@ -176,6 +248,17 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     //@codeCoverageIgnoreStart
+    //
+    /**
+     * @param string
+     * @param string|null
+     * @return bool
+     */
+    public function isType($profileType, $paymentMethodType = null)
+    {
+        return ($this->data[self::PROFILE_TYPE] == $profileType
+            && ($this->data[self::PAYMENT_METHOD_TYPE] == $paymentMethodType || $paymentMethodType === null));
+    }
 
     /**
      * @param int|null $id
@@ -227,6 +310,22 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getCustomerEmail()
     {
         return $this->getData(self::CUSTOMER_EMAIL);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerFacingName()
+    {
+        return $this->getData(self::CUSTOMER_FACING_NAME);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMerchantFacingName()
+    {
+        return $this->getData(self::MERCHANT_FACING_NAME);
     }
 
     /**
@@ -357,6 +456,61 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->setData(self::CREDITCARD_YEAR, $creditcardYear);
     }
 
+    public function getBankRoutingNumber()
+    {
+        return $this->getData(self::BANK_ROUTING_NUMBER);
+    }
+
+    public function setBankRoutingNumber($routingNumber)
+    {
+        return $this->setData(self::BANK_ROUTING_NUMBER, $routingNumber);
+    }
+
+    public function getBankAccountNumber()
+    {
+        return $this->getData(self::BANK_ACCOUNT_NUMBER);
+    }
+
+    public function setBankAccountNumber($accountNumber)
+    {
+        return $this->setData(self::BANK_ACCOUNT_NUMBER, $accountNumber);
+    }
+
+    public function getBankAccountLastDigits()
+    {
+        return $this->getData(self::BANK_ACCOUNT_LAST_DIGITS);
+    }
+
+    public function getBankName()
+    {
+        return $this->getData(self::BANK_NAME);
+    }
+
+    public function setBankName($name)
+    {
+        return $this->setData(self::BANK_NAME, $name);
+    }
+
+    public function getBankAccountType()
+    {
+        return $this->getData(self::BANK_ACCOUNT_TYPE);
+    }
+
+    public function setBankAccountType($type)
+    {
+        return $this->setData(self::BANK_ACCOUNT_TYPE, $type);
+    }
+
+    public function getBankAccountHolderType()
+    {
+        return $this->getData(self::BANK_ACCOUNT_HOLDER_TYPE);
+    }
+
+    public function setBankAccountHolderType($holderType)
+    {
+        return $this->setData(self::BANK_ACCOUNT_HOLDER_TYPE, $holderType);
+    }
+
     /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
@@ -374,12 +528,25 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->setData(self::BILLING_ADDRESS, $billingAddress);
     }
 
+    public function getProfileType()
+    {
+        return $this->getData(self::PROFILE_TYPE);
+    }
+
     /**
      * @return string
      */
     public function getGateway()
     {
         return $this->getData(self::GATEWAY);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDualVaultMode()
+    {
+        return $this->getData(self::DUAL_VAULT_MODE);
     }
 
     /**
