@@ -107,7 +107,7 @@ interface PaymentProfileInterface extends DataInterface
      * @param string|null
      * @return bool
      */
-    public function isType(string $profileType, string $paymentMethodType = '');
+    public function isType(string $profileType, string $paymentMethodType = null);
 
     /**
      * @param int|null $id

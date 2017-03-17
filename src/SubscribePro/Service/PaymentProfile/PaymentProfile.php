@@ -128,10 +128,10 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      * @param string|null
      * @return bool
      */
-    public function isType(string $profileType, string $paymentMethodType = '')
+    public function isType(string $profileType, string $paymentMethodType = null)
     {
         return ($this->data[self::PROFILE_TYPE] == $profileType
-            && ($this->data[self::PAYMENT_METHOD_TYPE] == $paymentMethodType || $paymentMethodType == ''));
+            && ($this->data[self::PAYMENT_METHOD_TYPE] == $paymentMethodType || $paymentMethodType === null));
     }
 
     /**
