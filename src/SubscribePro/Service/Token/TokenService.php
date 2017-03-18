@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\Token;
 
-use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 
 /**
@@ -23,7 +22,7 @@ class TokenService extends AbstractService
 
     /**
      * @param array $tokenData
-     * @return \SubscribePro\Service\Token\TokenInterface
+     * @return \SubscribePro\Service\DataInterface
      */
     public function createToken(array $tokenData = [])
     {
@@ -32,7 +31,7 @@ class TokenService extends AbstractService
 
     /**
      * @param string $token
-     * @return \SubscribePro\Service\Token\TokenInterface
+     * @return \SubscribePro\Service\DataInterface
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadToken($token)
@@ -43,16 +42,11 @@ class TokenService extends AbstractService
 
     /**
      * @param \SubscribePro\Service\Token\TokenInterface $token
-     * @return \SubscribePro\Service\Token\TokenInterface
-     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @return \SubscribePro\Service\DataInterface
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveToken(TokenInterface $token)
     {
-        if (!$token->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $response = $this->httpClient->post('/services/v1/vault/token.json', [self::API_NAME_TOKEN => $token->getFormData()]);
         return $this->retrieveItem($response, self::API_NAME_TOKEN, $token);
     }

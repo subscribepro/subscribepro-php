@@ -96,8 +96,6 @@ interface PaymentProfileInterface extends DataInterface
     public function getBankAccountCreatingFormData();
 
     /**
-
-    /**
      * @return array
      */
     public function getTokenFormData();
