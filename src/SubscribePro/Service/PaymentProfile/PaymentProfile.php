@@ -248,7 +248,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     //@codeCoverageIgnoreStart
-    //
+
     /**
      * @param string
      * @param string|null

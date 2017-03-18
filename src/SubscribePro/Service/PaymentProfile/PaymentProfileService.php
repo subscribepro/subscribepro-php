@@ -44,7 +44,7 @@ class PaymentProfileService extends AbstractService
         return $this->createCreditCardProfile($paymentProfileData);
     }
 
-    /*
+    /**
      * @param array $paymentProfileData
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
@@ -54,7 +54,7 @@ class PaymentProfileService extends AbstractService
         return $this->dataFactory->create($paymentProfileData);
     }
 
-    /*
+    /**
      * @param array $paymentProfileData
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
@@ -65,7 +65,7 @@ class PaymentProfileService extends AbstractService
         return $this->dataFactory->create($paymentProfileData);
     }
 
-    /*
+    /**
      * @param array $paymentProfileData
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
@@ -76,7 +76,7 @@ class PaymentProfileService extends AbstractService
         return $this->dataFactory->create($paymentProfileData);
     }
 
-    /*
+    /**
      * @param array $paymentProfileData
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
@@ -87,7 +87,7 @@ class PaymentProfileService extends AbstractService
         return $this->dataFactory->create($paymentProfileData);
     }
 
-    /*
+    /**
      * @param array $paymentProfileData
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
