@@ -46,11 +46,6 @@ interface TokenInterface extends DataInterface
     public function getFormData();
 
     /**
-     * @return bool
-     */
-    public function isValid();
-
-    /**
      * @return string|null
      */
     public function getToken();
@@ -120,7 +115,7 @@ interface TokenInterface extends DataInterface
     public function setCreditCardYear($year);
 
     /**
-     * @return SubscribePro\Service\Address\AddressInterface
+     * @return \SubscribePro\Service\Address\AddressInterface
      */
     public function getBillingAddress();
 
@@ -170,6 +165,7 @@ interface TokenInterface extends DataInterface
     public function getPhoneNumber();
 
     /**
+     * @param AddressInterface $address
      * @return $this
      */
     public function setBillingAddress(AddressInterface $address);

@@ -25,7 +25,7 @@ class TokenFactory implements DataFactoryInterface
      * @param string $instanceName
      */
     public function __construct(
-        \SubscribePro\Service\DataFactoryInterface $addressFactory,
+        DataFactoryInterface $addressFactory,
         $instanceName = '\SubscribePro\Service\Token\Token'
     ) {
         if (!is_subclass_of($instanceName, '\SubscribePro\Service\Token\TokenInterface')) {

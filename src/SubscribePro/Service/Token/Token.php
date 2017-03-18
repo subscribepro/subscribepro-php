@@ -54,17 +54,7 @@ class Token extends DataObject implements TokenInterface
      */
     protected function getFormFields()
     {
-        return $this->isNew() ? $this->creatingFields : $this->updatingFields;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isValid()
-    {
-        return $this->isNew()
-            && $this->checkRequiredFields($this->getFormFields())
-            && $this->getBillingAddress()->isAsChildValid($this->isNew());
+        return $this->creatingFields;
     }
 
     /**
@@ -236,7 +226,7 @@ class Token extends DataObject implements TokenInterface
      */
     public function getAddress()
     {
-        return $this->getData(self::ADDRESS);
+        return $this->getData(self::ADDRESS1);
     }
 
      /**
