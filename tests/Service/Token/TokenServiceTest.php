@@ -49,22 +49,6 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($tokenMock, $this->tokenService->createToken($tokenData));
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveTokenIfTokenIsNotValid()
-    {
-        $tokenMock = $this->createTokenMock();
-        $tokenMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
-        
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->tokenService->saveToken($tokenMock);
-    }
-
     public function testSaveToken()
     {
         $url = '/services/v1/vault/token.json';
@@ -72,7 +56,6 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
         $expectedImportData = [TokenInterface::TOKEN => 'token'];
 
         $tokenMock = $this->createTokenMock();
-        $tokenMock->expects($this->once())->method('isValid')->willReturn(true);
         $tokenMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $tokenMock->expects($this->once())
             ->method('importData')
