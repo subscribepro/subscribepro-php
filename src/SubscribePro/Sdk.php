@@ -96,7 +96,8 @@ class Sdk
             'logging_level' => null,
             'logging_file_name' => null,
             'logging_line_format' => null,
-            'logging_message_format' => null
+            'logging_message_format' => null,
+            'api_request_timeout' => 30,
         ], $config);
 
         if (!$config['client_id']) {
@@ -110,7 +111,7 @@ class Sdk
         unset($config['client_id']);
         unset($config['client_secret']);
 
-        $this->http = new Http($app, $config['base_url']);
+        $this->http = new Http($app, $config['api_request_timeout'], $config['base_url']);
         unset($config['base_url']);
 
         if ($config['logging_enable']) {

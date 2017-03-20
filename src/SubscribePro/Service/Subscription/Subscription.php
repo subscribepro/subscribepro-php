@@ -69,9 +69,11 @@ class Subscription extends DataObject implements SubscriptionInterface
     {
         if (!isset($data[self::SHIPPING_ADDRESS]) || !($data[self::SHIPPING_ADDRESS] instanceof AddressInterface)) {
             $shippingAddressData = isset($data[self::SHIPPING_ADDRESS]) && is_array($data[self::SHIPPING_ADDRESS]) ? $data[self::SHIPPING_ADDRESS] : [];
-            $data[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->importData($shippingAddressData);
+            if ($this->getShippingAddress() instanceof AddressInterface) {
+                $data[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->importData($shippingAddressData);
+            }
         }
-        if (empty($data[self::SHIPPING_ADDRESS_ID])) {
+        if (empty($data[self::SHIPPING_ADDRESS_ID]) && isset($data[self::SHIPPING_ADDRESS]) & $data[self::SHIPPING_ADDRESS] instanceof AddressInterface) {
             $data[self::SHIPPING_ADDRESS_ID] = $data[self::SHIPPING_ADDRESS]->getId();
         }
 
@@ -115,6 +117,10 @@ class Subscription extends DataObject implements SubscriptionInterface
         $formData = array_intersect_key($this->data, $this->getFormFields());
 
         $formData[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->getAsChildFormData($this->isNew());
+
+        if ($this->getShippingAddress() instanceof AddressInterface) {
+            $formData[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->getAsChildFormData($this->isNew());
+        }
 
         if (!empty($formData[self::SHIPPING_ADDRESS_ID])) {
             unset($formData[self::SHIPPING_ADDRESS]);
@@ -384,7 +390,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return \SubscribePro\Service\Address\AddressInterface
+     * @return \SubscribePro\Service\Address\AddressInterface|null
      */
     public function getShippingAddress()
     {
@@ -392,10 +398,10 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @param \SubscribePro\Service\Address\AddressInterface $shippingAddress
+     * @param \SubscribePro\Service\Address\AddressInterface $shippingAddress|null $shippingAddress
      * @return $this
      */
-    public function setShippingAddress(AddressInterface $shippingAddress)
+    public function setShippingAddress($shippingAddress)
     {
         return $this->setData(self::SHIPPING_ADDRESS, $shippingAddress);
     }

@@ -220,15 +220,15 @@ interface SubscriptionInterface extends DataInterface
     public function setShippingAddressId($shippingAddressId);
 
     /**
-     * @return \SubscribePro\Service\Address\AddressInterface
+     * @return \SubscribePro\Service\Address\AddressInterface|null
      */
     public function getShippingAddress();
 
     /**
-     * @param \SubscribePro\Service\Address\AddressInterface $shippingAddress
+     * @param \SubscribePro\Service\Address\AddressInterface|null $shippingAddress
      * @return $this
      */
-    public function setShippingAddress(AddressInterface $shippingAddress);
+    public function setShippingAddress($shippingAddress);
 
     /**
      * @return int|null
