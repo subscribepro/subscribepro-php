@@ -55,15 +55,19 @@ class Http
      */
     protected $handlerStack;
 
+    /** @var int */
+    protected $requestTimeout;
+
     /**
      * @param \SubscribePro\App $app
      * @param string|null $baseUrl
      */
-    public function __construct($app, $baseUrl = null)
+    public function __construct($app, $requestTimeout, $baseUrl = null)
     {
         $this->app = $app;
         $this->baseUrl = $baseUrl ?: self::API_BASE_URL;
         $this->handlerStack = $this->createHandlerStack();
+        $this->requestTimeout = $requestTimeout;
     }
 
     /**
@@ -77,7 +81,8 @@ class Http
             'base_uri' => $this->baseUrl,
             'handler'  => $this->handlerStack,
             RequestOptions::HTTP_ERRORS => false,
-            RequestOptions::AUTH => [$this->app->getClientId(), $this->app->getClientSecret()]
+            RequestOptions::AUTH => [$this->app->getClientId(), $this->app->getClientSecret()],
+            RequestOptions::TIMEOUT => $this->requestTimeout,
         ]);
     }
 

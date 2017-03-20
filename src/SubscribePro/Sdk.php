@@ -75,11 +75,11 @@ class Sdk
      * - logging_level
      *   default value @see \Psr\Log\LogLevel::INFO
      * - logging_file_name
-     *   default value @see SubscribePro\Http::DEFAULT_LOG_FILE_NAME
+     *   default value @see \SubscribePro\Http::DEFAULT_LOG_FILE_NAME
      * - logging_line_format
-     *   default value  @see SubscribePro\Http::DEFAULT_LOG_LINE_FORMAT
+     *   default value  @see \SubscribePro\Http::DEFAULT_LOG_LINE_FORMAT
      * - logging_message_format
-     *   default value @see SubscribePro\Http::DEFAULT_LOG_MESSAGE_FORMAT
+     *   default value @see \SubscribePro\Http::DEFAULT_LOG_MESSAGE_FORMAT
      * - <service_name>
      *   Config options for specified service
      *
@@ -96,7 +96,8 @@ class Sdk
             'logging_level' => null,
             'logging_file_name' => null,
             'logging_line_format' => null,
-            'logging_message_format' => null
+            'logging_message_format' => null,
+            'api_request_timeout' => 30,
         ], $config);
 
         if (!$config['client_id']) {
@@ -110,7 +111,7 @@ class Sdk
         unset($config['client_id']);
         unset($config['client_secret']);
 
-        $this->http = new Http($app, $config['base_url']);
+        $this->http = new Http($app, $config['api_request_timeout'], $config['base_url']);
         unset($config['base_url']);
 
         if ($config['logging_enable']) {

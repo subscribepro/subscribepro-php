@@ -43,7 +43,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $this->httpMock = $this->getMockBuilder('SubscribePro\Http')
             ->setMethods(['createClient', 'getHandlerStack', 'createMiddlewareLogCallback'])
-            ->setConstructorArgs([$appMock])
+            ->setConstructorArgs([$appMock, 30])
             ->getMock();
         $this->httpMock->expects($this->any())->method('createClient')->willReturn($this->clientMock);
         $this->httpMock->expects($this->any())->method('getHandlerStack')->willReturn($this->handlerStackMock);
