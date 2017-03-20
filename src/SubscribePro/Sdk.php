@@ -75,11 +75,11 @@ class Sdk
      * - logging_level
      *   default value @see \Psr\Log\LogLevel::INFO
      * - logging_file_name
-     *   default value @see SubscribePro\Http::DEFAULT_LOG_FILE_NAME
+     *   default value @see \SubscribePro\Http::DEFAULT_LOG_FILE_NAME
      * - logging_line_format
-     *   default value  @see SubscribePro\Http::DEFAULT_LOG_LINE_FORMAT
+     *   default value  @see \SubscribePro\Http::DEFAULT_LOG_LINE_FORMAT
      * - logging_message_format
-     *   default value @see SubscribePro\Http::DEFAULT_LOG_MESSAGE_FORMAT
+     *   default value @see \SubscribePro\Http::DEFAULT_LOG_MESSAGE_FORMAT
      * - <service_name>
      *   Config options for specified service
      *
