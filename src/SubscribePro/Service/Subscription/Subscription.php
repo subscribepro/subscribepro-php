@@ -116,8 +116,6 @@ class Subscription extends DataObject implements SubscriptionInterface
     {
         $formData = array_intersect_key($this->data, $this->getFormFields());
 
-        $formData[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->getAsChildFormData($this->isNew());
-
         if ($this->getShippingAddress() instanceof AddressInterface) {
             $formData[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->getAsChildFormData($this->isNew());
         }
