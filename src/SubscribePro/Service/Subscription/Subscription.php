@@ -398,7 +398,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @param \SubscribePro\Service\Address\AddressInterface $shippingAddress|null $shippingAddress
+     * @param \SubscribePro\Service\Address\AddressInterface|null $shippingAddress
      * @return $this
      */
     public function setShippingAddress($shippingAddress)
