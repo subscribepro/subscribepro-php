@@ -62,7 +62,7 @@ class Http
      * Http constructor.
      * @param $app
      * @param $requestTimeout
-     * @param null $baseUrl
+     * @param string|null $baseUrl
      */
     public function __construct($app, $requestTimeout, $baseUrl = null)
     {
