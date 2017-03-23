@@ -63,7 +63,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param array $data
-     * @return $this
+     * @return \SubscribePro\Service\DataObject
      */
     public function importData(array $data = [])
     {

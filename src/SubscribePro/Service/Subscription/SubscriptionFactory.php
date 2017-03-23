@@ -31,8 +31,8 @@ class SubscriptionFactory implements DataFactoryInterface
      * @param string $instanceName
      */
     public function __construct(
-        \SubscribePro\Service\DataFactoryInterface $addressFactory,
-        \SubscribePro\Service\DataFactoryInterface $paymentProfileFactory,
+        DataFactoryInterface $addressFactory,
+        DataFactoryInterface $paymentProfileFactory,
         $instanceName = '\SubscribePro\Service\Subscription\Subscription'
     ) {
         if (!is_subclass_of($instanceName, '\SubscribePro\Service\Subscription\SubscriptionInterface')) {
