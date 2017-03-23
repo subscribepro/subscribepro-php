@@ -96,7 +96,9 @@ class Subscription extends DataObject implements SubscriptionInterface
         $data = parent::toArray();
 
         $data[self::PAYMENT_PROFILE] = $this->getPaymentProfile()->toArray();
-        $data[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->toArray();
+        if (isset($data[self::SHIPPING_ADDRESS])) {
+            $data[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->toArray();
+        }
 
         return $data;
     }
