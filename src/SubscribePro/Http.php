@@ -59,7 +59,9 @@ class Http
     protected $requestTimeout;
 
     /**
-     * @param \SubscribePro\App $app
+     * Http constructor.
+     * @param $app
+     * @param $requestTimeout
      * @param string|null $baseUrl
      */
     public function __construct($app, $requestTimeout, $baseUrl = null)

@@ -42,9 +42,10 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedPaymentProfileData
      * @param int $profileId
      * @param array $expectedData
+     * @param boolean $addressProvided
      * @dataProvider importDataDataProvider
      */
-    public function testImportData($data, $expectedAddressData, $addressId, $expectedPaymentProfileData, $profileId, $expectedData)
+    public function testImportData($data, $expectedAddressData, $addressId, $expectedPaymentProfileData, $profileId, $expectedData, $addressProvided)
     {
         $this->paymentProfileMock->expects($this->once())
             ->method('importData')
@@ -54,16 +55,16 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->method('toArray')
             ->willReturn($expectedPaymentProfileData);
         $this->paymentProfileMock->expects($this->any())->method('getId')->willReturn($profileId);
-            
-        $this->shippingAddressMock->expects($this->once())
-            ->method('importData')
-            ->with($expectedAddressData)
-            ->willReturnSelf();
-        $this->shippingAddressMock->expects($this->once())
-            ->method('toArray')
-            ->willReturn($expectedAddressData);
+        if ($addressProvided) {
+            $this->shippingAddressMock->expects($this->once())
+                ->method('importData')
+                ->with($expectedAddressData)
+                ->willReturnSelf();
+            $this->shippingAddressMock->expects($this->once())
+                ->method('toArray')
+                ->willReturn($expectedAddressData);
+        }
         $this->shippingAddressMock->expects($this->any())->method('getId')->willReturn($addressId);
-            
         $this->subscription->importData($data);
         $this->assertEquals($expectedData, $this->subscription->toArray());
     }
@@ -85,7 +86,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::PAYMENT_PROFILE => [],
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
                     SubscriptionInterface::PAYMENT_PROFILE_ID => null,
-                ]
+                ],
+                'addressProvided' => true,
             ],
             'Shipping address and payment profile data are not array' => [
                 'data' => [
@@ -101,7 +103,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::PAYMENT_PROFILE => [],
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
                     SubscriptionInterface::PAYMENT_PROFILE_ID => null,
-                ]
+                ],
+                'addressProvided' => true,
             ],
             'Shipping address data is array and payment profile data is array' => [
                 'data' => [
@@ -117,7 +120,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::CREDITCARD_YEAR => 2016],
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
                     SubscriptionInterface::PAYMENT_PROFILE_ID => null,
-                ]
+                ],
+                'addressProvided' => true,
             ],
             'Shipping address data with ID and payment profile data with ID' => [
                 'data' => [
@@ -133,7 +137,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::SHIPPING_ADDRESS => [AddressInterface::ID => 112],
                     SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::ID => 113],
                     SubscriptionInterface::PAYMENT_PROFILE_ID => 113,
-                ]
+                ],
+                'addressProvided' => true,
             ],
             'With shipping_address_id and payment_profile_id' => [
                 'data' => [
@@ -151,8 +156,24 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::SHIPPING_ADDRESS => [AddressInterface::ID => 112],
                     SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::ID => 113],
                     SubscriptionInterface::PAYMENT_PROFILE_ID => 300,
-                ]
+                ],
+                'addressProvided' => true,
             ],
+            'No shipping address provided' => [
+                'data' => [
+                    SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::CREDITCARD_YEAR => 2016],
+                ],
+                'expectedAddressData' => null,
+                'shippingAddressId' => null,
+                'expectedPaymentProfileData' => [PaymentProfileInterface::CREDITCARD_YEAR => 2016],
+                'paymentProfileId' => null,
+                'expectedData' => [
+                    SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::CREDITCARD_YEAR => 2016],
+                    SubscriptionInterface::PAYMENT_PROFILE_ID => null,
+                    SubscriptionInterface::SHIPPING_ADDRESS => null,
+                ],
+                'addressProvided' => false,
+            ]
         ];
     }
 
