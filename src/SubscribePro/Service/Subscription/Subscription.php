@@ -73,7 +73,7 @@ class Subscription extends DataObject implements SubscriptionInterface
                 $data[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->importData($shippingAddressData);
             }
         }
-        if (empty($data[self::SHIPPING_ADDRESS_ID]) && isset($data[self::SHIPPING_ADDRESS]) & $data[self::SHIPPING_ADDRESS] instanceof AddressInterface) {
+        if (empty($data[self::SHIPPING_ADDRESS_ID]) && isset($data[self::SHIPPING_ADDRESS]) && $data[self::SHIPPING_ADDRESS] instanceof AddressInterface) {
             $data[self::SHIPPING_ADDRESS_ID] = $data[self::SHIPPING_ADDRESS]->getId();
         }
 
@@ -396,7 +396,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @param \SubscribePro\Service\Address\AddressInterface $shippingAddress|null $shippingAddress
+     * @param \SubscribePro\Service\Address\AddressInterface|null $shippingAddress
      * @return $this
      */
     public function setShippingAddress($shippingAddress)
