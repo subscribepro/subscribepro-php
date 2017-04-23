@@ -1,10 +1,8 @@
 <?php
 
-namespace SubscribePro\Service\OauthToken;
+namespace SubscribePro\Tools;
 
-use SubscribePro\Service\AbstractService;
-
-class OauthTokenService extends AbstractService
+class OauthToken extends AbstractTool
 {
     /**
      * Service name
@@ -26,7 +24,6 @@ class OauthTokenService extends AbstractService
             return false;
         }
 
-        return (isset($response[self::OAUTH_TOKEN])) ? $response[self::OAUTH_TOKEN] : false;
+        return (isset($response[self::OAUTH_TOKEN])) ? $response : false;
     }
 }
-
