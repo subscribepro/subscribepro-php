@@ -114,7 +114,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     ];
 
     /**
-     * @return array
+     * @return string[]
      */
     public function toArray()
     {
@@ -139,7 +139,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getFormFields()
     {
@@ -147,7 +147,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getBankAccountFormFields()
     {
@@ -155,7 +155,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getApplePayFormFields()
     {
@@ -163,7 +163,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getFormData()
     {
@@ -172,7 +172,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getTokenFormData()
     {
@@ -181,7 +181,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getBankAccountCreatingFormData()
     {
@@ -190,7 +190,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getBankAccountSavingFormData()
     {
@@ -199,7 +199,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getApplePaySavingFormData()
     {
@@ -208,7 +208,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getApplePayCreatingFormData()
     {
@@ -217,7 +217,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getThirdPartyTokenCreatingFormData()
     {
@@ -226,7 +226,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getThirdPartyTokenSavingFormData()
     {
@@ -236,7 +236,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param array $tokenFormData
-     * @return array
+     * @return string[]
      */
     protected function updateBillingFormData(array $tokenFormData)
     {

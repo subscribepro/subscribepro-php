@@ -50,7 +50,7 @@ class PaymentProfileFactory implements DataFactoryInterface
     /**
      * @param array $data
      * @param string $field
-     * @return array
+     * @return string[]
      */
     protected function getFieldData($data, $field)
     {

@@ -64,7 +64,7 @@ class Address extends DataObject implements AddressInterface
     ];
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getFormFields()
     {
@@ -72,7 +72,7 @@ class Address extends DataObject implements AddressInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getFormData()
     {
@@ -98,7 +98,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param bool $isNew
-     * @return array
+     * @return string[]
      */
     public function getAsChildFormData($isNew)
     {
@@ -107,7 +107,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param bool $isNew
-     * @return array
+     * @return string[]
      */
     protected function getAsChildFormFields($isNew)
     {

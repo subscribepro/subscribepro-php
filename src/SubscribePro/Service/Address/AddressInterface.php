@@ -28,7 +28,7 @@ interface AddressInterface extends DataInterface
 
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getFormData();
 
@@ -51,7 +51,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param bool $isNew
-     * @return array
+     * @return string[]
      */
     public function getAsChildFormData($isNew);
     

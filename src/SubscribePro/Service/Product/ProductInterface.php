@@ -55,7 +55,7 @@ interface ProductInterface extends DataInterface
 
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getFormData();
 
@@ -194,7 +194,7 @@ interface ProductInterface extends DataInterface
     public function setDefaultInterval($defaultInterval);
 
     /**
-     * @return array|null
+     * @return string[]|null
      */
     public function getIntervals();
 
