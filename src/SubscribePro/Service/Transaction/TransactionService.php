@@ -72,9 +72,6 @@ class TransactionService extends AbstractService
      */
     public function authorizeByProfile($authorizeData, TransactionInterface $transaction)
     {
-        if (!$transaction->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
         $formData = $transaction->getFormData();
         if (isset($authorizeData['subscribe_pro_order_token'])) {
             $formData['subscribe_pro_order_token'] = $authorizeData['subscribe_pro_order_token'];
@@ -98,10 +95,6 @@ class TransactionService extends AbstractService
      */
     public function purchaseByProfile($authorizeData, TransactionInterface $transaction)
     {
-        if (!$transaction->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $formData = $transaction->getFormData();
         if (isset($authorizeData['subscribe_pro_order_token'])) {
             $formData['subscribe_pro_order_token'] = $authorizeData['subscribe_pro_order_token'];
