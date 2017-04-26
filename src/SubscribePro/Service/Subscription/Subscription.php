@@ -34,6 +34,7 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::COUPON_CODE => false,
         self::MAGENTO_STORE_CODE => false,
         self::MAGENTO_SHIPPING_METHOD_CODE => false,
+        self::SHIPPING_METHOD_CODE => false,
         self::USER_DEFINED_FIELDS => false,
         self::PLATFORM_SPECIFIC_FIELDS => false
     ];
@@ -57,6 +58,7 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::COUPON_CODE => false,
         self::MAGENTO_STORE_CODE => false,
         self::MAGENTO_SHIPPING_METHOD_CODE => false,
+        self::SHIPPING_METHOD_CODE => false,
         self::USER_DEFINED_FIELDS => false,
         self::PLATFORM_SPECIFIC_FIELDS => false
     ];
@@ -428,6 +430,24 @@ class Subscription extends DataObject implements SubscriptionInterface
     {
         return $this->setData(self::MAGENTO_SHIPPING_METHOD_CODE, $magentoShippingMethodCode);
     }
+
+    /**
+     * @return string|null
+     */
+    public function getShippingMethodCode()
+    {
+        return $this->getData(self::SHIPPING_METHOD_CODE);
+    }
+
+    /**
+     * @param string $shippingMethodCode
+     * @return $this
+     */
+    public function setShippingMethodCode($shippingMethodCode)
+    {
+        return $this->setData(self::SHIPPING_METHOD_CODE, $shippingMethodCode);
+    }
+
 
     /**
      * @return bool|null
