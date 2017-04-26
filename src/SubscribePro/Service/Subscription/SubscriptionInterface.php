@@ -3,7 +3,6 @@
 namespace SubscribePro\Service\Subscription;
 
 use SubscribePro\Service\DataInterface;
-use SubscribePro\Service\Address\AddressInterface;
 
 interface SubscriptionInterface extends DataInterface
 {
