@@ -66,14 +66,6 @@ class Transaction extends DataObject implements TransactionInterface
     }
 
     /**
-     * @return bool
-     */
-    public function isValid()
-    {
-        return $this->checkRequiredFields($this->creatingFields);
-    }
-
-    /**
      * @return array
      */
     public function getVerifyFormData()

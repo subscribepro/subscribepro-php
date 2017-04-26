@@ -80,14 +80,6 @@ class Address extends DataObject implements AddressInterface
     }
 
     /**
-     * @return bool
-     */
-    public function isValid()
-    {
-        return $this->checkRequiredFields($this->getFormFields());
-    }
-
-    /**
      * @param bool $isNew
      * @return bool
      */

@@ -19,61 +19,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $data
-     * @param bool $isValid
-     * @dataProvider isValidDataProvider
-     */
-    public function testIsValid($data, $isValid)
-    {
-        $this->customer->importData($data);
-        $this->assertEquals($isValid, $this->customer->isValid());
-    }
-
-    /**
-     * @return array
-     */
-    public function isValidDataProvider()
-    {
-        return [
-            'Not valid: new: without email' => [
-                'data' => [
-                    CustomerInterface::FIRST_NAME => 'name',
-                    CustomerInterface::LAST_NAME => 'surname',
-                ],
-                'isValid' => false
-            ],
-            'Not valid: new: without first name' => [
-                'data' => [
-                    CustomerInterface::EMAIL => 'email@example.com',
-                    CustomerInterface::LAST_NAME => 'surname',
-                ],
-                'isValid' => false
-            ],
-            'Not valid: new: without last name' => [
-                'data' => [
-                    CustomerInterface::EMAIL => 'email@example.com',
-                    CustomerInterface::FIRST_NAME => 'name',
-                ],
-                'isValid' => false
-            ],
-            'Valid: new' => [
-                'data' => [
-                    CustomerInterface::EMAIL => 'email@example.com',
-                    CustomerInterface::FIRST_NAME => 'name',
-                    CustomerInterface::LAST_NAME => 'surname',
-                ],
-                'isValid' => true
-            ],
-            'Valid: not new' => [
-                'data' => [
-                    CustomerInterface::ID => 123,
-                ],
-                'isValid' => true
-            ],
-        ];
-    }
-
-    /**
-     * @param array $data
      * @param array $expectedData
      * @dataProvider getFormDataProvider
      */

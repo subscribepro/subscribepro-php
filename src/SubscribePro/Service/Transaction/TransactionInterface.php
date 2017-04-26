@@ -72,11 +72,6 @@ interface TransactionInterface extends DataInterface
     public function getFormData();
 
     /**
-     * @return bool
-     */
-    public function isValid();
-
-    /**
      * @return array
      */
     public function getVerifyFormData();

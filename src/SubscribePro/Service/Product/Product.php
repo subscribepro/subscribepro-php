@@ -111,14 +111,6 @@ class Product extends DataObject implements ProductInterface
         return array_intersect_key($this->data, $this->getFormFields());
     }
 
-    /**
-     * @return bool
-     */
-    public function isValid()
-    {
-        return $this->checkRequiredFields($this->getFormFields());
-    }
-
     //@codeCoverageIgnoreStart
 
     /**

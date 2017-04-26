@@ -134,15 +134,6 @@ class Subscription extends DataObject implements SubscriptionInterface
     /**
      * @return bool
      */
-    public function isValid()
-    {
-        return (!$this->getData(self::REQUIRES_SHIPPING) || $this->isShippingValid())
-            && $this->checkRequiredFields($this->getFormFields());
-    }
-
-    /**
-     * @return bool
-     */
     protected function isShippingValid()
     {
         return ($this->getData(self::SHIPPING_ADDRESS_ID, false) || $this->getShippingAddress()->isAsChildValid($this->isNew()))

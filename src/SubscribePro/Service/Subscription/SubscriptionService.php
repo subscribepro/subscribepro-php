@@ -39,10 +39,6 @@ class SubscriptionService extends AbstractService
      */
     public function saveSubscription(SubscriptionInterface $subscription)
     {
-        if (!$subscription->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $url = $subscription->isNew() ? '/services/v2/subscription.json' : "/services/v2/subscriptions/{$subscription->getId()}.json";
         $response = $this->httpClient->post($url, [self::API_NAME_SUBSCRIPTION => $subscription->getFormData()]);
         return $this->retrieveItem($response, self::API_NAME_SUBSCRIPTION, $subscription);

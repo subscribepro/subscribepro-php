@@ -50,10 +50,6 @@ class AddressService extends AbstractService
      */
     public function saveAddress(AddressInterface $address)
     {
-        if (!$address->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $url = $address->isNew() ? '/services/v2/address.json' : "/services/v2/addresses/{$address->getId()}.json";
         $response = $this->httpClient->post($url, [self::API_NAME_ADDRESS => $address->getFormData()]);
         return $this->retrieveItem($response, self::API_NAME_ADDRESS, $address);
@@ -67,10 +63,6 @@ class AddressService extends AbstractService
      */
     public function findOrSave(AddressInterface $address)
     {
-        if (!$address->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $response = $this->httpClient->post('/services/v2/address/find-or-create.json', [self::API_NAME_ADDRESS => $address->getFormData()]);
         return $this->retrieveItem($response, self::API_NAME_ADDRESS, $address);
     }

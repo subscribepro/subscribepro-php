@@ -33,11 +33,6 @@ interface AddressInterface extends DataInterface
     public function getFormData();
 
     /**
-     * @return bool
-     */
-    public function isValid();
-
-    /**
      * @param int|null $id
      * @return $this
      */

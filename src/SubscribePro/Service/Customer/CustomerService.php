@@ -50,10 +50,6 @@ class CustomerService extends AbstractService
      */
     public function saveCustomer(CustomerInterface $customer)
     {
-        if (!$customer->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $url = $customer->isNew() ? '/services/v2/customer.json' : "/services/v2/customers/{$customer->getId()}.json";
         $response = $this->httpClient->post($url, [self::API_NAME_CUSTOMER => $customer->getFormData()]);
         return $this->retrieveItem($response, self::API_NAME_CUSTOMER, $customer);
