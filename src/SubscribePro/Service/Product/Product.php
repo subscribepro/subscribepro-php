@@ -36,7 +36,13 @@ class Product extends DataObject implements ProductInterface
         self::TRIAL_FULL_PRODUCT_SKU => false,
         self::TRIAL_EMAIL_TEMPLATE_CODE => false,
         self::TRIAL_EMAIL_THRESHOLD_DAYS => false,
-        self::TRIAL_WELCOME_EMAIL_TEMPLATE_CODE => false
+        self::TRIAL_WELCOME_EMAIL_TEMPLATE_CODE => false,
+        self::THUMBNAIL_URL => false,
+        self::MRSP => false,
+        self::SALE_PRICE => false,
+        self::IS_ON_SALE => false,
+        self::QTY_IN_STOCK => false,
+        self::IS_IN_STOCK => false,
     ];
 
     /**
@@ -62,7 +68,13 @@ class Product extends DataObject implements ProductInterface
         self::TRIAL_FULL_PRODUCT_SKU => false,
         self::TRIAL_EMAIL_TEMPLATE_CODE => false,
         self::TRIAL_EMAIL_THRESHOLD_DAYS => false,
-        self::TRIAL_WELCOME_EMAIL_TEMPLATE_CODE => false
+        self::TRIAL_WELCOME_EMAIL_TEMPLATE_CODE => false,
+        self::THUMBNAIL_URL => false,
+        self::MRSP => false,
+        self::SALE_PRICE => false,
+        self::IS_ON_SALE => false,
+        self::QTY_IN_STOCK => false,
+        self::IS_IN_STOCK => false,
     ];
 
     /**
@@ -520,6 +532,108 @@ class Product extends DataObject implements ProductInterface
     public function getIsSubscriptionEnabled()
     {
         return $this->getData(self::IS_SUBSCRIPTION_ENABLED);
+    }
+
+    /**
+     * @return string
+     */
+    public function getThumbnailUrl()
+    {
+        return $this->getData(self::THUMBNAIL_URL);
+    }
+
+    /**
+     * @param string|null $thumbnailUrl
+     * @return $this
+     */
+    public function setThumbnailUrl($thumbnailUrl)
+    {
+        return $this->setData(self::THUMBNAIL_URL, $thumbnailUrl);
+    }
+
+    /**
+     * @return float
+     */
+    public function getMSRP()
+    {
+        return $this->getData(self::MSRP);
+    }
+
+    /**
+     * @param float|null $msrp
+     * @return $this
+     */
+    public function setMSRP($msrp)
+    {
+        return $this->setData(self::MSRP, $msrp);
+    }
+
+    /**
+     * @return float
+     */
+    public function getSalePrice()
+    {
+        return $this->getData(self::SALE_PRICE);
+    }
+
+    /**
+     * @param float|null $sale_price
+     * @return $this
+     */
+    public function setSalePrice($sale_price)
+    {
+        return $this->getData(self::SALE_PRICE);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsOnSale()
+    {
+        return $this->getData(self::IS_ON_SALE);
+    }
+
+    /**
+     * @param boolean|null $is_on_sale
+     * @return $this
+     */
+    public function setIsOnSale($is_on_sale)
+    {
+        return $this->setData(self::IS_ON_SALE, $is_on_sale);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getQtyInStock()
+    {
+        return $this->getData(self::THUMBNAIL_URL);
+    }
+
+    /**
+     * @param integer|null $qty_in_stock
+     * @return $this
+     */
+    public function setQtyInStock($qty_in_stock)
+    {
+        return $this->setData(self::QTY_IN_STOCK, $qty_in_stock);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsInStock()
+    {
+        return $this->getData(self::IS_IN_STOCK);
+    }
+
+    /**
+     * @param boolean|null $is_in_stock
+     * @return $this
+     */
+    public function setIsInStock($is_in_stock)
+    {
+        return $this->setData(self::IS_IN_STOCK, $is_in_stock);
     }
 
     /**
