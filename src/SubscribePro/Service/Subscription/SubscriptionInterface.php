@@ -241,6 +241,17 @@ interface SubscriptionInterface extends DataInterface
     public function setMagentoShippingMethodCode($magentoShippingMethodCode);
 
     /**
+     * @return string|null
+     */
+    public function getShippingMethodCode();
+
+    /**
+     * @param string $shippingMethodCode
+     * @return $this
+     */
+    public function setShippingMethodCode($shippingMethodCode);
+
+    /**
      * @return bool|null
      */
     public function getSendCustomerNotificationEmail();
