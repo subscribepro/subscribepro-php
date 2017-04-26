@@ -32,6 +32,12 @@ interface ProductInterface extends DataInterface
     const TRIAL_EMAIL_THRESHOLD_DAYS = 'trial_email_threshold_days';
     const TRIAL_WELCOME_EMAIL_TEMPLATE_CODE = 'trial_welcome_email_template_code';
     const IS_SUBSCRIPTION_ENABLED = 'is_subscription_enabled';
+    const THUMBNAIL_URL = 'thumbnail_url';
+    const MRSP = 'msrp';
+    const SALE_PRICE = 'sale_price';
+    const IS_ON_SALE = 'is_on_sale';
+    const QTY_IN_STOCK = 'qty_in_stock';
+    const IS_IN_STOCK = 'is_in_stock';
     const CREATED = 'created';
     const UPDATED = 'updated';
 
@@ -303,6 +309,72 @@ interface ProductInterface extends DataInterface
      * @return bool
      */
     public function getIsSubscriptionEnabled();
+
+    /**
+     * @return string
+     */
+    public function getThumbnailUrl();
+
+    /**
+     * @param string|null $thumbnailUrl
+     * @return $this
+     */
+    public function setThumbnailUrl($thumbnailUrl);
+
+    /**
+     * @return float
+     */
+    public function getMSRP();
+
+    /**
+     * @param float|null $msrp
+     * @return $this
+     */
+    public function setMSRP($msrp);
+
+    /**
+     * @return float
+     */
+    public function getSalePrice();
+
+    /**
+     * @param float|null $sale_price
+     * @return $this
+     */
+    public function setSalePrice($sale_price);
+
+    /**
+     * @return boolean
+     */
+    public function getIsOnSale();
+
+    /**
+     * @param boolean|null $is_on_sale
+     * @return $this
+     */
+    public function setIsOnSale($is_on_sale);
+
+    /**
+     * @return integer
+     */
+    public function getQtyInStock();
+
+    /**
+     * @param integer|null $qty_in_stock
+     * @return $this
+     */
+    public function setQtyInStock($qty_in_stock);
+
+    /**
+     * @return boolean
+     */
+    public function getIsInStock();
+
+    /**
+     * @param boolean|null $is_in_stock
+     * @return $this
+     */
+    public function setIsInStock($is_in_stock);
 
     /**
      * @param string|null $format
