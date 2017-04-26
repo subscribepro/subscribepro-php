@@ -111,24 +111,6 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToAuthorizeByProfileIfNotValid()
-    {
-        $paymentProfileId = 1234;
-        $authorizeData = ['profile_id' => $paymentProfileId];
-        $transactionMock = $this->createTransactionMock();
-        $transactionMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->transactionService->authorizeByProfile($authorizeData, $transactionMock);
-    }
-
     public function testAuthorizeByProfile()
     {
         $paymentProfileId = 4451;
@@ -138,7 +120,6 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         $url = "/services/v1/vault/paymentprofiles/{$paymentProfileId}/authorize.json";
 
         $transactionMock = $this->createTransactionMock();
-        $transactionMock->expects($this->once())->method('isValid')->willReturn(true);
         $transactionMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $transactionMock->expects($this->once())
             ->method('importData')
@@ -156,24 +137,6 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToPurchaseByProfileIfNotValid()
-    {
-        $paymentProfileId = 1234;
-        $authorizeData = ['profile_id' => $paymentProfileId];
-        $transactionMock = $this->createTransactionMock();
-        $transactionMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->transactionService->purchaseByProfile($authorizeData, $transactionMock);
-    }
-
     public function testPurchaseByProfile()
     {
         $paymentProfileId = 1234;
@@ -183,7 +146,6 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         $url = "/services/v1/vault/paymentprofiles/{$paymentProfileId}/purchase.json";
 
         $transactionMock = $this->createTransactionMock();
-        $transactionMock->expects($this->once())->method('isValid')->willReturn(true);
         $transactionMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $transactionMock->expects($this->once())
             ->method('importData')

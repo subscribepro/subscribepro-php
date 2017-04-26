@@ -47,22 +47,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveProductIfProductIsNotValid()
-    {
-        $productMock = $this->createProductMock();
-        $productMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-        
-        $this->productService->saveProduct($productMock);
-    }
-
-    /**
      * @param string $url
      * @param string $itemId
      * @param bool $isNew
@@ -73,7 +57,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveProduct($url, $itemId, $isNew, $formData, $resultData)
     {
         $productMock = $this->createProductMock();
-        $productMock->expects($this->once())->method('isValid')->willReturn(true);
         $productMock->expects($this->once())->method('isNew')->willReturn($isNew);
         $productMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $productMock->expects($this->any())->method('getId')->willReturn($itemId);

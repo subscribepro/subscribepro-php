@@ -47,22 +47,6 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveSubscriptionIfSubscriptionIsNotValid()
-    {
-        $subscriptionMock = $this->createSubscriptionMock();
-        $subscriptionMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->subscriptionService->saveSubscription($subscriptionMock);
-    }
-
-    /**
      * @param string $url
      * @param string $itemId
      * @param bool $isNew
@@ -73,7 +57,6 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveSubscription($url, $itemId, $isNew, $formData, $resultData)
     {
         $subscriptionMock = $this->createSubscriptionMock();
-        $subscriptionMock->expects($this->once())->method('isValid')->willReturn(true);
         $subscriptionMock->expects($this->once())->method('isNew')->willReturn($isNew);
         $subscriptionMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $subscriptionMock->expects($this->any())->method('getId')->willReturn($itemId);
