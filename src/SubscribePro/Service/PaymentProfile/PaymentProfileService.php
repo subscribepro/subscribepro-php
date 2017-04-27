@@ -171,10 +171,10 @@ class PaymentProfileService extends AbstractService
     {
         if ($paymentProfile->isNew()) {
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePayCreatingFormData()];
-            $this->httpClient->post('/services/v2/vault/paymentprofile/applepay.json', $postData);
+            $response = $this->httpClient->post('/services/v2/vault/paymentprofile/applepay.json', $postData);
         } else {
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePaySavingFormData()];
-            $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+            $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
@@ -192,7 +192,25 @@ class PaymentProfileService extends AbstractService
             $response = $this->httpClient->post('/services/v2/vault/paymentprofile/bankaccount.json', $postData);
         } else {
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getBankAccountSavingFormData()];
-            $response = $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+            $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        }
+        return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
+    }
+
+    /**
+     * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    private function saveExternalVaultProfile(PaymentProfileInterface $paymentProfile)
+    {
+        if ($paymentProfile->isNew()) {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getExternalVaultCreatingFormData()];
+            $response = $this->httpClient->post('/services/v2/vault/paymentprofile/external-vault.json', $postData);
+        } else {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getExternalVaultSavingFormData()];
+            $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
@@ -215,7 +233,7 @@ class PaymentProfileService extends AbstractService
      */
     public function loadProfile($paymentProfileId)
     {
-        $response = $this->httpClient->get("/services/v1/vault/paymentprofiles/{$paymentProfileId}.json");
+        $response = $this->httpClient->get("/services/v2/vault/paymentprofiles/{$paymentProfileId}.json");
         return $this->retrieveItem($response, self::API_NAME_PROFILE);
     }
 
@@ -240,7 +258,7 @@ class PaymentProfileService extends AbstractService
             );
         }
 
-        $response = $this->httpClient->get('/services/v1/vault/paymentprofiles.json', $filters);
+        $response = $this->httpClient->get('/services/v2/vault/paymentprofiles.json', $filters);
         return $this->retrieveItems($response, self::API_NAME_PROFILES);
     }
 

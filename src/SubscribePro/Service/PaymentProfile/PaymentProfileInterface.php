@@ -98,6 +98,21 @@ interface PaymentProfileInterface extends DataInterface
     /**
      * @return array
      */
+    public function getBankAccountSavingFormData();
+
+    /**
+     * @return array
+     */
+    public function getExternalVaultCreatingFormData();
+
+    /**
+     * @return array
+     */
+    public function getExternalVaultSavingFormData();
+
+    /**
+     * @return array
+     */
     public function getTokenFormData();
 
     /**

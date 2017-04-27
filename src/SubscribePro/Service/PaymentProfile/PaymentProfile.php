@@ -57,6 +57,25 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
+    protected $creatingExternalVaultFields = [
+        self::CUSTOMER_ID => true,
+        self::BANK_ACCOUNT_NUMBER => true,
+        self::BANK_ROUTING_NUMBER => true,
+        self::BANK_ACCOUNT_TYPE => true,
+        self::BANK_ACCOUNT_HOLDER_TYPE => true,
+        self::BILLING_ADDRESS => true
+    ];
+
+    /**
+     * @var array
+     */
+    protected $updatingExternalVaultFields = [
+        self::BILLING_ADDRESS => true
+    ];
+
+    /**
+     * @var array
+     */
     protected $creatingApplePayFields = [];
 
     /**
@@ -195,6 +214,24 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getBankAccountSavingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->updatingBankAccountFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getExternalVaultCreatingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->creatingExternalVaultFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getExternalVaultSavingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->updatingExternalVaultFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
