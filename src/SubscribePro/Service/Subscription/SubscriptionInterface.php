@@ -61,7 +61,7 @@ interface SubscriptionInterface extends DataInterface
 
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getFormData();
 
@@ -112,7 +112,7 @@ interface SubscriptionInterface extends DataInterface
     public function setProductSku($productSku);
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getSubscriptionProducts();
 

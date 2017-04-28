@@ -55,7 +55,7 @@ interface ProductInterface extends DataInterface
 
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getFormData();
 

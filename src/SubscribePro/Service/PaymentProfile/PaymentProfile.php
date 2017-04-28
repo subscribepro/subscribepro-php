@@ -114,7 +114,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     ];
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function toArray()
     {
@@ -163,7 +163,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getFormData()
     {
@@ -172,7 +172,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getTokenFormData()
     {
@@ -181,7 +181,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getBankAccountCreatingFormData()
     {
@@ -190,7 +190,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getBankAccountSavingFormData()
     {
@@ -199,7 +199,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getApplePaySavingFormData()
     {
@@ -208,7 +208,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getApplePayCreatingFormData()
     {
@@ -217,7 +217,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getThirdPartyTokenCreatingFormData()
     {
@@ -226,7 +226,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getThirdPartyTokenSavingFormData()
     {
@@ -236,7 +236,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param array $tokenFormData
-     * @return string[]
+     * @return mixed[]
      */
     protected function updateBillingFormData(array $tokenFormData)
     {

@@ -104,7 +104,7 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getFormData()
     {
