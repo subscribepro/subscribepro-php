@@ -19,61 +19,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $data
-     * @param bool $isValid
-     * @dataProvider isValidDataProvider
-     */
-    public function testIsValid($data, $isValid)
-    {
-        $this->product->importData($data);
-        $this->assertEquals($isValid, $this->product->isValid());
-    }
-
-    /**
-     * @return array
-     */
-    public function isValidDataProvider()
-    {
-        return [
-            'Not valid: new: without sku' => [
-                'data' => [
-                    ProductInterface::NAME => 'name',
-                    ProductInterface::PRICE => 123,
-                ],
-                'isValid' => false
-            ],
-            'Not valid: new: without name' => [
-                'data' => [
-                    ProductInterface::SKU => 'sku',
-                    ProductInterface::PRICE => 123,
-                ],
-                'isValid' => false
-            ],
-            'Not valid: new: without price' => [
-                'data' => [
-                    ProductInterface::SKU => 'sku',
-                    ProductInterface::NAME => 'name',
-                ],
-                'isValid' => false
-            ],
-            'Valid: new' => [
-                'data' => [
-                    ProductInterface::SKU => 'sku',
-                    ProductInterface::NAME => 'name',
-                    ProductInterface::PRICE => 123,
-                ],
-                'isValid' => true
-            ],
-            'Valid: not new' => [
-                'data' => [
-                    ProductInterface::ID => 123,
-                ],
-                'isValid' => true
-            ],
-        ];
-    }
-
-    /**
-     * @param array $data
      * @param array $expectedData
      * @dataProvider getFormDataProvider
      */

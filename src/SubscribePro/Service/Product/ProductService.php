@@ -39,10 +39,6 @@ class ProductService extends AbstractService
      */
     public function saveProduct(ProductInterface $product)
     {
-        if (!$product->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $url = $product->isNew() ? '/services/v2/product.json' : "/services/v2/products/{$product->getId()}.json";
         $response = $this->httpClient->post($url, [self::API_NAME_PRODUCT => $product->getFormData()]);
         return $this->retrieveItem($response, self::API_NAME_PRODUCT, $product);

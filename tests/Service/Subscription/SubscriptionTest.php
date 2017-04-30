@@ -42,9 +42,10 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedPaymentProfileData
      * @param int $profileId
      * @param array $expectedData
+     * @param boolean $addressProvided
      * @dataProvider importDataDataProvider
      */
-    public function testImportData($data, $expectedAddressData, $addressId, $expectedPaymentProfileData, $profileId, $expectedData)
+    public function testImportData($data, $expectedAddressData, $addressId, $expectedPaymentProfileData, $profileId, $expectedData, $addressProvided)
     {
         $this->paymentProfileMock->expects($this->once())
             ->method('importData')
@@ -54,16 +55,16 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->method('toArray')
             ->willReturn($expectedPaymentProfileData);
         $this->paymentProfileMock->expects($this->any())->method('getId')->willReturn($profileId);
-            
-        $this->shippingAddressMock->expects($this->once())
-            ->method('importData')
-            ->with($expectedAddressData)
-            ->willReturnSelf();
-        $this->shippingAddressMock->expects($this->once())
-            ->method('toArray')
-            ->willReturn($expectedAddressData);
+        if ($addressProvided) {
+            $this->shippingAddressMock->expects($this->once())
+                ->method('importData')
+                ->with($expectedAddressData)
+                ->willReturnSelf();
+            $this->shippingAddressMock->expects($this->once())
+                ->method('toArray')
+                ->willReturn($expectedAddressData);
+        }
         $this->shippingAddressMock->expects($this->any())->method('getId')->willReturn($addressId);
-            
         $this->subscription->importData($data);
         $this->assertEquals($expectedData, $this->subscription->toArray());
     }
@@ -85,7 +86,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::PAYMENT_PROFILE => [],
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
                     SubscriptionInterface::PAYMENT_PROFILE_ID => null,
-                ]
+                ],
+                'addressProvided' => true,
             ],
             'Shipping address and payment profile data are not array' => [
                 'data' => [
@@ -101,7 +103,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::PAYMENT_PROFILE => [],
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
                     SubscriptionInterface::PAYMENT_PROFILE_ID => null,
-                ]
+                ],
+                'addressProvided' => true,
             ],
             'Shipping address data is array and payment profile data is array' => [
                 'data' => [
@@ -117,7 +120,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::CREDITCARD_YEAR => 2016],
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => null,
                     SubscriptionInterface::PAYMENT_PROFILE_ID => null,
-                ]
+                ],
+                'addressProvided' => true,
             ],
             'Shipping address data with ID and payment profile data with ID' => [
                 'data' => [
@@ -133,7 +137,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::SHIPPING_ADDRESS => [AddressInterface::ID => 112],
                     SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::ID => 113],
                     SubscriptionInterface::PAYMENT_PROFILE_ID => 113,
-                ]
+                ],
+                'addressProvided' => true,
             ],
             'With shipping_address_id and payment_profile_id' => [
                 'data' => [
@@ -151,8 +156,24 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::SHIPPING_ADDRESS => [AddressInterface::ID => 112],
                     SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::ID => 113],
                     SubscriptionInterface::PAYMENT_PROFILE_ID => 300,
-                ]
+                ],
+                'addressProvided' => true,
             ],
+            'No shipping address provided' => [
+                'data' => [
+                    SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::CREDITCARD_YEAR => 2016],
+                ],
+                'expectedAddressData' => null,
+                'shippingAddressId' => null,
+                'expectedPaymentProfileData' => [PaymentProfileInterface::CREDITCARD_YEAR => 2016],
+                'paymentProfileId' => null,
+                'expectedData' => [
+                    SubscriptionInterface::PAYMENT_PROFILE => [PaymentProfileInterface::CREDITCARD_YEAR => 2016],
+                    SubscriptionInterface::PAYMENT_PROFILE_ID => null,
+                    SubscriptionInterface::SHIPPING_ADDRESS => null,
+                ],
+                'addressProvided' => false,
+            ]
         ];
     }
 
@@ -203,276 +224,6 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         
         $this->subscription->setId(111);
         $this->assertEquals($expectedData, $this->subscription->toArray());
-    }
-
-    public function testIsNotValidIfNotValidShippingAddress()
-    {
-        $addressData = [AddressInterface::COMPANY => 'company'];
-        $data = [
-            SubscriptionInterface::CUSTOMER_ID => 11,
-            SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-            SubscriptionInterface::REQUIRES_SHIPPING => true,
-            SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
-            SubscriptionInterface::SHIPPING_ADDRESS => $addressData
-        ];
-        $this->paymentProfileMock->expects($this->once())
-            ->method('importData')
-            ->with([])
-            ->willReturnSelf();
-        $this->paymentProfileMock->expects($this->once())->method('getId')->willReturn(123);
-        $this->shippingAddressMock->expects($this->once())
-            ->method('importData')
-            ->with($addressData)
-            ->willReturnSelf();
-        $this->shippingAddressMock->expects($this->once())->method('getId')->willReturn(null);
-        $this->shippingAddressMock->expects($this->once())->method('isAsChildValid')->willReturn(false);
-
-        $this->subscription->importData($data);
-        $this->assertFalse($this->subscription->isValid());
-    }
-
-    /**
-     * @param array $data
-     * @param array $addressData
-     * @param bool $isNew
-     * @param bool $isValid
-     * @dataProvider isValidWithValidAddressDataProvider
-     */
-    public function testIsValidWithValidAddress($data, $addressData, $isNew, $isValid)
-    {
-        $this->paymentProfileMock->expects($this->once())
-            ->method('importData')
-            ->with([])
-            ->willReturnSelf();
-        $this->paymentProfileMock->expects($this->any())->method('getId')->willReturn(123);
-        
-        $this->shippingAddressMock->expects($this->once())
-            ->method('importData')
-            ->with($addressData)
-            ->willReturnSelf();
-        $this->shippingAddressMock->expects($this->once())->method('getId')->willReturn(null);
-
-        if (!empty($data[SubscriptionInterface::REQUIRES_SHIPPING]) && $data[SubscriptionInterface::REQUIRES_SHIPPING]) {
-            $this->shippingAddressMock->expects($this->once())
-                ->method('isAsChildValid')
-                ->with($isNew)
-                ->willReturn(true);
-        }
-
-
-        $this->subscription->importData($data);
-        $this->assertEquals($isValid, $this->subscription->isValid());
-    }
-
-    /**
-     * @return array
-     */
-    public function isValidWithValidAddressDataProvider()
-    {
-        return [
-            'Not valid: new: empty data' => [
-                'data' => [],
-                'addressData' => [],
-                'isNew' => true,
-                'isValid' => false
-            ],
-            'Not valid: new: without use_fixed_price' => [
-                'data' => [
-                    SubscriptionInterface::CUSTOMER_ID => 11,
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::INTERVAL => 'weekly',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::REQUIRES_SHIPPING => true,
-                    SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
-                ],
-                'addressData' => ['key' => 'value'],
-                'isNew' => true,
-                'isValid' => false
-            ],
-            'Not valid: new: without interval' => [
-                'data' => [
-                    SubscriptionInterface::CUSTOMER_ID => 11,
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::USE_FIXED_PRICE => true,
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::REQUIRES_SHIPPING => true,
-                    SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
-                ],
-                'addressData' => ['key' => 'value'],
-                'isNew' => true,
-                'isValid' => false
-            ],
-            'Not valid: new: without customer ID' => [
-                'data' => [
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::USE_FIXED_PRICE => true,
-                    SubscriptionInterface::INTERVAL => 'weekly',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::REQUIRES_SHIPPING => true,
-                    SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
-                ],
-                'addressData' => ['key' => 'value'],
-                'isNew' => true,
-                'isValid' => false
-            ],
-            'Valid: new' => [
-                'data' => [
-                    SubscriptionInterface::CUSTOMER_ID => 11,
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::USE_FIXED_PRICE => true,
-                    SubscriptionInterface::INTERVAL => 'weekly',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::REQUIRES_SHIPPING => true,
-                    SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
-                ],
-                'addressData' => ['key' => 'value'],
-                'isNew' => true,
-                'isValid' => true
-            ],
-            'Valid: not new: with shipping address' => [
-                'data' => [
-                    SubscriptionInterface::ID => 11,
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::USE_FIXED_PRICE => true,
-                    SubscriptionInterface::INTERVAL => 'weekly',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::REQUIRES_SHIPPING => true,
-                    SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
-                ],
-                'addressData' => ['key' => 'value'],
-                'isNew' => false,
-                'isValid' => true
-            ],
-        ];
-    }
-    
-    /**
-     * @param array $data
-     * @dataProvider isValidWithShippingAddressIdDataProvider
-     */
-    public function testIsValidWithShippingAddressId($data)
-    {
-        $this->paymentProfileMock->expects($this->once())
-            ->method('importData')
-            ->with([])
-            ->willReturnSelf();
-
-        $this->shippingAddressMock->expects($this->once())
-            ->method('importData')
-            ->with([])
-            ->willReturnSelf();
-        $this->shippingAddressMock->expects($this->never())->method('getId');
-        $this->shippingAddressMock->expects($this->never())->method('isAsChildValid');
-
-        $this->subscription->importData($data);
-        $this->assertTrue($this->subscription->isValid());
-    }
-
-    /**
-     * @return array
-     */
-    public function isValidWithShippingAddressIdDataProvider()
-    {
-        return [
-            'Valid: new: with shipping address ID' => [
-                'data' => [
-                    SubscriptionInterface::CUSTOMER_ID => 11,
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::USE_FIXED_PRICE => true,
-                    SubscriptionInterface::INTERVAL => 'weekly',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::REQUIRES_SHIPPING => true,
-                    SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
-                    SubscriptionInterface::SHIPPING_ADDRESS_ID => 111,
-                ],
-            ],
-            'Valid: not new: with shipping address ID' => [
-                'data' => [
-                    SubscriptionInterface::ID => 11,
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::USE_FIXED_PRICE => true,
-                    SubscriptionInterface::INTERVAL => 'weekly',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-12',
-                    SubscriptionInterface::REQUIRES_SHIPPING => true,
-                    SubscriptionInterface::MAGENTO_SHIPPING_METHOD_CODE => 'tablerate',
-                    SubscriptionInterface::SHIPPING_ADDRESS_ID => 111,
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @param array $data
-     * @dataProvider isValidIfNotUseShipping
-     */
-    public function testIsValidIfNotUseShipping($data)
-    {
-        $this->paymentProfileMock->expects($this->once())
-            ->method('importData')
-            ->with([])
-            ->willReturnSelf();
-
-        $this->shippingAddressMock->expects($this->once())
-            ->method('importData')
-            ->with([])
-            ->willReturnSelf();
-        $this->shippingAddressMock->expects($this->once())->method('getId')->willReturn(null);
-        $this->shippingAddressMock->expects($this->never())->method('isAsChildValid');
-
-        $this->subscription->importData($data);
-        $this->assertTrue($this->subscription->isValid());
-    }
-
-    /**
-     * @return array
-     */
-    public function isValidIfNotUseShipping()
-    {
-        return [
-            'Valid: new: with use_shipping false' => [
-                'data' => [
-                    SubscriptionInterface::CUSTOMER_ID => 11,
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::USE_FIXED_PRICE => true,
-                    SubscriptionInterface::INTERVAL => 'weekly',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-02-10',
-                    SubscriptionInterface::REQUIRES_SHIPPING => false
-                ],
-            ],
-            'Valid: not new: with use_shipping false' => [
-                'data' => [
-                    SubscriptionInterface::ID => 11,
-                    SubscriptionInterface::PAYMENT_PROFILE_ID => '04',
-                    SubscriptionInterface::PRODUCT_SKU => 'sku',
-                    SubscriptionInterface::QTY => '123',
-                    SubscriptionInterface::USE_FIXED_PRICE => true,
-                    SubscriptionInterface::INTERVAL => 'weekly',
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2016-03-05',
-                    SubscriptionInterface::REQUIRES_SHIPPING => false
-                ],
-            ],
-        ];
     }
 
     /**

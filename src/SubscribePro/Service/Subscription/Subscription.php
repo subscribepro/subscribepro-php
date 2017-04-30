@@ -65,7 +65,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param array $data
-     * @return $this
+     * @return \SubscribePro\Service\DataObject
      */
     public function importData(array $data = [])
     {
@@ -98,7 +98,9 @@ class Subscription extends DataObject implements SubscriptionInterface
         $data = parent::toArray();
 
         $data[self::PAYMENT_PROFILE] = $this->getPaymentProfile()->toArray();
-        $data[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->toArray();
+        if (isset($data[self::SHIPPING_ADDRESS]) && $data[self::SHIPPING_ADDRESS] instanceof AddressInterface) {
+            $data[self::SHIPPING_ADDRESS] = $this->getShippingAddress()->toArray();
+        }
 
         return $data;
     }
@@ -129,15 +131,6 @@ class Subscription extends DataObject implements SubscriptionInterface
         }
 
         return $formData;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isValid()
-    {
-        return (!$this->getData(self::REQUIRES_SHIPPING) || $this->isShippingValid())
-            && $this->checkRequiredFields($this->getFormFields());
     }
 
     /**

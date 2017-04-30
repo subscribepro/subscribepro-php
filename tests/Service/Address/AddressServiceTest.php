@@ -50,22 +50,6 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveAddressIfNotValid()
-    {
-        $addressMock = $this->createAddressMock();
-        $addressMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->addressService->saveAddress($addressMock);
-    }
-
-    /**
      * @param string $url
      * @param string $itemId
      * @param bool $isNew
@@ -76,7 +60,6 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveAddress($url, $itemId, $isNew, $formData, $resultData)
     {
         $addressMock = $this->createAddressMock();
-        $addressMock->expects($this->once())->method('isValid')->willReturn(true);
         $addressMock->expects($this->once())->method('isNew')->willReturn($isNew);
         $addressMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $addressMock->expects($this->any())->method('getId')->willReturn($itemId);
@@ -116,21 +99,6 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToFindOrSaveAddressIfNotValid()
-    {
-        $addressMock = $this->createAddressMock();
-        $addressMock->expects($this->once())->method('isValid')->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())
-            ->method('post');
-
-        $this->addressService->findOrSave($addressMock);
-    }
-
     public function testFindOrSaveAddress()
     {
         $url = '/services/v2/address/find-or-create.json';
@@ -138,7 +106,6 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
         $expectedImportData = [AddressInterface::ID => '111'];
 
         $addressMock = $this->createAddressMock();
-        $addressMock->expects($this->once())->method('isValid')->willReturn(true);
         $addressMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $addressMock->expects($this->once())
             ->method('importData')

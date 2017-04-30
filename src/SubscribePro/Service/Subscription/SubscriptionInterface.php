@@ -3,7 +3,6 @@
 namespace SubscribePro\Service\Subscription;
 
 use SubscribePro\Service\DataInterface;
-use SubscribePro\Service\Address\AddressInterface;
 
 interface SubscriptionInterface extends DataInterface
 {
@@ -65,11 +64,6 @@ interface SubscriptionInterface extends DataInterface
      * @return array
      */
     public function getFormData();
-
-    /**
-     * @return bool
-     */
-    public function isValid();
 
     /**
      * @param int|null $id

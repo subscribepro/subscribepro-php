@@ -48,23 +48,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($customerMock, $this->customerService->createCustomer($customerData));
     }
-    
-
-    /**
-     * @expectedException \SubscribePro\Exception\EntityInvalidDataException
-     * @expectedExceptionMessage Not all required fields are set.
-     */
-    public function testFailToSaveCustomerIfNotValid()
-    {
-        $customerMock = $this->createCustomerMock();
-        $customerMock->expects($this->once())
-            ->method('isValid')
-            ->willReturn(false);
-
-        $this->httpClientMock->expects($this->never())->method('post');
-
-        $this->customerService->saveCustomer($customerMock);
-    }
 
     /**
      * @param string $url
@@ -77,7 +60,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveCustomer($url, $itemId, $isNew, $formData, $resultData)
     {
         $customerMock = $this->createCustomerMock();
-        $customerMock->expects($this->once())->method('isValid')->willReturn(true);
         $customerMock->expects($this->once())->method('isNew')->willReturn($isNew);
         $customerMock->expects($this->once())->method('getFormData')->willReturn($formData);
         $customerMock->expects($this->any())->method('getId')->willReturn($itemId);
