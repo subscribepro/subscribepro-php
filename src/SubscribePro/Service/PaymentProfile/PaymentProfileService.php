@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\PaymentProfile;
 
-use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\InvalidArgumentException;
 
@@ -24,7 +23,7 @@ class PaymentProfileService extends AbstractService
     const API_NAME_PROFILES = 'payment_profiles';
 
     /**
-     * @var string
+     * @var string[]
      */
     protected $allowedFilters = [
         PaymentProfileInterface::CUSTOMER_ID,
@@ -144,6 +143,7 @@ class PaymentProfileService extends AbstractService
             default:
                 return $this->saveCreditCardProfile($paymentProfile);
         }
+        return false;
     }
 
     /**

@@ -103,6 +103,17 @@ interface PaymentProfileInterface extends DataInterface
      */
     public function getBankAccountSavingFormData();
 
+
+    /**
+     * @return array
+     */
+    public function getApplePayCreatingFormData();
+
+    /**
+     * @return array
+     */
+    public function getApplePaySavingFormData();
+
     /**
      * @return array
      */

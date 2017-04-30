@@ -17,6 +17,7 @@ interface ProductInterface extends DataInterface
     const MAX_QTY = 'max_qty';
     const PRICE = 'price';
     const DISCOUNT = 'discount';
+    const MSRP = 'msrp';
     const IS_DISCOUNT_PERCENTAGE = 'is_discount_percentage';
     const SUBSCRIPTION_OPTION_MODE = 'subscription_option_mode';
     const DEFAULT_SUBSCRIPTION_OPTION = 'default_subscription_option';

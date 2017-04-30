@@ -25,7 +25,7 @@ class PaymentProfileFactory implements DataFactoryInterface
      * @param string $instanceName
      */
     public function __construct(
-        \SubscribePro\Service\DataFactoryInterface $addressFactory,
+        DataFactoryInterface $addressFactory,
         $instanceName = '\SubscribePro\Service\PaymentProfile\PaymentProfile'
     ) {
         if (!is_subclass_of($instanceName, '\SubscribePro\Service\PaymentProfile\PaymentProfileInterface')) {
