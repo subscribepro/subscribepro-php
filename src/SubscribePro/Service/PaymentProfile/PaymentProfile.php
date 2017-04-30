@@ -58,11 +58,12 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      * @var array
      */
     protected $creatingExternalVaultFields = [
-        self::CUSTOMER_ID => true,
-        self::BANK_ACCOUNT_NUMBER => true,
-        self::BANK_ROUTING_NUMBER => true,
-        self::BANK_ACCOUNT_TYPE => true,
-        self::BANK_ACCOUNT_HOLDER_TYPE => true,
+        self::CUSTOMER_ID => false,
+        self::MAGENTO_CUSTOMER_ID => false,
+        self::CREDITCARD_NUMBER => true,
+        self::CREDITCARD_VERIFICATION_VALUE => false,
+        self::CREDITCARD_MONTH => true,
+        self::CREDITCARD_YEAR => true,
         self::BILLING_ADDRESS => true
     ];
 
@@ -70,13 +71,19 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      * @var array
      */
     protected $updatingExternalVaultFields = [
-        self::BILLING_ADDRESS => true
+        self::CREDITCARD_MONTH => false,
+        self::CREDITCARD_YEAR => false,
+        self::BILLING_ADDRESS => false
     ];
 
     /**
      * @var array
      */
-    protected $creatingApplePayFields = [];
+    protected $creatingApplePayFields = [
+        self::CUSTOMER_ID,
+        self::APPLEPAY_PAYMENT_DATA,
+        self::TEST_CARD_NUMBER
+    ];
 
     /**
      * @var array
