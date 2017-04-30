@@ -30,6 +30,8 @@ interface PaymentProfileInterface extends DataInterface
     const BANK_NAME = 'bank_name';
     const BANK_ACCOUNT_TYPE = 'bank_account_type';
     const BANK_ACCOUNT_HOLDER_TYPE = 'bank_account_holder_type';
+    const APPLEPAY_PAYMENT_DATA = 'applepay_payment_data';
+    const TEST_CARD_NUMBER = 'test_card_number';
     const BILLING_ADDRESS = 'billing_address';
     const PROFILE_TYPE = 'profile_type';
     const GATEWAY = 'gateway';
