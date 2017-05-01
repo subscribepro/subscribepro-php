@@ -120,7 +120,7 @@ class PaymentProfileService extends AbstractService
     {
         switch($paymentProfile->getProfileType()) {
             case PaymentProfileInterface::TYPE_EXTERNAL_VAULT:
-                break;
+                return $this->saveExternalVaultProfile($paymentProfile);
             case PaymentProfileInterface::TYPE_SPREEDLY_DUAL_VAULT:
                 break;
             case PaymentProfileInterface::TYPE_SPREEDLY_VAULT:

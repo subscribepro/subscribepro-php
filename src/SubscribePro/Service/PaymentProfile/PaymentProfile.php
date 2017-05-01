@@ -80,9 +80,9 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      * @var array
      */
     protected $creatingApplePayFields = [
-        self::CUSTOMER_ID,
-        self::APPLEPAY_PAYMENT_DATA,
-        self::TEST_CARD_NUMBER
+        self::CUSTOMER_ID => false,
+        self::APPLEPAY_PAYMENT_DATA => false,
+        self::TEST_CARD_NUMBER => false
     ];
 
     /**
@@ -247,7 +247,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function getApplePaySavingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
+        $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -256,7 +256,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function getApplePayCreatingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
+        $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
