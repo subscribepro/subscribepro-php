@@ -24,7 +24,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param array $subscriptionData
-     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
+     * @return \SubscribePro\Service\DataInterface
      */
     public function createSubscription(array $subscriptionData = [])
     {
@@ -33,16 +33,12 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param \SubscribePro\Service\Subscription\SubscriptionInterface $subscription
-     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
+     * @return \SubscribePro\Service\DataInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveSubscription(SubscriptionInterface $subscription)
     {
-        if (!$subscription->isValid()) {
-            throw new EntityInvalidDataException('Not all required fields are set.');
-        }
-
         $url = $subscription->isNew() ? '/services/v2/subscription.json' : "/services/v2/subscriptions/{$subscription->getId()}.json";
         $response = $this->httpClient->post($url, [self::API_NAME_SUBSCRIPTION => $subscription->getFormData()]);
         return $this->retrieveItem($response, self::API_NAME_SUBSCRIPTION, $subscription);
@@ -50,7 +46,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param int $subscriptionId
-     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
+     * @return \SubscribePro\Service\DataInterface
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadSubscription($subscriptionId)
@@ -61,7 +57,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param int|null $customerId
-     * @return \SubscribePro\Service\Subscription\SubscriptionInterface[]
+     * @return \SubscribePro\Service\DataInterface[]
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadSubscriptions($customerId = null)
