@@ -89,7 +89,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function toArray()
     {
@@ -104,7 +104,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return array
+     * @return string
      */
     protected function getFormFields()
     {
@@ -112,7 +112,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getFormData()
     {
@@ -214,7 +214,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getSubscriptionProducts()
     {
@@ -519,7 +519,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getUserDefinedFields()
     {
@@ -536,7 +536,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getPlatformSpecificFields()
     {
