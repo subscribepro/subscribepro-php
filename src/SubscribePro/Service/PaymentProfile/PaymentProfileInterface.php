@@ -76,27 +76,27 @@ interface PaymentProfileInterface extends DataInterface
     const CC_TYPE_DANKORT = 'dankort';
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData();
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getThirdPartyTokenCreatingFormData();
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getThirdPartyTokenSavingFormData();
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getBankAccountCreatingFormData();
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getTokenFormData();
 

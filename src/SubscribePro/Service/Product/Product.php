@@ -96,7 +96,7 @@ class Product extends DataObject implements ProductInterface
     ];
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function getFormFields()
     {
@@ -104,7 +104,7 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData()
     {
@@ -329,7 +329,7 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @return array|null
+     * @return string[]|null
      */
     public function getIntervals()
     {

@@ -61,7 +61,7 @@ interface SubscriptionInterface extends DataInterface
 
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData();
 
@@ -112,7 +112,7 @@ interface SubscriptionInterface extends DataInterface
     public function setProductSku($productSku);
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getSubscriptionProducts();
 
@@ -304,7 +304,7 @@ interface SubscriptionInterface extends DataInterface
     public function setCouponCode($couponCode);
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getUserDefinedFields();
 
@@ -315,7 +315,7 @@ interface SubscriptionInterface extends DataInterface
     public function setUserDefinedFields(array $userDefinedFields);
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getPlatformSpecificFields();
 
