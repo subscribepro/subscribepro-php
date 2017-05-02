@@ -315,7 +315,7 @@ interface SubscriptionInterface extends DataInterface
     public function setUserDefinedFields(array $userDefinedFields);
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getPlatformSpecificFields();
 
