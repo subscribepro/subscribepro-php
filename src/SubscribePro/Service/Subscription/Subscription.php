@@ -536,7 +536,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getPlatformSpecificFields()
     {
