@@ -29,6 +29,7 @@ interface SubscriptionInterface extends DataInterface
     const SHIPPING_ADDRESS = 'shipping_address';
     const MAGENTO_SHIPPING_ADDRESS_ID = 'magento_shipping_address_id';
     const MAGENTO_SHIPPING_METHOD_CODE = 'magento_shipping_method_code';
+    const SHIPPING_METHOD_CODE= 'shipping_method_code';
     const SEND_CUSTOMER_NOTIFICATION_EMAIL = 'send_customer_notification_email';
     const FIRST_ORDER_ALREADY_CREATED = 'first_order_already_created';
     const NEXT_ORDER_DATE = 'next_order_date';
@@ -239,6 +240,17 @@ interface SubscriptionInterface extends DataInterface
      * @return $this
      */
     public function setMagentoShippingMethodCode($magentoShippingMethodCode);
+
+    /**
+     * @return string|null
+     */
+    public function getShippingMethodCode();
+
+    /**
+     * @param string $shippingMethodCode
+     * @return $this
+     */
+    public function setShippingMethodCode($shippingMethodCode);
 
     /**
      * @return bool|null

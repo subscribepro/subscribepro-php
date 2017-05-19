@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\Subscription;
 
-use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 
 /**

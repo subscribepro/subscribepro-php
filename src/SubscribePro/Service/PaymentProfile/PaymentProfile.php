@@ -57,7 +57,33 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
-    protected $creatingApplePayFields = [];
+    protected $creatingExternalVaultFields = [
+        self::CUSTOMER_ID => false,
+        self::MAGENTO_CUSTOMER_ID => false,
+        self::CREDITCARD_NUMBER => true,
+        self::CREDITCARD_VERIFICATION_VALUE => false,
+        self::CREDITCARD_MONTH => true,
+        self::CREDITCARD_YEAR => true,
+        self::BILLING_ADDRESS => true
+    ];
+
+    /**
+     * @var array
+     */
+    protected $updatingExternalVaultFields = [
+        self::CREDITCARD_MONTH => false,
+        self::CREDITCARD_YEAR => false,
+        self::BILLING_ADDRESS => false
+    ];
+
+    /**
+     * @var array
+     */
+    protected $creatingApplePayFields = [
+        self::CUSTOMER_ID => false,
+        self::APPLEPAY_PAYMENT_DATA => false,
+        self::TEST_CARD_NUMBER => false
+    ];
 
     /**
      * @var array
@@ -201,9 +227,27 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @return mixed[]
      */
+    public function getExternalVaultCreatingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->creatingExternalVaultFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getExternalVaultSavingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->updatingExternalVaultFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return array
+     */
     public function getApplePaySavingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
+        $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -212,7 +256,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function getApplePayCreatingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
+        $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 

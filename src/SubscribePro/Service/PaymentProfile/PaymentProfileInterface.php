@@ -13,6 +13,7 @@ interface PaymentProfileInterface extends DataInterface
     const ID = 'id';
     const CUSTOMER_ID = 'customer_id';
     const MAGENTO_CUSTOMER_ID = 'magento_customer_id';
+    const TRANSACTION_ID = 'transaction_id';
     const CUSTOMER_EMAIL = 'customer_email';
     const CUSTOMER_FACING_NAME = 'customer_facing_name';
     const MERCHANT_FACING_NAME = 'merchant_facing_name';
@@ -29,6 +30,8 @@ interface PaymentProfileInterface extends DataInterface
     const BANK_NAME = 'bank_name';
     const BANK_ACCOUNT_TYPE = 'bank_account_type';
     const BANK_ACCOUNT_HOLDER_TYPE = 'bank_account_holder_type';
+    const APPLEPAY_PAYMENT_DATA = 'applepay_payment_data';
+    const TEST_CARD_NUMBER = 'test_card_number';
     const BILLING_ADDRESS = 'billing_address';
     const PROFILE_TYPE = 'profile_type';
     const GATEWAY = 'gateway';
@@ -97,6 +100,32 @@ interface PaymentProfileInterface extends DataInterface
 
     /**
      * @return mixed[]
+     */
+    public function getBankAccountSavingFormData();
+
+
+    /**
+     * @return array
+     */
+    public function getApplePayCreatingFormData();
+
+    /**
+     * @return array
+     */
+    public function getApplePaySavingFormData();
+
+    /**
+     * @return array
+     */
+    public function getExternalVaultCreatingFormData();
+
+    /**
+     * @return array
+     */
+    public function getExternalVaultSavingFormData();
+
+    /**
+     * @return array
      */
     public function getTokenFormData();
 
