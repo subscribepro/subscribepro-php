@@ -519,11 +519,11 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return string[]
+     * @return string
      */
     public function getUserDefinedFields()
     {
-        return $this->getData(self::USER_DEFINED_FIELDS, []);
+        return json_encode($this->getData(self::USER_DEFINED_FIELDS, []));
     }
 
     /**
@@ -536,11 +536,11 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return mixed[]
+     * @return string
      */
     public function getPlatformSpecificFields()
     {
-        return $this->getData(self::PLATFORM_SPECIFIC_FIELDS, []);
+        return json_encode($this->getData(self::PLATFORM_SPECIFIC_FIELDS, []));
     }
 
     /**
