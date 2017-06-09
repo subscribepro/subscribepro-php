@@ -32,12 +32,12 @@ class SubscriptionService extends AbstractService
     }
 
     /**
-     * @param \SubscribePro\Service\Subscription\SubscriptionInterface $subscription
+     * @param $subscription
      * @return \SubscribePro\Service\DataInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function saveSubscription(SubscriptionInterface $subscription)
+    public function saveSubscription($subscription)
     {
         $url = $subscription->isNew() ? '/services/v2/subscription.json' : "/services/v2/subscriptions/{$subscription->getId()}.json";
         $response = $this->httpClient->post($url, [self::API_NAME_SUBSCRIPTION => $subscription->getFormData()]);
