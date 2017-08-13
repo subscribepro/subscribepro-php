@@ -19,6 +19,7 @@ class Transaction extends DataObject implements TransactionInterface
     protected $creatingFields = [
         self::AMOUNT => true,
         self::CURRENCY_CODE => true,
+        self::SUBSCRIBE_PRO_ORDER_TOKEN => true,        
         self::ORDER_ID => false,
         self::IP => false,
         self::EMAIL => false,
