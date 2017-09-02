@@ -135,7 +135,9 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
             $data[self::BILLING_ADDRESS] = $this->getBillingAddress()->importData($billingAddressData);
         }
 
-        return parent::importData($data);
+        parent::importData($data);
+
+        return $this;
     }
 
     /**

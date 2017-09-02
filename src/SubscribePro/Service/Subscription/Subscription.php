@@ -104,7 +104,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function getFormFields()
     {
