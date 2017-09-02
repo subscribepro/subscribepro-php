@@ -22,13 +22,20 @@ abstract class AbstractService
     protected $dataFactory;
 
     /**
+     * @var array
+     */
+    protected $config;
+
+    /**
      * @param Http $http
      * @param DataFactoryInterface $factory
+     * @param array $config
      */
-    public function __construct(Http $http, DataFactoryInterface $factory)
+    public function __construct(Http $http, DataFactoryInterface $factory, array $config = [])
     {
         $this->httpClient = $http;
         $this->dataFactory = $factory;
+        $this->config = $config;
     }
 
     /**
