@@ -19,6 +19,10 @@ use SubscribePro\Exception\HttpException;
  *   Specified class must implement \SubscribePro\Service\Webhook\Event\Destination\EndpointInterface interface
  *   Default value is \SubscribePro\Service\Webhook\Event\Destination\Endpoint
  *   @see \SubscribePro\Service\Webhook\Event\Destination\EndpointInterface
+ *
+ * @method \SubscribePro\Service\Webhook\EventInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Webhook\EventInterface[] retrieveItems($response, $entitiesName)
+ * @property \SubscribePro\Service\Webhook\EventFactory $dataFactory
  */
 class WebhookService extends AbstractService
 {

@@ -12,6 +12,10 @@ use SubscribePro\Service\Address\AddressInterface;
  *   Specified class must implement \SubscribePro\Service\Transaction\TransactionInterface interface
  *   Default value is \SubscribePro\Service\Transaction\Transaction
  *   @see \SubscribePro\Service\Transaction\TransactionInterface
+ *
+ * @method \SubscribePro\Service\Transaction\TransactionInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Transaction\TransactionInterface[] retrieveItems($response, $entitiesName)
+ * @property \SubscribePro\Service\Transaction\TransactionFactory $dataFactory
  */
 class TransactionService extends AbstractService
 {
@@ -65,7 +69,6 @@ class TransactionService extends AbstractService
     /**
      * @param array $authorizeData
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
-     * @param string $orderToken
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
@@ -113,7 +116,7 @@ class TransactionService extends AbstractService
      * @param string $token
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
      * @param \SubscribePro\Service\Address\AddressInterface|null $address
-     * @return \SubscribePro\Service\Token\TokenInterface
+     * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -138,7 +141,7 @@ class TransactionService extends AbstractService
      * @param string $token
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
      * @param \SubscribePro\Service\Address\AddressInterface|null $address
-     * @return \SubscribePro\Service\Token\TokenInterface
+     * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */

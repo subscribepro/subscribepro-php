@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\Address;
 
-use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 
 /**
@@ -11,6 +10,10 @@ use SubscribePro\Service\AbstractService;
  *   Specified class must implement \SubscribePro\Service\Address\AddressInterface interface
  *   Default value is \SubscribePro\Service\Address\Address
  *   @see \SubscribePro\Service\Address\AddressInterface
+ *
+ * @method \SubscribePro\Service\Address\AddressInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Address\AddressInterface[] retrieveItems($response, $entitiesName)
+ * @property \SubscribePro\Service\Address\AddressFactory $dataFactory
  */
 class AddressService extends AbstractService
 {

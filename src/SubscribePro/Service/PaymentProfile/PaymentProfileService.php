@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\PaymentProfile;
 
-use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\InvalidArgumentException;
 
@@ -12,6 +11,10 @@ use SubscribePro\Exception\InvalidArgumentException;
  *   Specified class must implement \SubscribePro\Service\PaymentProfile\PaymentProfileInterface interface
  *   Default value is \SubscribePro\Service\PaymentProfile\PaymentProfile
  *   @see \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+ *
+ * @method \SubscribePro\Service\PaymentProfile\PaymentProfileInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\PaymentProfile\PaymentProfileInterface[] retrieveItems($response, $entitiesName)
+ * @property \SubscribePro\Service\PaymentProfile\PaymentProfileFactory $dataFactory
  */
 class PaymentProfileService extends AbstractService
 {
@@ -24,7 +27,7 @@ class PaymentProfileService extends AbstractService
     const API_NAME_PROFILES = 'payment_profiles';
 
     /**
-     * @var string
+     * @var array
      */
     protected $allowedFilters = [
         PaymentProfileInterface::CUSTOMER_ID,

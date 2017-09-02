@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\Subscription;
 
-use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 
 /**
@@ -11,6 +10,10 @@ use SubscribePro\Service\AbstractService;
  *   Specified class must implement \SubscribePro\Service\Subscription\SubscriptionInterface interface
  *   Default value is \SubscribePro\Service\Subscription\Subscription
  *   @see \SubscribePro\Service\Subscription\SubscriptionInterface
+ *
+ * @method \SubscribePro\Service\Subscription\SubscriptionInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Subscription\SubscriptionInterface[] retrieveItems($response, $entitiesName)
+ * @property \SubscribePro\Service\Subscription\SubscriptionFactory $dataFactory
  */
 class SubscriptionService extends AbstractService
 {
@@ -24,7 +27,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param array $subscriptionData
-     * @return \SubscribePro\Service\DataInterface
+     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
      */
     public function createSubscription(array $subscriptionData = [])
     {
@@ -33,7 +36,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param \SubscribePro\Service\Subscription\SubscriptionInterface $subscription
-     * @return \SubscribePro\Service\DataInterface
+     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -46,7 +49,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param int $subscriptionId
-     * @return \SubscribePro\Service\DataInterface
+     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadSubscription($subscriptionId)
@@ -57,7 +60,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param int|null $customerId
-     * @return \SubscribePro\Service\DataInterface[]
+     * @return \SubscribePro\Service\Subscription\SubscriptionInterface[]
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadSubscriptions($customerId = null)

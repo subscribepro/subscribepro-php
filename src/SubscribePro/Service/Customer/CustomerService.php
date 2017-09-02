@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\Customer;
 
-use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\InvalidArgumentException;
 
@@ -12,6 +11,10 @@ use SubscribePro\Exception\InvalidArgumentException;
  *   Specified class must implement \SubscribePro\Service\Customer\CustomerInterface interface
  *   Default value is \SubscribePro\Service\Customer\Customer
  *   @see \SubscribePro\Service\Customer\CustomerInterface
+ *
+ * @method \SubscribePro\Service\Customer\CustomerInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Customer\CustomerInterface[] retrieveItems($response, $entitiesName)
+ * @property \SubscribePro\Service\Customer\CustomerFactory $dataFactory
  */
 class CustomerService extends AbstractService
 {
@@ -24,7 +27,7 @@ class CustomerService extends AbstractService
     const API_NAME_CUSTOMERS = 'customers';
 
     /**
-     * @var string
+     * @var array
      */
     protected $allowedFilters = [
         CustomerInterface::MAGENTO_CUSTOMER_ID,

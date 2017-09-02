@@ -10,6 +10,10 @@ use SubscribePro\Service\AbstractService;
  *   Specified class must implement \SubscribePro\Service\Token\TokenInterface interface
  *   Default value is \SubscribePro\Service\Token\Token
  *   @see \SubscribePro\Service\Token\TokenInterface
+ *
+ * @method \SubscribePro\Service\Token\TokenInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Token\TokenInterface[] retrieveItems($response, $entitiesName)
+ * @property \SubscribePro\Service\Token\TokenFactory $dataFactory
  */
 class TokenService extends AbstractService
 {
@@ -22,7 +26,7 @@ class TokenService extends AbstractService
 
     /**
      * @param array $tokenData
-     * @return \SubscribePro\Service\DataInterface
+     * @return \SubscribePro\Service\Token\TokenInterface
      */
     public function createToken(array $tokenData = [])
     {
@@ -31,7 +35,7 @@ class TokenService extends AbstractService
 
     /**
      * @param string $token
-     * @return \SubscribePro\Service\DataInterface
+     * @return \SubscribePro\Service\Token\TokenInterface
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadToken($token)
@@ -42,7 +46,7 @@ class TokenService extends AbstractService
 
     /**
      * @param \SubscribePro\Service\Token\TokenInterface $token
-     * @return \SubscribePro\Service\DataInterface
+     * @return \SubscribePro\Service\Token\TokenInterface
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveToken(TokenInterface $token)

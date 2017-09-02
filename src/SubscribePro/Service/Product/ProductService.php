@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\Product;
 
-use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 
 /**
@@ -11,6 +10,10 @@ use SubscribePro\Service\AbstractService;
  *   Specified class must implement \SubscribePro\Service\Product\ProductInterface interface
  *   Default value is \SubscribePro\Service\Product\Product
  *   @see \SubscribePro\Service\Product\ProductInterface
+ *
+ * @method \SubscribePro\Service\Product\ProductInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Product\ProductInterface[] retrieveItems($response, $entitiesName)
+ * @property \SubscribePro\Service\Product\ProductFactory $dataFactory
  */
 class ProductService extends AbstractService
 {
