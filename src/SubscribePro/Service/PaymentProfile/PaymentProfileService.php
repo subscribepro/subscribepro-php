@@ -174,10 +174,10 @@ class PaymentProfileService extends AbstractService
     {
         if ($paymentProfile->isNew()) {
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePayCreatingFormData()];
-            $this->httpClient->post('/services/v2/vault/paymentprofile/applepay.json', $postData);
+            $response = $this->httpClient->post('/services/v2/vault/paymentprofile/applepay.json', $postData);
         } else {
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePaySavingFormData()];
-            $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+            $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
