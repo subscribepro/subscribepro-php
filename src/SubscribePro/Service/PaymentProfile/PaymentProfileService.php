@@ -2,6 +2,7 @@
 
 namespace SubscribePro\Service\PaymentProfile;
 
+use SubscribePro\Exception\EntityInvalidDataException;
 use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\InvalidArgumentException;
 
@@ -123,29 +124,36 @@ class PaymentProfileService extends AbstractService
     {
         switch($paymentProfile->getProfileType()) {
             case PaymentProfileInterface::TYPE_EXTERNAL_VAULT:
-                break;
+                throw new EntityInvalidDataException('Unsupported profile type: ' . $paymentProfile->getProfileType());
+
             case PaymentProfileInterface::TYPE_SPREEDLY_DUAL_VAULT:
-                break;
+                throw new EntityInvalidDataException('Unsupported profile type: ' . $paymentProfile->getProfileType());
+
             case PaymentProfileInterface::TYPE_SPREEDLY_VAULT:
                 switch($paymentProfile->getPaymentMethodType()) {
-                    case PaymentProfileInterface::TYPE_CREDIT_CARD:
-                        return $this->saveCreditCardProfile($paymentProfile);
                     case PaymentProfileInterface::TYPE_BANK_ACCOUNT:
                         return $this->saveBankAccountProfile($paymentProfile);
+
                     case PaymentProfileInterface::TYPE_THIRD_PARTY_TOKEN:
                         return $this->saveThirdPartyTokenProfile($paymentProfile);
+
                     case PaymentProfileInterface::TYPE_APPLE_PAY:
                         return $this->saveApplePayProfile($paymentProfile);
+
                     case PaymentProfileInterface::TYPE_ANDROID_PAY:
                         // Not implemented yet
-                        // return $this->saveCreditCardProfile($paymentProfile);
+                        throw new EntityInvalidDataException('Unsupported payment method type: ' . $paymentProfile->getPaymentMethodType());
+
+                    case PaymentProfileInterface::TYPE_CREDIT_CARD:
                     default:
                         // The default is always save credit card profile to be backwards compatible
                         return $this->saveCreditCardProfile($paymentProfile);
                 }
-            default:
-                return $this->saveCreditCardProfile($paymentProfile);
         }
+
+        // Default - Assume Spreedly Vault - credit card profile
+        // The default is always save credit card profile to be backwards compatible
+        return $this->saveCreditCardProfile($paymentProfile);
     }
 
     /**
