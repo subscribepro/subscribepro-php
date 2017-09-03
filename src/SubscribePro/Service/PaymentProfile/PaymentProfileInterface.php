@@ -100,6 +100,11 @@ interface PaymentProfileInterface extends DataInterface
     /**
      * @return mixed[]
      */
+    public function getBankAccountSavingFormData();
+
+    /**
+     * @return mixed[]
+     */
     public function getApplePayCreatingFormData();
 
     /**
