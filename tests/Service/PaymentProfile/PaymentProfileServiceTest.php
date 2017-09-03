@@ -151,10 +151,10 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
                 'resultData' => [PaymentProfileInterface::ID => '111'],
             ],
             'Update existing profile' => [
-                'url' => '/services/v1/vault/paymentprofiles/22.json',
+                'url' => '/services/v2/vault/paymentprofiles/22.json',
                 'itemId' => 22,
                 'isNew' => false,
-                'method' => 'put',
+                'method' => 'post',
                 'formData' => [PaymentProfileInterface::CREDITCARD_FIRST_DIGITS => '521'],
                 'resultData' => [PaymentProfileInterface::ID => '22'],
             ],
@@ -169,7 +169,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->httpClientMock->expects($this->once())
             ->method('get')
-            ->with("/services/v1/vault/paymentprofiles/{$itemId}.json")
+            ->with("/services/v2/vault/paymentprofiles/{$itemId}.json")
             ->willReturn([PaymentProfileService::API_NAME_PROFILE => $itemData]);
 
         $this->paymentProfileFactoryMock->expects($this->once())
@@ -240,7 +240,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->httpClientMock->expects($this->once())
             ->method('get')
-            ->with('/services/v1/vault/paymentprofiles.json', $filters)
+            ->with('/services/v2/vault/paymentprofiles.json', $filters)
             ->willReturn([PaymentProfileService::API_NAME_PROFILES => $itemsData]);
 
         $profiles = [];
