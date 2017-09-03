@@ -305,6 +305,28 @@ interface PaymentProfileInterface extends DataInterface
     public function setBankAccountHolderType($holderType);
 
     /**
+     * @return string
+     */
+    public function getApplePayPaymentData();
+
+    /**
+     * @param string $applePayPaymentData
+     * @return $this
+     */
+    public function setApplePayPaymentData($applePayPaymentData);
+
+    /**
+     * @return string
+     */
+    public function getTestCardNumber();
+
+    /**
+     * @param string $testCardNumber
+     * @return $this
+     */
+    public function setTestCardNumber($testCardNumber);
+
+    /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
     public function getBillingAddress();
