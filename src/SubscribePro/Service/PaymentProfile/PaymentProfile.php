@@ -57,7 +57,11 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
-    protected $creatingApplePayFields = [];
+    protected $creatingApplePayFields = [
+        self::CUSTOMER_ID => true,
+        self::APPLEPAY_PAYMENT_DATA => true,
+        self::TEST_CARD_NUMBER => false
+    ];
 
     /**
      * @var array
@@ -205,7 +209,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function getApplePaySavingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
+        $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -214,7 +218,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      */
     public function getApplePayCreatingFormData()
     {
-        $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
+        $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -511,6 +515,26 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function setBankAccountHolderType($holderType)
     {
         return $this->setData(self::BANK_ACCOUNT_HOLDER_TYPE, $holderType);
+    }
+
+    public function getApplePayPaymentData()
+    {
+        return $this->getData(self::APPLEPAY_PAYMENT_DATA);
+    }
+
+    public function setApplePayPaymentData($applePayPaymentData)
+    {
+        return $this->setData(self::APPLEPAY_PAYMENT_DATA, $applePayPaymentData);
+    }
+
+    public function getTestCardNumber()
+    {
+        return $this->getData(self::TEST_CARD_NUMBER);
+    }
+
+    public function setTestCardNumber($testCardNumber)
+    {
+        return $this->setData(self::TEST_CARD_NUMBER, $testCardNumber);
     }
 
     /**

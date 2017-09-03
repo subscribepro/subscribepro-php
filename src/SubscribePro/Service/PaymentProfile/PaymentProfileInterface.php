@@ -29,6 +29,8 @@ interface PaymentProfileInterface extends DataInterface
     const BANK_NAME = 'bank_name';
     const BANK_ACCOUNT_TYPE = 'bank_account_type';
     const BANK_ACCOUNT_HOLDER_TYPE = 'bank_account_holder_type';
+    const APPLEPAY_PAYMENT_DATA = 'applepay_payment_data';
+    const TEST_CARD_NUMBER = 'test_card_number';
     const BILLING_ADDRESS = 'billing_address';
     const PROFILE_TYPE = 'profile_type';
     const GATEWAY = 'gateway';
@@ -94,6 +96,16 @@ interface PaymentProfileInterface extends DataInterface
      * @return mixed[]
      */
     public function getBankAccountCreatingFormData();
+
+    /**
+     * @return mixed[]
+     */
+    public function getApplePayCreatingFormData();
+
+    /**
+     * @return mixed[]
+     */
+    public function getApplePaySavingFormData();
 
     /**
      * @return mixed[]
@@ -291,6 +303,28 @@ interface PaymentProfileInterface extends DataInterface
      * @return $this
      */
     public function setBankAccountHolderType($holderType);
+
+    /**
+     * @return mixed[]|null
+     */
+    public function getApplePayPaymentData();
+
+    /**
+     * @param mixed[]|null $applePayPaymentData
+     * @return $this
+     */
+    public function setApplePayPaymentData($applePayPaymentData);
+
+    /**
+     * @return string
+     */
+    public function getTestCardNumber();
+
+    /**
+     * @param string $testCardNumber
+     * @return $this
+     */
+    public function setTestCardNumber($testCardNumber);
 
     /**
      * @return \SubscribePro\Service\Address\AddressInterface
