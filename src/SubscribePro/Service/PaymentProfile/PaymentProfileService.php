@@ -35,7 +35,8 @@ class PaymentProfileService extends AbstractService
         PaymentProfileInterface::MAGENTO_CUSTOMER_ID,
         PaymentProfileInterface::CUSTOMER_EMAIL,
         PaymentProfileInterface::PROFILE_TYPE,
-        PaymentProfileInterface::PAYMENT_METHOD_TYPE
+        PaymentProfileInterface::PAYMENT_METHOD_TYPE,
+        PaymentProfileInterface::TRANSACTION_ID
     ];
 
     /**
@@ -241,6 +242,7 @@ class PaymentProfileService extends AbstractService
      * - customer_email
      * - profile_type
      * - payment_method_type
+     * - transaction_id
      *
      * @param array $filters
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface[]

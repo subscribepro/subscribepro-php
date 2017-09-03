@@ -13,6 +13,7 @@ interface PaymentProfileInterface extends DataInterface
     const ID = 'id';
     const CUSTOMER_ID = 'customer_id';
     const MAGENTO_CUSTOMER_ID = 'magento_customer_id';
+    const TRANSACTION_ID = 'transaction_id';
     const CUSTOMER_EMAIL = 'customer_email';
     const CUSTOMER_FACING_NAME = 'customer_facing_name';
     const MERCHANT_FACING_NAME = 'merchant_facing_name';
