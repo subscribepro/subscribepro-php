@@ -305,12 +305,12 @@ interface PaymentProfileInterface extends DataInterface
     public function setBankAccountHolderType($holderType);
 
     /**
-     * @return string
+     * @return mixed[]|null
      */
     public function getApplePayPaymentData();
 
     /**
-     * @param string $applePayPaymentData
+     * @param mixed[]|null $applePayPaymentData
      * @return $this
      */
     public function setApplePayPaymentData($applePayPaymentData);
