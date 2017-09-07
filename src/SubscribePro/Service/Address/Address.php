@@ -64,7 +64,7 @@ class Address extends DataObject implements AddressInterface
     ];
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     protected function getFormFields()
     {
@@ -117,7 +117,7 @@ class Address extends DataObject implements AddressInterface
         $this->setData($this->idField, $id);
         return $this;
     }
-    
+
     /**
      * @return string|null
      */

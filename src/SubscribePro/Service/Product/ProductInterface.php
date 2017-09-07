@@ -195,7 +195,7 @@ interface ProductInterface extends DataInterface
     public function setDefaultInterval($defaultInterval);
 
     /**
-     * @return string[]|null
+     * @return mixed[]|null
      */
     public function getIntervals();
 

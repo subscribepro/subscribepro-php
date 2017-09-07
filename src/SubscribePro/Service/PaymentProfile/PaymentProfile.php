@@ -145,7 +145,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     protected function getFormFields()
     {
@@ -153,7 +153,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     protected function getBankAccountFormFields()
     {
@@ -161,7 +161,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     protected function getApplePayFormFields()
     {
