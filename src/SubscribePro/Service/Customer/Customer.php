@@ -40,7 +40,7 @@ class Customer extends DataObject implements CustomerInterface
     ];
 
     /**
-     * @return array
+     * @return mixed[]
      */
     protected function getFormFields()
     {
@@ -48,7 +48,7 @@ class Customer extends DataObject implements CustomerInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData()
     {

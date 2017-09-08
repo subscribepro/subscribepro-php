@@ -28,7 +28,7 @@ interface CustomerInterface extends DataInterface
 
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData();
 

@@ -41,7 +41,7 @@ class Token extends DataObject implements TokenInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData()
     {
@@ -50,7 +50,7 @@ class Token extends DataObject implements TokenInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     protected function getFormFields()
     {
@@ -59,7 +59,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param array $tokenFormData
-     * @return array
+     * @return mixed[]
      */
     protected function updateBillingFormData(array $tokenFormData)
     {

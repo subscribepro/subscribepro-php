@@ -41,7 +41,7 @@ interface TokenInterface extends DataInterface
 
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData();
 

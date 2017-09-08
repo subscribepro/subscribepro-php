@@ -67,12 +67,12 @@ interface TransactionInterface extends DataInterface
 
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData();
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getVerifyFormData();
 
@@ -82,7 +82,7 @@ interface TransactionInterface extends DataInterface
     public function isVerifyDataValid();
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getServiceFormData();
 
@@ -93,7 +93,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface $address
-     * @return array
+     * @return mixed[]
      */
     public function getTokenFormData(AddressInterface $address = null);
 
@@ -160,7 +160,7 @@ interface TransactionInterface extends DataInterface
     public function setEmail($email);
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getGatewaySpecificResponse();
 
