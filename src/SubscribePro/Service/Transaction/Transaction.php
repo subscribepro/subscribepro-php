@@ -59,7 +59,7 @@ class Transaction extends DataObject implements TransactionInterface
     ];
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getFormData()
     {
@@ -67,7 +67,7 @@ class Transaction extends DataObject implements TransactionInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getVerifyFormData()
     {
@@ -84,7 +84,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface $address
-     * @return array
+     * @return mixed[]
      */
     public function getTokenFormData(AddressInterface $address = null)
     {
@@ -104,7 +104,7 @@ class Transaction extends DataObject implements TransactionInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getServiceFormData()
     {
@@ -215,7 +215,7 @@ class Transaction extends DataObject implements TransactionInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getGatewaySpecificResponse()
     {

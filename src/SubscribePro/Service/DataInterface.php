@@ -21,7 +21,7 @@ interface DataInterface
     public function getId();
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function toArray();
 }

@@ -44,7 +44,7 @@ class Destination extends DataObject implements DestinationInterface
     //@codeCoverageIgnoreEnd
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function toArray()
     {

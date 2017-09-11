@@ -60,7 +60,7 @@ class Event extends DataObject implements EventInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function toArray()
     {

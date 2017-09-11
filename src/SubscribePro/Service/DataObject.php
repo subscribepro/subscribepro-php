@@ -49,7 +49,7 @@ class DataObject implements DataInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function toArray()
     {

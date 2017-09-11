@@ -28,7 +28,7 @@ interface AddressInterface extends DataInterface
 
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getFormData();
 
@@ -37,7 +37,7 @@ interface AddressInterface extends DataInterface
      * @return $this
      */
     public function setId($id);
-    
+
     /**
      * @param bool $isNew
      * @return bool
@@ -46,10 +46,10 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param bool $isNew
-     * @return string[]
+     * @return mixed[]
      */
     public function getAsChildFormData($isNew);
-    
+
     /**
      * @return string|null
      */

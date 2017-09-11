@@ -106,7 +106,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     protected function getFormFields()
     {
@@ -539,7 +539,7 @@ class Subscription extends DataObject implements SubscriptionInterface
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getUserDefinedFields()
     {

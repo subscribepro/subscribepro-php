@@ -108,7 +108,7 @@ class Product extends DataObject implements ProductInterface
     ];
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     protected function getFormFields()
     {
@@ -341,7 +341,7 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @return string[]|null
+     * @return mixed[]|null
      */
     public function getIntervals()
     {
@@ -388,7 +388,7 @@ class Product extends DataObject implements ProductInterface
     public function getShippingMode()
     {
         return $this->getData(self::SHIPPING_MODE);
-    } 
+    }
 
     /**
      * @param string|null $shippingMode

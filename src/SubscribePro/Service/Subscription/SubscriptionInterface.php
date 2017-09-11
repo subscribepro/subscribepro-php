@@ -316,7 +316,7 @@ interface SubscriptionInterface extends DataInterface
     public function setCouponCode($couponCode);
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function getUserDefinedFields();
 
