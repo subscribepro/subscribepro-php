@@ -33,7 +33,7 @@ interface ProductInterface extends DataInterface
     const TRIAL_WELCOME_EMAIL_TEMPLATE_CODE = 'trial_welcome_email_template_code';
     const IS_SUBSCRIPTION_ENABLED = 'is_subscription_enabled';
     const THUMBNAIL_URL = 'thumbnail_url';
-    const MRSP = 'msrp';
+    const MSRP = 'msrp';
     const SALE_PRICE = 'sale_price';
     const IS_ON_SALE = 'is_on_sale';
     const QTY_IN_STOCK = 'qty_in_stock';
