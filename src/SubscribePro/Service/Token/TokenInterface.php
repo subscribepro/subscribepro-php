@@ -117,6 +117,34 @@ interface TokenInterface extends DataInterface
     public function setCreditCardYear($year);
 
     /**
+     * @return mixed[]|null
+     */
+    public function getApplePayPaymentData();
+
+    /**
+     * @param mixed[]|null $applePayPaymentData
+     * @return $this
+     */
+    public function setApplePayPaymentData($applePayPaymentData);
+
+    /**
+     * @return string
+     */
+    public function getTestCardNumber();
+
+    /**
+     * @param string $testCardNumber
+     * @return $this
+     */
+    public function setTestCardNumber($testCardNumber);
+
+    /**
+     * @param string $year
+     * @return $this
+     */
+    public function setCreditCardYear($year);
+
+    /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
     public function getBillingAddress();

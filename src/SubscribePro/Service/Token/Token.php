@@ -180,6 +180,26 @@ class Token extends DataObject implements TokenInterface
         return $this->setData(self::CREDITCARD_YEAR, $year);
     }
 
+    public function getApplePayPaymentData()
+    {
+        return $this->getData(self::APPLEPAY_PAYMENT_DATA);
+    }
+
+    public function setApplePayPaymentData($applePayPaymentData)
+    {
+        return $this->setData(self::APPLEPAY_PAYMENT_DATA, $applePayPaymentData);
+    }
+
+    public function getTestCardNumber()
+    {
+        return $this->getData(self::TEST_CARD_NUMBER);
+    }
+
+    public function setTestCardNumber($testCardNumber)
+    {
+        return $this->setData(self::TEST_CARD_NUMBER, $testCardNumber);
+    }
+
     /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
