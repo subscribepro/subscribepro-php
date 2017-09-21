@@ -139,12 +139,6 @@ interface TokenInterface extends DataInterface
     public function setTestCardNumber($testCardNumber);
 
     /**
-     * @param string $year
-     * @return $this
-     */
-    public function setCreditCardYear($year);
-
-    /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
     public function getBillingAddress();
