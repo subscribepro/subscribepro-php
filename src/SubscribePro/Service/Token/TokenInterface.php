@@ -17,6 +17,8 @@ interface TokenInterface extends DataInterface
     const CREDITCARD_VERIFICATION_VALUE = 'creditcard_verification_value';
     const CREDITCARD_MONTH = 'creditcard_month';
     const CREDITCARD_YEAR = 'creditcard_year';
+    const APPLEPAY_PAYMENT_DATA = 'applepay_payment_data';
+    const TEST_CARD_NUMBER = 'test_card_number';
     const BILLING_ADDRESS = 'billing_address';
 
     const FIRST_NAME = 'first_name';
