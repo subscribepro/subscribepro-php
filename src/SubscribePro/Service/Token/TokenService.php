@@ -51,7 +51,16 @@ class TokenService extends AbstractService
      */
     public function saveToken(TokenInterface $token)
     {
-        $response = $this->httpClient->post('/services/v1/vault/token.json', [self::API_NAME_TOKEN => $token->getFormData()]);
+        $tokenData = $token->getFormData();
+        if (isset($tokenData['applepay_payment_data']) && !empty($tokenData['applepay_payment_data'])) {
+            // Apple Pay token endpoint
+            $response = $this->httpClient->post('/services/v2/vault/token/applepay.json', [self::API_NAME_TOKEN => $token->getFormData()]);
+        }
+        else {
+            // Credit card token endpoint
+            $response = $this->httpClient->post('/services/v1/vault/token.json', [self::API_NAME_TOKEN => $token->getFormData()]);
+        }
+
         return $this->retrieveItem($response, self::API_NAME_TOKEN, $token);
     }
 }

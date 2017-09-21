@@ -16,11 +16,13 @@ class Token extends DataObject implements TokenInterface
      * @var array
      */
     protected $creatingFields = [
-        self::CREDITCARD_NUMBER => true,
+        self::CREDITCARD_NUMBER => false,
         self::CREDITCARD_VERIFICATION_VALUE => false,
-        self::CREDITCARD_MONTH => true,
-        self::CREDITCARD_YEAR => true,
-        self::BILLING_ADDRESS => true
+        self::CREDITCARD_MONTH => false,
+        self::CREDITCARD_YEAR => false,
+        self::APPLEPAY_PAYMENT_DATA => false,
+        self::TEST_CARD_NUMBER => false,
+        self::BILLING_ADDRESS => false
     ];
 
     public function toArray()
@@ -45,7 +47,7 @@ class Token extends DataObject implements TokenInterface
      */
     public function getFormData()
     {
-        $formData =array_intersect_key($this->data, $this->creatingFields);
+        $formData = array_intersect_key($this->data, $this->creatingFields);
         return $this->updateBillingFormData($formData);
     }
 
