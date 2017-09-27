@@ -101,6 +101,22 @@ class Token extends DataObject implements TokenInterface
     /**
      * @return string|null
      */
+    public function getMonth()
+    {
+        return $this->getData(self::MONTH);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYear()
+    {
+        return $this->getData(self::YEAR);
+    }
+
+    /**
+     * @return string|null
+     */
     public function getCreditCardNumber()
     {
         return $this->getData(self::CREDITCARD_NUMBER);

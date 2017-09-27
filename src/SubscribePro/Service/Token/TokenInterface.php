@@ -12,15 +12,8 @@ interface TokenInterface extends DataInterface
      */
     const TOKEN = 'token';
     const PAYMENT_METHOD_TYPE = 'payment_method_type';
-    const CARD_TYPE = 'card_type';
-    const CREDITCARD_NUMBER = 'creditcard_number';
-    const CREDITCARD_VERIFICATION_VALUE = 'creditcard_verification_value';
-    const CREDITCARD_MONTH = 'creditcard_month';
-    const CREDITCARD_YEAR = 'creditcard_year';
-    const APPLEPAY_PAYMENT_DATA = 'applepay_payment_data';
-    const TEST_CARD_NUMBER = 'test_card_number';
-    const BILLING_ADDRESS = 'billing_address';
 
+    // Fields which are sent back by service endpoints
     const FIRST_NAME = 'first_name';
     const LAST_NAME = 'last_name';
     const FULL_NAME = 'full_name';
@@ -33,6 +26,9 @@ interface TokenInterface extends DataInterface
     const COMPANY = 'company';
     const PHONE_NUMBER = 'phone_number';
     const TEST = 'test';
+    const CARD_TYPE = 'card_type';
+    const MONTH = 'month';
+    const YEAR = 'year';
     const ELIGIBLE_FOR_CARD_UPDATER = 'eligible_for_card_updater';
     const STORAGE_STATE = 'storage_state';
     const LAST_FOUR_DIGITS = 'last_four_digits';
@@ -40,6 +36,15 @@ interface TokenInterface extends DataInterface
     const FINGERPRINT = 'fingerprint';
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
+    // Fields for create POST endpoints
+    const CREDITCARD_NUMBER = 'creditcard_number';
+    const CREDITCARD_VERIFICATION_VALUE = 'creditcard_verification_value';
+    const CREDITCARD_MONTH = 'creditcard_month';
+    const CREDITCARD_YEAR = 'creditcard_year';
+    const APPLEPAY_PAYMENT_DATA = 'applepay_payment_data';
+    const TEST_CARD_NUMBER = 'test_card_number';
+    const BILLING_ADDRESS = 'billing_address';
 
 
     /**
@@ -61,6 +66,16 @@ interface TokenInterface extends DataInterface
      * @return string|null
      */
     public function getCardType();
+
+    /**
+     * @return string|null
+     */
+    public function getMonth();
+
+    /**
+     * @return string|null
+     */
+    public function getYear();
 
     /**
      * @return string|null
