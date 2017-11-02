@@ -20,7 +20,9 @@ interface ProductInterface extends DataInterface
     const IS_DISCOUNT_PERCENTAGE = 'is_discount_percentage';
     const SUBSCRIPTION_OPTION_MODE = 'subscription_option_mode';
     const DEFAULT_SUBSCRIPTION_OPTION = 'default_subscription_option';
-    const DEFAULT_INTERVAL = 'default_interval';
+	const USE_SCHEDULING_RULE = 'use_scheduling_rule';
+	const SCHEDULING_RULE_ID = 'scheduling_rule_id';
+	const DEFAULT_INTERVAL = 'default_interval';
     const INTERVALS = 'intervals';
     const PRODUCT_OPTIONS_MODE = 'product_options_mode';
     const SHIPPING_MODE = 'shipping_mode';
@@ -183,7 +185,29 @@ interface ProductInterface extends DataInterface
      */
     public function setDefaultSubscriptionOption($defaultSubscriptionOption);
 
-    /**
+	/**
+	 * @return bool|null
+	 */
+	public function getUseSchedulingRule();
+
+	/**
+	 * @param bool|null $useSchedulingRule
+	 * @return $this
+	 */
+	public function setUseSchedulingRule($useSchedulingRule);
+
+	/**
+	 * @return string|null
+	 */
+	public function getSchedulingRuleId();
+
+	/**
+	 * @param string|null $schedulingRuleId
+	 * @return $this
+	 */
+	public function setSchedulingRuleId($schedulingRuleId);
+
+	/**
      * @return string|null
      */
     public function getDefaultInterval();

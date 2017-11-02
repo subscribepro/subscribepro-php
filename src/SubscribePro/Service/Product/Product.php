@@ -26,6 +26,8 @@ class Product extends DataObject implements ProductInterface
         self::IS_DISCOUNT_PERCENTAGE => false,
         self::SUBSCRIPTION_OPTION_MODE => false,
         self::DEFAULT_SUBSCRIPTION_OPTION => false,
+        self::USE_SCHEDULING_RULE => false,
+        self::SCHEDULING_RULE_ID => false,
         self::DEFAULT_INTERVAL => false,
         self::INTERVALS => false,
         self::PRODUCT_OPTIONS_MODE => false,
@@ -59,6 +61,8 @@ class Product extends DataObject implements ProductInterface
         self::IS_DISCOUNT_PERCENTAGE => false,
         self::SUBSCRIPTION_OPTION_MODE => false,
         self::DEFAULT_SUBSCRIPTION_OPTION => false,
+        self::USE_SCHEDULING_RULE => false,
+        self::SCHEDULING_RULE_ID => false,
         self::DEFAULT_INTERVAL => false,
         self::INTERVALS => false,
         self::SHIPPING_MODE => false,
@@ -321,7 +325,41 @@ class Product extends DataObject implements ProductInterface
         return $this->setData(self::DEFAULT_SUBSCRIPTION_OPTION, $defaultSubscriptionOption);
     }
 
-    /**
+	/**
+	 * @return bool|null
+	 */
+	public function getUseSchedulingRule()
+	{
+		return $this->getData(self::USE_SCHEDULING_RULE);
+	}
+
+	/**
+	 * @param bool|null $useSchedulingRule
+	 * @return $this
+	 */
+	public function setUseSchedulingRule($useSchedulingRule)
+	{
+		return $this->setData(self::USE_SCHEDULING_RULE, $useSchedulingRule);
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getSchedulingRuleId()
+	{
+		return $this->getData(self::SCHEDULING_RULE_ID);
+	}
+
+	/**
+	 * @param string|null $schedulingRuleId
+	 * @return $this
+	 */
+	public function setSchedulingRuleId($schedulingRuleId)
+	{
+		return $this->setData(self::SCHEDULING_RULE_ID, $schedulingRuleId);
+	}
+
+	/**
      * Default subscription option: 'subscription' or 'onetime_purchase'
      *
      * @return string|null
