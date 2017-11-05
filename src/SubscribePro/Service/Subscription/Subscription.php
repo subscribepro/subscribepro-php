@@ -26,7 +26,7 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::QTY => true,
         self::USE_FIXED_PRICE => true,
         self::FIXED_PRICE => false,
-        self::INTERVAL => true,
+        self::INTERVAL => false,
         self::NEXT_ORDER_DATE => true,
         self::FIRST_ORDER_ALREADY_CREATED => false,
         self::SEND_CUSTOMER_NOTIFICATION_EMAIL => false,
