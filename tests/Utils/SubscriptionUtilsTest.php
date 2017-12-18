@@ -54,19 +54,16 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
                     [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                     [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_FAILED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                     [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_RETRY, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 5, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                 ],
-                'expectedSubscriptions' => [3, 2, 1, 4, 5],
+                'expectedSubscriptions' => [3, 2, 1],
             ],
             'Sort Paused to the End | All Same Next Order Date and Shipping Address' => [
                 'subscriptions' => [
                     [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                     [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_PAUSED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                 ],
-                'expectedSubscriptions' => [1, 3, 4, 2],
+                'expectedSubscriptions' => [1, 3, 2],
             ],
             'Sort Next Order Date | All Active Subscriptions, Same Shipping Address' => [
                 'subscriptions' => [
@@ -81,10 +78,9 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
                 'subscriptions' => [
                     [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                     [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 3],
-                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 2],
+                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 2],
                 ],
-                'expectedSubscriptions' => [1, 3, 4, 2],
+                'expectedSubscriptions' => [1, 3, 2],
             ],
         ];
     }
