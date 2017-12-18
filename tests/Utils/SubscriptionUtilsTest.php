@@ -13,63 +13,34 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
      */
     protected $subscriptions;
 
-    protected function setUp()
-    {
-
-        $this->paymentProfileMock = $this->getMockBuilder('SubscribePro\Service\PaymentProfile\PaymentProfileInterface')->getMock();
-        $this->shippingAddressMock = $this->getMockBuilder('SubscribePro\Service\Address\AddressInterface')->getMock();
-        // $this->shippingAddressMock->setId(1);
-
-        $this->subscriptions = [
-            new Subscription([
-                    SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
-                    SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock,
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2017-12-31',
-                    SubscriptionInterface::ID => 1,
-                    SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE,
-            ]),
-            new Subscription([
-                    SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
-                    SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock,
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2018-01-01',
-                    SubscriptionInterface::ID => 2,
-                    SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED,
-            ]),
-            new Subscription([
-                    SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
-                    SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock,
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2017-11-30',
-                    SubscriptionInterface::ID => 3,
-                    SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED,
-            ]),
-            new Subscription([
-                    SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
-                    SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock,
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2017-12-31',
-                    SubscriptionInterface::ID => 4,
-                    SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_FAILED,
-            ]),
-            new Subscription([
-                    SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
-                    SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock,
-                    SubscriptionInterface::NEXT_ORDER_DATE => '2017-12-31',
-                    SubscriptionInterface::ID => 5,
-                    SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_PAUSED,
-            ]),
-        ];
-
-        $this->subscriptionUtils = new SubscriptionUtils;
-    }
-
     /**
-     * @param array $expectedResult
-     * @dataProvider sortSubscriptionsDataProvider
+     * @return array
      */
-    public function testSortSubscriptions($expectedResult)
+    public function filterSubscriptionsDataProvider()
     {
-        $sortResults = $this->subscriptionUtils->sortSubscriptionListForDisplay($this->subscriptions);
-
-        $this->assertSame($this->getSubscriptionIdsFromList($sortResults), $expectedResult);
+        return [
+            '0 Subscriptions' => [
+                'subscriptions' => [],
+                'expectedSubscriptions' => [],
+            ],
+            '1 Subscription | Filtered to 0 (Cancelled)' => [
+                'subscriptions' => [
+                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED],
+                ],
+                'expectedSubscriptions' => [],
+            ],
+            'Multiple Subscriptions | All Statuses Filtered' => [
+                'subscriptions' => [
+                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE],
+                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_FAILED],
+                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_RETRY],
+                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_PAUSED],
+                    [ SubscriptionInterface::ID => 5, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED],
+                    [ SubscriptionInterface::ID => 6, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED],
+                ],
+                'expectedSubscriptions' => [1, 2, 3, 4],
+            ],
+        ];
     }
 
     /**
@@ -78,72 +49,94 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
     public function sortSubscriptionsDataProvider()
     {
         return [
-            'Subscriptions sorted' => [
-                'expectedResult' => [
-                    // Failed is first
-                    4,
-                    // Next order date is compared in reverse
-                    2,
-                    1,
-                    3,
-                    // Paused is last
-                    5,
+            'Sort Failed and Retry First | All Same Next Order Date and Shipping Address' => [
+                'subscriptions' => [
+                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_FAILED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_RETRY, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 5, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                 ],
+                'expectedSubscriptions' => [3, 2, 1, 4, 5],
+            ],
+            'Sort Paused to the End | All Same Next Order Date and Shipping Address' => [
+                'subscriptions' => [
+                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_PAUSED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                ],
+                'expectedSubscriptions' => [1, 3, 4, 2],
+            ],
+            'Sort Next Order Date | All Active Subscriptions, Same Shipping Address' => [
+                'subscriptions' => [
+                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2018-12-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2016-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2018-05-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                ],
+                'expectedSubscriptions' => [2, 4, 1, 3],
+            ],
+            'Sort Shipping Address | All Active Subscriptions, Same Next Order Date' => [
+                'subscriptions' => [
+                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 3],
+                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 2],
+                ],
+                'expectedSubscriptions' => [1, 3, 4, 2],
             ],
         ];
     }
 
     /**
+     * @param array $subscriptionData
      * @param array $expectedResult
      * @dataProvider filterSubscriptionsDataProvider
      */
-    public function testFilterSubscriptions($expectedResult)
+    public function testFilterSubscriptions($subscriptionData, $expectedResult)
     {
-        $filterResults = $this->subscriptionUtils->filterSubscriptionListForDisplay($this->subscriptions);
+        $subscriptions = $this->createSubscriptionsFromTestData($subscriptionData);
+        $subscriptionUtils = new SubscriptionUtils();
+        $filterResults = $subscriptionUtils->filterSubscriptionListForDisplay($subscriptions);
 
         $this->assertSame($this->getSubscriptionIdsFromList($filterResults), $expectedResult);
-    }
-
-    public function filterSubscriptionsDataProvider()
-    {
-        return [
-            'Subscriptions filtered' => [
-                'expectedResult' => [
-                    // No cancelled or expired subscriptions
-                    1,
-                    4,
-                    5,
-                ],
-            ],
-        ];
     }
 
     /**
+     * @param array $subscriptionData
      * @param array $expectedResult
-     * @dataProvider filterAndSortSubscriptionsDataProvider
+     * @dataProvider sortSubscriptionsDataProvider
      */
-    public function testFilterAndSortSubscriptions($expectedResult)
+    public function testSortSubscriptions($subscriptionData, $expectedResult)
     {
-        $filterResults = $this->subscriptionUtils->filterAndSortSubscriptionListForDisplay($this->subscriptions);
+        $subscriptions = $this->createSubscriptionsFromTestData($subscriptionData);
+        $subscriptionUtils = new SubscriptionUtils();
+        $filterResults = $subscriptionUtils->sortSubscriptionListForDisplay($subscriptions);
 
         $this->assertSame($this->getSubscriptionIdsFromList($filterResults), $expectedResult);
     }
 
-    public function filterAndSortSubscriptionsDataProvider()
+    /**
+     * @param array $subscriptionData
+     * @return array
+     */
+    protected function createSubscriptionsFromTestData($subscriptionData)
     {
-        return [
-            'Subscriptions filtered' => [
-                'expectedResult' => [
-                    // No cancelled or expired subscriptions
-                    // Failed is first
-                    4,
-                    // Next order date is compared in reverse
-                    1,
-                    // Paused is last
-                    5,
-                ],
-            ],
-        ];
+        $paymentProfileMock = $this->getMockBuilder('SubscribePro\Service\PaymentProfile\PaymentProfileInterface')->getMock();
+        $shippingAddressMock = $this->getMockBuilder('SubscribePro\Service\Address\AddressInterface')->getMock();
+
+        $subscriptions = [];
+        foreach ($subscriptionData as $data) {
+            if (!isset($subscriptionData[SubscriptionInterface::SHIPPING_ADDRESS_ID])) {
+                $data[SubscriptionInterface::SHIPPING_ADDRESS] = $shippingAddressMock;
+            }
+            $data[SubscriptionInterface::PAYMENT_PROFILE] = $paymentProfileMock;
+
+            $subscriptions[] = new Subscription($data);
+        }
+
+        return $subscriptions;
     }
 
     /**
