@@ -22,6 +22,7 @@ interface SubscriptionInterface extends DataInterface
     const MAGENTO_STORE_CODE = 'magento_store_code';
     const PAYMENT_PROFILE_ID = 'payment_profile_id';
     const PAYMENT_PROFILE = 'payment_profile';
+    const PAYMENT_METHOD_CODE = 'payment_method_code';
     const AUTHORIZE_NET_PAYMENT_PROFILE_ID = 'authorize_net_payment_profile_id';
     const CREDITCARD_LAST_DIGITS = 'creditcard_last_digits';
     const MAGENTO_BILLING_ADDRESS_ID = 'magento_billing_address_id';
@@ -187,6 +188,17 @@ interface SubscriptionInterface extends DataInterface
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
     public function getPaymentProfile();
+
+    /**
+     * @return string|null
+     */
+    public function getPaymentMethodCode();
+
+    /**
+     * @param string $paymentMethodCode
+     * @return $this
+     */
+    public function setPaymentMethodCode($paymentMethodCode);
 
     /**
      * @return string|null

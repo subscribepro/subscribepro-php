@@ -18,7 +18,8 @@ class Subscription extends DataObject implements SubscriptionInterface
      */
     protected $creatingFields = [
         self::CUSTOMER_ID => true,
-        self::PAYMENT_PROFILE_ID => true,
+        self::PAYMENT_PROFILE_ID => false,
+        self::PAYMENT_METHOD_CODE => false,
         self::SHIPPING_ADDRESS_ID => false,
         self::SHIPPING_ADDRESS => false,
         self::PRODUCT_SKU => true,
@@ -43,7 +44,8 @@ class Subscription extends DataObject implements SubscriptionInterface
      * @var array
      */
     protected $updatingFields = [
-        self::PAYMENT_PROFILE_ID => true,
+        self::PAYMENT_PROFILE_ID => false,
+        self::PAYMENT_METHOD_CODE => false,
         self::SHIPPING_ADDRESS_ID => false,
         self::SHIPPING_ADDRESS => false,
         self::PRODUCT_SKU => true,
@@ -335,6 +337,23 @@ class Subscription extends DataObject implements SubscriptionInterface
     public function getPaymentProfile()
     {
         return $this->getData(self::PAYMENT_PROFILE);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPaymentMethodCode()
+    {
+        return $this->getData(self::PAYMENT_METHOD_CODE);
+    }
+
+    /**
+     * @param string|null $paymentMethodCode
+     * @return $this
+     */
+    public function setPaymentMethodCode($paymentMethodCode)
+    {
+        return $this->setData(self::PAYMENT_METHOD_CODE, $paymentMethodCode);
     }
 
     /**
