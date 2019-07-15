@@ -67,6 +67,31 @@ class TransactionService extends AbstractService
     }
 
     /**
+     * @param string $token
+     * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
+     * @param \SubscribePro\Service\Address\AddressInterface|null $address
+     * @return \SubscribePro\Service\Transaction\TransactionInterface
+     * @throws \SubscribePro\Exception\EntityInvalidDataException
+     * @throws \SubscribePro\Exception\HttpException
+     */
+    public function verifyAndStoreToken($token, TransactionInterface $transaction, AddressInterface $address = null)
+    {
+        if (!$transaction->isTokenDataValid()) {
+            throw new EntityInvalidDataException('Not all required Transaction fields are set');
+        }
+
+        if ($address && !$address->isAsChildValid(true)) {
+            throw new EntityInvalidDataException('Not all required Address fields are set');
+        }
+
+        $response = $this->httpClient->post(
+            '/services/v1/vault/tokens/{$token}/verifyandstore.json',
+            [self::API_NAME_TRANSACTION => $transaction->getTokenFormData($address)]
+        );
+        return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
+    }
+
+    /**
      * @param array $authorizeData
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
      * @return \SubscribePro\Service\Transaction\TransactionInterface
