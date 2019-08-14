@@ -65,9 +65,19 @@ class SubscriptionService extends AbstractService
      */
     public function loadSubscriptions($customerId = null)
     {
-        $filters = $customerId ? [SubscriptionInterface::CUSTOMER_ID => $customerId] : [];
-        $response = $this->httpClient->get('/services/v2/subscriptions.json', $filters);
-        return $this->retrieveItems($response, self::API_NAME_SUBSCRIPTIONS);
+        $items = [];
+        
+        do {
+            $since_id = isset($lastItem) ? $lastItem->getId() + 1 : 0;
+            $filters = $customerId ? [SubscriptionInterface::CUSTOMER_ID => $customerId, 'since_id' => $since_id] : [];
+            $response = $this->httpClient->get('/services/v2/subscriptions.json', $filters);
+            $responseItems = $this->retrieveItems($response, self::API_NAME_SUBSCRIPTIONS);
+            $lastItem = end($responseItems);
+
+            $items = array_merge($items, $responseItems);
+        } while (count($responseItems) >= SubscriptionInterface::PAGINATION_DEFAULT);
+
+        return $items;
     }
 
     /**

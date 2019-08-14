@@ -50,6 +50,7 @@ interface SubscriptionInterface extends DataInterface
     const CREATED = 'created';
     const UPDATED = 'updated';
     const CANCELLED = 'cancelled';
+    const PAGINATION_DEFAULT = 25;
 
     /**
      * Subscription statuses
