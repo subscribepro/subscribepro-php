@@ -150,12 +150,12 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
         return [
             'Loading without filter' => [
                 'customerId' => null,
-                'filters' => [],
+                'filters' => ['count' => 25],
                 'itemsData' => [[SubscriptionInterface::ID => 111], [SubscriptionInterface::ID => 222]]
             ],
             'Loading by customer ID' => [
                 'customerId' => 122,
-                'filters' => [SubscriptionInterface::CUSTOMER_ID => 122],
+                'filters' => [SubscriptionInterface::CUSTOMER_ID => 122, 'count' => 25],
                 'itemsData' => [[SubscriptionInterface::CUSTOMER_ID => 122, SubscriptionInterface::ID => 333]]
             ],
         ];
