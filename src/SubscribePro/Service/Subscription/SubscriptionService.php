@@ -60,12 +60,19 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param int|null $customerId
+     * @param int $count
      * @return \SubscribePro\Service\Subscription\SubscriptionInterface[]
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function loadSubscriptions($customerId = null)
+    public function loadSubscriptions($customerId = null, $count = 25)
     {
-        $filters = $customerId ? [SubscriptionInterface::CUSTOMER_ID => $customerId] : [];
+        $filters = [
+            'count' => $count,
+        ];
+        if ($customerId) {
+            $filters[SubscriptionInterface::CUSTOMER_ID] = $customerId;
+        }
+
         $response = $this->httpClient->get('/services/v2/subscriptions.json', $filters);
         return $this->retrieveItems($response, self::API_NAME_SUBSCRIPTIONS);
     }
