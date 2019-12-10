@@ -23,7 +23,8 @@ class Transaction extends DataObject implements TransactionInterface
         self::ORDER_ID => false,
         self::IP => false,
         self::EMAIL => false,
-        self::UNIQUE_ID => false
+        self::UNIQUE_ID => false,
+        self::GATEWAY_SPECIFIC_FIELDS => false,
     ];
 
     /**
@@ -37,7 +38,8 @@ class Transaction extends DataObject implements TransactionInterface
         self::EMAIL => false,
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
-        self::UNIQUE_ID => false
+        self::UNIQUE_ID => false,
+        self::GATEWAY_SPECIFIC_FIELDS => false,
     ];
 
     /**
@@ -47,7 +49,8 @@ class Transaction extends DataObject implements TransactionInterface
         self::CURRENCY_CODE => true,
         self::ORDER_ID => false,
         self::IP => false,
-        self::EMAIL => false
+        self::EMAIL => false,
+        self::GATEWAY_SPECIFIC_FIELDS => false,
     ];
 
     /**

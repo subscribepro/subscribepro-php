@@ -12,6 +12,7 @@ interface TransactionInterface extends DataInterface
      */
     const ID = 'id';
     const GATEWAY_SPECIFIC_RESPONSE = 'gateway_specific_response';
+    const GATEWAY_SPECIFIC_FIELDS = 'gateway_specific_fields';
     const GATEWAY_TYPE = 'gateway_type';
     const AUTHORIZE_NET_RESPONSE_REASON_CODE = 'authorize_net_response_reason_code';
     const SUBSCRIBE_PRO_ERROR_DESCRIPTION = 'subscribe_pro_error_description';
