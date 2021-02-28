@@ -19,12 +19,14 @@ class Transaction extends DataObject implements TransactionInterface
     protected $creatingFields = [
         self::AMOUNT => true,
         self::CURRENCY_CODE => true,
-        self::SUBSCRIBE_PRO_ORDER_TOKEN => true,        
+        self::SUBSCRIBE_PRO_ORDER_TOKEN => true,
         self::ORDER_ID => false,
         self::IP => false,
         self::EMAIL => false,
         self::UNIQUE_ID => false,
         self::GATEWAY_SPECIFIC_FIELDS => false,
+        self::USE_THREE_DS => false,
+        self::BROWSER_INFO => false,
     ];
 
     /**
@@ -40,6 +42,8 @@ class Transaction extends DataObject implements TransactionInterface
         self::CREDITCARD_YEAR => false,
         self::UNIQUE_ID => false,
         self::GATEWAY_SPECIFIC_FIELDS => false,
+        self::USE_THREE_DS => false,
+        self::BROWSER_INFO => false,
     ];
 
     /**
@@ -231,6 +235,22 @@ class Transaction extends DataObject implements TransactionInterface
     public function getGatewayType()
     {
         return $this->getData(self::GATEWAY_TYPE);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUseThreeDs()
+    {
+        return (bool)$this->getData(self::USE_THREE_DS);
+    }
+
+    /**
+     * @return @return string|null
+     */
+    public function getBrowserInfo()
+    {
+        return $this->getData(self::BROWSER_INFO);
     }
 
     /**

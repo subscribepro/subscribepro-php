@@ -41,6 +41,7 @@ interface PaymentProfileInterface extends DataInterface
     const PAYMENT_VAULT = 'payment_vault';
     const THIRD_PARTY_VAULT_TYPE = 'third_party_vault_type';
     const THIRD_PARTY_PAYMENT_TOKEN = 'third_party_payment_token';
+    const THREE_DS_STATUS = 'three_ds_status';
     const STATUS = 'status';
     const CREATED = 'created';
     const UPDATED = 'updated';
@@ -77,6 +78,11 @@ interface PaymentProfileInterface extends DataInterface
     const CC_TYPE_JCB = 'jcb';
     const CC_TYPE_DINERS_CLUB = 'diners_club';
     const CC_TYPE_DANKORT = 'dankort';
+
+    const THREE_DS_NONE = 'none';
+    const THREE_DS_PENDING_AUTHENTICATION = 'pending_authentication';
+    const THREE_DS_AUTHENTICATED = 'authenticated';
+    const THREE_DS_AUTHENTICATION_FAILED = 'authentication_failed';
 
     /**
      * @return mixed[]
@@ -396,6 +402,11 @@ interface PaymentProfileInterface extends DataInterface
      * @return string|null
      */
     public function getThirdPartyPaymentToken();
+
+    /**
+     * @return string
+     */
+    public function getThreeDsStatus();
 
     /**
      * Current status of the payment profile: retained or redacted
