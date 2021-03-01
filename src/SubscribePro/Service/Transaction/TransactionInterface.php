@@ -14,6 +14,8 @@ interface TransactionInterface extends DataInterface
     const GATEWAY_SPECIFIC_RESPONSE = 'gateway_specific_response';
     const GATEWAY_SPECIFIC_FIELDS = 'gateway_specific_fields';
     const GATEWAY_TYPE = 'gateway_type';
+    const USE_THREE_DS = 'use_three_ds';
+    const BROWSER_INFO = 'browser_info';
     const AUTHORIZE_NET_RESPONSE_REASON_CODE = 'authorize_net_response_reason_code';
     const SUBSCRIBE_PRO_ERROR_DESCRIPTION = 'subscribe_pro_error_description';
     const CREDITCARD_TYPE = 'creditcard_type';
@@ -62,6 +64,7 @@ interface TransactionInterface extends DataInterface
      * Transaction states
      */
     const STATE_SUCCEEDED = 'succeeded';
+    const STATE_PENDING = 'pending';
     const STATE_FAILED = 'failed';
     const STATE_GATEWAY_PROCESSING_FAILED = 'gateway_processing_failed';
     const STATE_GATEWAY_PROCESSING_RESULT_UNKNOWN = 'gateway_processing_result_unknown';
@@ -169,6 +172,16 @@ interface TransactionInterface extends DataInterface
      * @return string|null
      */
     public function getGatewayType();
+
+    /**
+     * @return bool
+     */
+    public function getUseThreeDs();
+
+    /**
+     * @return @return string|null
+     */
+    public function getBrowserInfo();
 
     /**
      * @return string|null

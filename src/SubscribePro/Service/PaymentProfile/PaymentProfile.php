@@ -627,6 +627,14 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     }
 
     /**
+     * @return string
+     */
+    public function getThreeDsStatus()
+    {
+        return $this->getData(self::THREE_DS_STATUS);
+    }
+
+    /**
      * @param string $thirdPartyPaymentToken
      * @return $this
      */
