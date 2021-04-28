@@ -283,16 +283,18 @@ class PaymentProfileService extends AbstractService
     /**
      * @param string $token
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     * @param array|null $metadata
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function saveToken($token, PaymentProfileInterface $paymentProfile)
+    public function saveToken($token, PaymentProfileInterface $paymentProfile, $metadata = null)
     {
-        $response = $this->httpClient->post(
-            "/services/v1/vault/tokens/{$token}/store.json",
-            ['payment_profile' => $paymentProfile->getTokenFormData()]
-        );
+        $postData = ['payment_profile' => $paymentProfile->getTokenFormData()];
+        if (!empty($metadata)) {
+            $postData['_meta'] = $metadata;
+        }
+        $response = $this->httpClient->post("/services/v1/vault/tokens/{$token}/store.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 

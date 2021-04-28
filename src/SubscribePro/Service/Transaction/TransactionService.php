@@ -49,19 +49,24 @@ class TransactionService extends AbstractService
     /**
      * @param int $paymentProfileId
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
+     * @param array|null $metadata
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function verifyProfile($paymentProfileId, TransactionInterface $transaction)
+    public function verifyProfile($paymentProfileId, TransactionInterface $transaction, $metadata = null)
     {
         if (!$transaction->isVerifyDataValid()) {
             throw new EntityInvalidDataException('Not all required fields are set.');
         }
 
+        $postData = [self::API_NAME_TRANSACTION => $transaction->getVerifyFormData()];
+        if (!empty($metadata)) {
+            $postData['_meta'] = $metadata;
+        }
         $response = $this->httpClient->post(
             "/services/v1/vault/paymentprofiles/{$paymentProfileId}/verify.json",
-            [self::API_NAME_TRANSACTION => $transaction->getVerifyFormData()]
+            $postData
         );
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
@@ -94,11 +99,12 @@ class TransactionService extends AbstractService
     /**
      * @param array $authorizeData
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
+     * @param array|null $metadata
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function authorizeByProfile($authorizeData, TransactionInterface $transaction)
+    public function authorizeByProfile($authorizeData, TransactionInterface $transaction, $metadata = null)
     {
         $formData = $transaction->getFormData();
         if (isset($authorizeData['subscribe_pro_order_token'])) {
@@ -107,21 +113,23 @@ class TransactionService extends AbstractService
 
         $profileId = $authorizeData['profile_id'];
 
-        $response = $this->httpClient->post(
-            "/services/v1/vault/paymentprofiles/{$profileId}/authorize.json",
-            [self::API_NAME_TRANSACTION => $formData]
-        );
+        $postData = [self::API_NAME_TRANSACTION => $formData];
+        if (!empty($metadata)) {
+            $postData['_meta'] = $metadata;
+        }
+        $response = $this->httpClient->post("/services/v1/vault/paymentprofiles/{$profileId}/authorize.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
      * @param array $authorizeData
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
+     * @param array|null $metadata
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function purchaseByProfile($authorizeData, TransactionInterface $transaction)
+    public function purchaseByProfile($authorizeData, TransactionInterface $transaction, $metadata = null)
     {
         $formData = $transaction->getFormData();
         if (isset($authorizeData['subscribe_pro_order_token'])) {
@@ -130,10 +138,11 @@ class TransactionService extends AbstractService
 
         $profileId = $authorizeData['profile_id'];
 
-        $response = $this->httpClient->post(
-            "/services/v1/vault/paymentprofiles/{$profileId}/purchase.json",
-            [self::API_NAME_TRANSACTION => $formData]
-        );
+        $postData = [self::API_NAME_TRANSACTION => $formData];
+        if (!empty($metadata)) {
+            $postData['_meta'] = $metadata;
+        }
+        $response = $this->httpClient->post("/services/v1/vault/paymentprofiles/{$profileId}/purchase.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
@@ -141,11 +150,12 @@ class TransactionService extends AbstractService
      * @param string $token
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
      * @param \SubscribePro\Service\Address\AddressInterface|null $address
+     * @param array|null $metadata
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function authorizeByToken($token, TransactionInterface $transaction, AddressInterface $address = null)
+    public function authorizeByToken($token, TransactionInterface $transaction, AddressInterface $address = null, $metadata = null)
     {
         if (!$transaction->isTokenDataValid()) {
             throw new EntityInvalidDataException('Not all required Transaction fields are set.');
@@ -155,10 +165,11 @@ class TransactionService extends AbstractService
             throw new EntityInvalidDataException('Not all required Address fields are set.');
         }
 
-        $response = $this->httpClient->post(
-            "/services/v1/vault/tokens/{$token}/authorize.json",
-            [self::API_NAME_TRANSACTION => $transaction->getTokenFormData($address)]
-        );
+        $postData = [self::API_NAME_TRANSACTION => $transaction->getTokenFormData($address)];
+        if (!empty($metadata)) {
+            $postData['_meta'] = $metadata;
+        }
+        $response = $this->httpClient->post("/services/v1/vault/tokens/{$token}/authorize.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
@@ -166,11 +177,12 @@ class TransactionService extends AbstractService
      * @param string $token
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
      * @param \SubscribePro\Service\Address\AddressInterface|null $address
+     * @param array|null $metadata
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function purchaseByToken($token, TransactionInterface $transaction, AddressInterface $address = null)
+    public function purchaseByToken($token, TransactionInterface $transaction, AddressInterface $address = null, $metadata = null)
     {
         if (!$transaction->isTokenDataValid()) {
             throw new EntityInvalidDataException('Not all required Transaction fields are set.');
@@ -180,27 +192,32 @@ class TransactionService extends AbstractService
             throw new EntityInvalidDataException('Not all required Address fields are set.');
         }
 
-        $response = $this->httpClient->post(
-            "/services/v1/vault/tokens/{$token}/purchase.json",
-            [self::API_NAME_TRANSACTION => $transaction->getTokenFormData($address)]
-        );
+        $postData = [self::API_NAME_TRANSACTION => $transaction->getTokenFormData($address)];
+        if (!empty($metadata)) {
+            $postData['_meta'] = $metadata;
+        }
+        $response = $this->httpClient->post("/services/v1/vault/tokens/{$token}/purchase.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
      * @param int $transactionId
      * @param \SubscribePro\Service\Transaction\TransactionInterface|null $transaction
+     * @param array|null $metadata
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function capture($transactionId, TransactionInterface $transaction = null)
+    public function capture($transactionId, TransactionInterface $transaction = null, $metadata = null)
     {
         if ($transaction && !$transaction->isServiceDataValid()) {
             throw new EntityInvalidDataException('Currency code not specified for given amount.');
         }
 
         $postData = $transaction ? [self::API_NAME_TRANSACTION => $transaction->getServiceFormData()] : [];
+        if (!empty($metadata)) {
+            $postData['_meta'] = $metadata;
+        }
         $response = $this->httpClient->post("/services/v1/vault/transactions/{$transactionId}/capture.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
@@ -208,29 +225,35 @@ class TransactionService extends AbstractService
     /**
      * @param int $transactionId
      * @param \SubscribePro\Service\Transaction\TransactionInterface|null $transaction
+     * @param array|null $metadata
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function credit($transactionId, TransactionInterface $transaction = null)
+    public function credit($transactionId, TransactionInterface $transaction = null, $metadata = null)
     {
         if ($transaction && !$transaction->isServiceDataValid()) {
             throw new EntityInvalidDataException('Currency code not specified for given amount.');
         }
 
         $postData = $transaction ? [self::API_NAME_TRANSACTION => $transaction->getServiceFormData()] : [];
+        if (!empty($metadata)) {
+            $postData['_meta'] = $metadata;
+        }
         $response = $this->httpClient->post("/services/v1/vault/transactions/{$transactionId}/credit.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
      * @param int $transactionId
+     * @param array|null $metadata
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function void($transactionId)
+    public function void($transactionId, $metadata = null)
     {
-        $response = $this->httpClient->post("/services/v1/vault/transactions/{$transactionId}/void.json");
+        $postData = !empty($metadata) ? ['_meta' => $metadata] : [];
+        $response = $this->httpClient->post("/services/v1/vault/transactions/{$transactionId}/void.json", $postData);
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION);
     }
 }
