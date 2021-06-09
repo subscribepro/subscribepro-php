@@ -26,6 +26,7 @@ class Transaction extends DataObject implements TransactionInterface
         self::UNIQUE_ID => false,
         self::GATEWAY_SPECIFIC_FIELDS => false,
         self::USE_THREE_DS => false,
+        self::THREE_DS_TYPE => false,
         self::THREE_DS_REDIRECT_URL => false,
         self::BROWSER_INFO => false,
     ];
@@ -44,6 +45,7 @@ class Transaction extends DataObject implements TransactionInterface
         self::UNIQUE_ID => false,
         self::GATEWAY_SPECIFIC_FIELDS => false,
         self::USE_THREE_DS => false,
+        self::THREE_DS_TYPE => false,
         self::THREE_DS_REDIRECT_URL => false,
         self::BROWSER_INFO => false,
     ];
