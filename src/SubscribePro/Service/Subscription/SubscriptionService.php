@@ -38,22 +38,17 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param SubscriptionInterface $subscription
-     * @param array|null $_meta
+     * @param array|null $metadata
      * @return SubscriptionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function saveSubscription(SubscriptionInterface $subscription, array $_meta = null)
+    public function saveSubscription(SubscriptionInterface $subscription, array $metadata = null)
     {
         $url = $subscription->isNew() ? '/services/v2/subscription.json' : "/services/v2/subscriptions/{$subscription->getId()}.json";
-        $payload = [
-            self::API_NAME_SUBSCRIPTION => $subscription->getFormData()
-        ];
-        if (null !== $_meta) {
-            if (!is_array($_meta)) {
-                throw new InvalidArgumentException('The _meta data passed to the subscription must be an array.');
-            }
-            $payload[self::API_NAME_META] = $_meta;
+        $payload = [self::API_NAME_SUBSCRIPTION => $subscription->getFormData()];
+        if (!empty($metadata)) {
+            $payload[self::API_NAME_META] = $metadata;
         }
         $response = $this->httpClient->post($url, $payload);
         return $this->retrieveItem($response, self::API_NAME_SUBSCRIPTION, $subscription);

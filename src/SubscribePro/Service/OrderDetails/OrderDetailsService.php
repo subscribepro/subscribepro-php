@@ -14,9 +14,9 @@ class OrderDetailsService extends AbstractService
      * @param array $orderDetails
      * @return \SubscribePro\Service\OrderDetails\OrderDetailsInterface
      */
-    public function createOrderDetails(array $orderDetails = [])
+    public function createOrderDetails(array $orderDetailsData = [])
     {
-        return $this->dataFactory->create($data);
+        return $this->dataFactory->create($orderDetailsData);
     }
 
     /**
