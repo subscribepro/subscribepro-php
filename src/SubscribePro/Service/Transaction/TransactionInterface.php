@@ -16,6 +16,8 @@ interface TransactionInterface extends DataInterface
     const GATEWAY_TYPE = 'gateway_type';
     const USE_THREE_DS = 'use_three_ds';
     const BROWSER_INFO = 'browser_info';
+    const THREE_DS_TYPE = 'three_ds_type';
+    const THREE_DS_REDIRECT_URL = 'three_ds_redirect_url';
     const AUTHORIZE_NET_RESPONSE_REASON_CODE = 'authorize_net_response_reason_code';
     const SUBSCRIBE_PRO_ERROR_DESCRIPTION = 'subscribe_pro_error_description';
     const CREDITCARD_TYPE = 'creditcard_type';
