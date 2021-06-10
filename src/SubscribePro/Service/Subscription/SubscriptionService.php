@@ -24,6 +24,7 @@ class SubscriptionService extends AbstractService
 
     const API_NAME_SUBSCRIPTION = 'subscription';
     const API_NAME_SUBSCRIPTIONS = 'subscriptions';
+    const API_NAME_META = '_meta';
 
     /**
      * @param array $subscriptionData
@@ -35,15 +36,20 @@ class SubscriptionService extends AbstractService
     }
 
     /**
-     * @param \SubscribePro\Service\Subscription\SubscriptionInterface $subscription
-     * @return \SubscribePro\Service\Subscription\SubscriptionInterface
+     * @param SubscriptionInterface $subscription
+     * @param array|null $metadata
+     * @return SubscriptionInterface
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
-    public function saveSubscription(SubscriptionInterface $subscription)
+    public function saveSubscription(SubscriptionInterface $subscription, array $metadata = null)
     {
         $url = $subscription->isNew() ? '/services/v2/subscription.json' : "/services/v2/subscriptions/{$subscription->getId()}.json";
-        $response = $this->httpClient->post($url, [self::API_NAME_SUBSCRIPTION => $subscription->getFormData()]);
+        $payload = [self::API_NAME_SUBSCRIPTION => $subscription->getFormData()];
+        if (!empty($metadata)) {
+            $payload[self::API_NAME_META] = $metadata;
+        }
+        $response = $this->httpClient->post($url, $payload);
         return $this->retrieveItem($response, self::API_NAME_SUBSCRIPTION, $subscription);
     }
 
