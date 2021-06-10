@@ -17,7 +17,7 @@ class OrderDetailsService extends AbstractService
     public function createSalesOrder(OrderDetails $orderDetails)
     {
         $response = $this->httpClient->post('/services/v2/order-details.json', [
-            self::API_NAME_ORDER_DETAILS => json_decode(json_encode($orderDetails), true),
+            self::API_NAME_ORDER_DETAILS => $orderDetails->toArray(),
         ]);
         return $this->retrieveItem($response, self::API_NAME_ORDER_DETAILS);
     }
@@ -29,7 +29,7 @@ class OrderDetailsService extends AbstractService
     public function createOrUpdateSalesOrder(OrderDetails $orderDetails)
     {
         $response = $this->httpClient->post('services/v2/order-details/create-or-update.json', [
-            self::API_NAME_ORDER_DETAILS => $orderDetails,
+            self::API_NAME_ORDER_DETAILS => $orderDetails->toArray(),
         ]);
         return $this->retrieveItem($response, self::API_NAME_ORDER_DETAILS);;
     }
