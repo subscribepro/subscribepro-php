@@ -32,14 +32,4 @@ class OrderDetailsFactory implements DataFactoryInterface
     {
         return new $this->instanceName($data);
     }
-
-    /**
-     * @param array $data
-     * @param string $field
-     * @return mixed[]
-     */
-    protected function getFieldData($data, $field)
-    {
-        return !empty($data[$field]) ? $data[$field] : [];
-    }
 }
