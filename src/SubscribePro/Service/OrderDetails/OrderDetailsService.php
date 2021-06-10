@@ -14,7 +14,7 @@ class OrderDetailsService extends AbstractService
      * @param OrderDetails $orderDetails
      * @return \SubscribePro\Service\DataInterface
      */
-    public function createSalesOrder(OrderDetails $orderDetails)
+    public function saveNewOrderDetails(OrderDetails $orderDetails)
     {
         $response = $this->httpClient->post('/services/v2/order-details.json', [
             self::API_NAME_ORDER_DETAILS => $orderDetails->toArray(),
@@ -26,7 +26,7 @@ class OrderDetailsService extends AbstractService
      * @param OrderDetails $orderDetails
      * @return \SubscribePro\Service\DataInterface
      */
-    public function createOrUpdateSalesOrder(OrderDetails $orderDetails)
+    public function saveNewOrUpdateExistingOrderDetails(OrderDetails $orderDetails)
     {
         $response = $this->httpClient->post('services/v2/order-details/create-or-update.json', [
             self::API_NAME_ORDER_DETAILS => $orderDetails->toArray(),
