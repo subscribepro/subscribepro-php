@@ -57,6 +57,36 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @var array
      */
+    protected $creatingExternalVaultFields = [
+        self::CUSTOMER_ID => true,
+        self::PAYMENT_TOKEN => true,
+        self::BILLING_ADDRESS => true,
+        self::VAULT_SPECIFIC_FIELDS => true,
+        self::CREDITCARD_FIRST_DIGITS => true,
+        self::CREDITCARD_LAST_DIGITS => true,
+        self::CREDITCARD_MONTH => true,
+        self::CREDITCARD_YEAR => true,
+        self::CREDITCARD_TYPE => true,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $udpatingExternalVaultFields = [
+        self::CUSTOMER_ID => true,
+        self::PAYMENT_TOKEN => true,
+        self::BILLING_ADDRESS => true,
+        self::VAULT_SPECIFIC_FIELDS => true,
+        self::CREDITCARD_FIRST_DIGITS => true,
+        self::CREDITCARD_LAST_DIGITS => true,
+        self::CREDITCARD_MONTH => true,
+        self::CREDITCARD_YEAR => true,
+        self::CREDITCARD_TYPE => true,
+    ];
+
+    /**
+     * @var array
+     */
     protected $creatingApplePayFields = [
         self::CUSTOMER_ID => true,
         self::APPLEPAY_PAYMENT_DATA => true,
@@ -163,6 +193,14 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     /**
      * @return mixed[]
      */
+    protected function getExternalVaultFormFields()
+    {
+        return $this->isNew() ? $this->creatingExternalVaultFields : $this->udpatingExternalVaultFields;
+    }
+
+    /**
+     * @return mixed[]
+     */
     protected function getApplePayFormFields()
     {
         return $this->isNew() ? $this->creatingApplePayFields : $this->updatingApplePayFields;
@@ -201,6 +239,24 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getBankAccountSavingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->updatingBankAccountFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getExternalVaultCreatingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->creatingExternalVaultFields);
+        return $this->updateBillingFormData($tokenFormData);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getExternalVaultSavingFormData()
+    {
+        $tokenFormData = array_intersect_key($this->data, $this->udpatingExternalVaultFields);
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -537,6 +593,16 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->setData(self::TEST_CARD_NUMBER, $testCardNumber);
     }
 
+    public function getVaultSpecificFields()
+    {
+        return $this->getData(self::VAULT_SPECIFIC_FIELDS);
+    }
+
+    public function setVaultSpecificFields(array $vaultSpecificFields)
+    {
+        return $this->setData(self::VAULT_SPECIFIC_FIELDS, $vaultSpecificFields);
+    }
+
     /**
      * @return \SubscribePro\Service\Address\AddressInterface
      */
@@ -591,6 +657,15 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getPaymentToken()
     {
         return $this->getData(self::PAYMENT_TOKEN);
+    }
+
+    /**
+     * @param $paymentToken
+     * @return PaymentProfile
+     */
+    public function setPaymentToken($paymentToken)
+    {
+        return $this->setData(self::PAYMENT_TOKEN, $paymentToken);
     }
 
     /**

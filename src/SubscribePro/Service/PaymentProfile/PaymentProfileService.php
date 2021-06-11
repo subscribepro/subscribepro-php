@@ -125,7 +125,7 @@ class PaymentProfileService extends AbstractService
     {
         switch($paymentProfile->getProfileType()) {
             case PaymentProfileInterface::TYPE_EXTERNAL_VAULT:
-                throw new EntityInvalidDataException('Unsupported profile type: ' . $paymentProfile->getProfileType());
+                return $this->saveExternalVaultProfile($paymentProfile);
 
             case PaymentProfileInterface::TYPE_SPREEDLY_DUAL_VAULT:
                 throw new EntityInvalidDataException('Unsupported profile type: ' . $paymentProfile->getProfileType());
@@ -157,6 +157,20 @@ class PaymentProfileService extends AbstractService
         return $this->saveCreditCardProfile($paymentProfile);
     }
 
+    private function saveExternalVaultProfile(PaymentProfileInterface $paymentProfile)
+    {
+        if ($paymentProfile->isNew()) {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getExternalVaultCreatingFormData()];
+            $response = $this->httpClient->post('/services/v2/vault/paymentprofile/external-vault.json', $postData);
+        }
+        else {
+            $postData = [self::API_NAME_PROFILE => $paymentProfile->getExternalVaultSavingFormData()];
+            $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
+        }
+
+        return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
+    }
+
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
@@ -175,7 +189,6 @@ class PaymentProfileService extends AbstractService
 
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
-
 
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile

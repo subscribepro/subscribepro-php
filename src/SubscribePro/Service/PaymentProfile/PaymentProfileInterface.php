@@ -45,6 +45,7 @@ interface PaymentProfileInterface extends DataInterface
     const STATUS = 'status';
     const CREATED = 'created';
     const UPDATED = 'updated';
+    const VAULT_SPECIFIC_FIELDS = 'vault_specific_fields';
 
     /**
      * Payment profile statuses
