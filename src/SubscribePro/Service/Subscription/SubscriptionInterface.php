@@ -50,6 +50,7 @@ interface SubscriptionInterface extends DataInterface
     const CREATED = 'created';
     const UPDATED = 'updated';
     const CANCELLED = 'cancelled';
+    const ORDER_ITEM_ID = 'order_item_id';
 
     /**
      * Subscription statuses
@@ -297,6 +298,17 @@ interface SubscriptionInterface extends DataInterface
      * @return string|null
      */
     public function getNextOrderDate($format = null);
+
+    /**
+     * @return string|null
+     */
+    public function getOrderItemId();
+
+    /**
+     * @param string $orderItemId
+     * @return $this
+     */
+    public function setOrderItemId($orderItemId);
 
     /**
      * @param string|null $format

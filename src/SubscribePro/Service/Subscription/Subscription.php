@@ -37,7 +37,8 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::MAGENTO_SHIPPING_METHOD_CODE => false,
         self::SHIPPING_METHOD_CODE => false,
         self::USER_DEFINED_FIELDS => false,
-        self::PLATFORM_SPECIFIC_FIELDS => false
+        self::PLATFORM_SPECIFIC_FIELDS => false,
+        self::ORDER_ITEM_ID => false,
     ];
 
     /**
@@ -62,7 +63,8 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::MAGENTO_SHIPPING_METHOD_CODE => false,
         self::SHIPPING_METHOD_CODE => false,
         self::USER_DEFINED_FIELDS => false,
-        self::PLATFORM_SPECIFIC_FIELDS => false
+        self::PLATFORM_SPECIFIC_FIELDS => false,
+        self::ORDER_ITEM_ID => false,
     ];
 
     /**
@@ -682,6 +684,19 @@ class Subscription extends DataObject implements SubscriptionInterface
     public function getCancelled($format = null)
     {
         return $this->getDatetimeData(self::CANCELLED, $format);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOrderItemId()
+    {
+        return $this->getData(self::ORDER_ITEM_ID);
+    }
+
+    public function setOrderItemId($orderItemId)
+    {
+        return $this->setData(self::ORDER_ITEM_ID, $orderItemId);
     }
 
     //@codeCoverageIgnoreEnd
