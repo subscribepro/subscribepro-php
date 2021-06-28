@@ -3,12 +3,15 @@
 namespace SubscribePro\Service\OrderDetails;
 
 use SubscribePro\Service\AbstractService;
+use SubscribePro\Service\SalesOrder\SalesOrderFactory;
+use SubscribePro\Service\SalesOrder\SalesOrderService;
 
 class OrderDetailsService extends AbstractService
 {
     const NAME = 'order_details';
 
-    CONST API_NAME_ORDER_DETAILS = 'order_details';
+    const API_NAME_ORDER_DETAILS = 'order_details';
+    const API_NAME_SALES_ORDER = 'sales_order';
 
     /**
      * @param array $orderDetails
@@ -28,7 +31,8 @@ class OrderDetailsService extends AbstractService
         $response = $this->httpClient->post('/services/v2/order-details.json', [
             self::API_NAME_ORDER_DETAILS => $orderDetails->getOrderDetails(),
         ]);
-        return $this->retrieveItem($response, self::API_NAME_ORDER_DETAILS);
+        $salesOrderFactory = new SalesOrderFactory('\SubscribePro\Service\SalesOrder\SalesOrder');
+        return $salesOrderFactory->create($response[self::API_NAME_SALES_ORDER]);
     }
 
     /**
@@ -40,6 +44,7 @@ class OrderDetailsService extends AbstractService
         $response = $this->httpClient->post('services/v2/order-details/create-or-update.json', [
             self::API_NAME_ORDER_DETAILS => $orderDetails->getOrderDetails(),
         ]);
-        return $this->retrieveItem($response, self::API_NAME_ORDER_DETAILS);;
+        $salesOrderFactory = new SalesOrderFactory('\SubscribePro\Service\SalesOrder\SalesOrder');
+        return $salesOrderFactory->create($response[self::API_NAME_SALES_ORDER]);
     }
 }
