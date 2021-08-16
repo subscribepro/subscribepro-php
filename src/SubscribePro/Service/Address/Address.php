@@ -22,6 +22,7 @@ class Address extends DataObject implements AddressInterface
         self::COMPANY => false,
         self::STREET1 => false,
         self::STREET2 => false,
+        self::STREET3 => false,
         self::CITY => false,
         self::REGION => false,
         self::POSTCODE => false,
@@ -39,6 +40,7 @@ class Address extends DataObject implements AddressInterface
         self::COMPANY => false,
         self::STREET1 => false,
         self::STREET2 => false,
+        self::STREET3 => false,
         self::CITY => false,
         self::REGION => false,
         self::POSTCODE => false,
@@ -56,6 +58,7 @@ class Address extends DataObject implements AddressInterface
         self::COMPANY => false,
         self::STREET1 => false,
         self::STREET2 => false,
+        self::STREET3 => false,
         self::CITY => false,
         self::REGION => false,
         self::POSTCODE => false,
@@ -243,6 +246,23 @@ class Address extends DataObject implements AddressInterface
     public function setStreet2($street2)
     {
         return $this->setData(self::STREET2, $street2);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStreet3()
+    {
+        return $this->getData(self::STREET3);
+    }
+
+    /**
+     * @param string|null $street3
+     * @return $this
+     */
+    public function setStreet3($street3)
+    {
+        return $this->setData(self::STREET3, $street3);
     }
 
     /**

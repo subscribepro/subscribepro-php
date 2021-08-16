@@ -69,7 +69,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $this->transaction->importData($data);
         $this->assertEquals($expectedData, $this->transaction->getFormData());
     }
-    
+
     public function testGetVerifyFormData()
     {
         $data = [
@@ -118,7 +118,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $this->transaction->importData($data);
         $this->assertEquals($expectedData, $this->transaction->getVerifyFormData());
     }
-    
+
     public function testGetServiceFormData()
     {
         $data = [
@@ -245,6 +245,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ]),
                 'expectedData' => [
                     TransactionInterface::AMOUNT => 'amount',
@@ -267,9 +268,10 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::REGION => 'region',
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
+                        AddressInterface::STREET3 => 'street3',
                     ],
                 ]
-            ]    
+            ]
         ];
     }
 }

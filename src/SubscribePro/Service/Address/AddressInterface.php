@@ -18,6 +18,7 @@ interface AddressInterface extends DataInterface
     const COMPANY = 'company';
     const STREET1 = 'street1';
     const STREET2 = 'street2';
+    const STREET3 = 'street3';
     const CITY = 'city';
     const REGION = 'region';
     const POSTCODE = 'postcode';
@@ -131,6 +132,17 @@ interface AddressInterface extends DataInterface
      * @return $this
      */
     public function setStreet2($street2);
+
+    /**
+     * @return string|null
+     */
+    public function getStreet3();
+
+    /**
+     * @param string|null $street3
+     * @return $this
+     */
+    public function setStreet3($street3);
 
     /**
      * @return string|null

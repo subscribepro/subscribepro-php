@@ -231,6 +231,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::CREATED => '2016-12-12',
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
+                        AddressInterface::STREET3 => 'street3',
                     ]
                 ],
                 'billingData' => [
@@ -247,6 +248,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
                 'expectedData' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
@@ -302,6 +304,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::CREATED => '2016-12-12',
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
+                        AddressInterface::STREET3 => 'street3',
                     ]
                 ],
                 'billingData' => [
@@ -318,6 +321,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
                 'expectedData' => [
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
@@ -334,6 +338,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::REGION => 'region',
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
+                        AddressInterface::STREET3 => 'street3',
                     ]
                 ],
                 'billingFormData' => [
@@ -347,7 +352,8 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::POSTCODE => 'postcode',
                     AddressInterface::REGION => 'region',
                     AddressInterface::STREET1 => 'street1',
-                    AddressInterface::STREET2 => 'street2'
+                    AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ]
             ],
         ];
@@ -454,6 +460,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::CREATED => '2016-12-12',
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
+                        AddressInterface::STREET3 => 'street3',
                     ]
                 ],
                 'billingData' => [
@@ -470,6 +477,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
                 'expectedData' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
@@ -488,6 +496,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::REGION => 'region',
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
+                        AddressInterface::STREET3 => 'street3',
                     ]
                 ],
                 'billingFormData' => [
@@ -502,6 +511,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::REGION => 'region',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ]
             ],
         ];
@@ -638,6 +648,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::CREATED => '2016-12-12',
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
+                        AddressInterface::STREET3 => 'street3',
                     ]
                 ],
                 'billingData' => [
@@ -654,6 +665,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
                 'expectedData' => [
                     PaymentProfileInterface::CUSTOMER_ID => '123',
@@ -676,6 +688,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::REGION => 'region',
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
+                        AddressInterface::STREET3 => 'street3',
                     ]
                 ],
                 'billingFormData' => [
@@ -690,6 +703,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::REGION => 'region',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ]
             ],
         ];
