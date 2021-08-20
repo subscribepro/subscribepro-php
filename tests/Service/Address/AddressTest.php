@@ -49,6 +49,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
                 'expectedData' => [
                     AddressInterface::CITY => 'city',
@@ -62,6 +63,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::REGION => 'region',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
             ],
             'Not new address' => [
@@ -81,6 +83,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
                 'expectedData' => [
                     AddressInterface::CITY => 'city',
@@ -94,6 +97,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::REGION => 'region',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
             ],
         ];
@@ -117,8 +121,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             AddressInterface::REGION => 'region',
             AddressInterface::STREET1 => 'street1',
             AddressInterface::STREET2 => 'street2',
+            AddressInterface::STREET3 => 'street3',
         ];
-        
+
         $this->address->importData($data);
         $this->assertEquals($expectedData, $this->address->getFormData());
     }
@@ -144,6 +149,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
             ],
             'Not new address' => [
@@ -163,6 +169,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::CREATED => '2016-12-12',
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
+                    AddressInterface::STREET3 => 'street3',
                 ],
             ],
         ];
