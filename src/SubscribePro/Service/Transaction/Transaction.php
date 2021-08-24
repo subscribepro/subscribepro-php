@@ -497,5 +497,13 @@ class Transaction extends DataObject implements TransactionInterface
         return $this->getDatetimeData(self::CREATED, $format);
     }
 
+    /**
+     * @return string|null
+     */
+    public function getRealTransactionId()
+    {
+        return $this->getData(self::ID);
+    }
+
     //@codeCoverageIgnoreEnd
 }

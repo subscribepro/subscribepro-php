@@ -337,4 +337,9 @@ interface TransactionInterface extends DataInterface
      * @return string|null
      */
     public function getCreated($format = null);
+
+    /**
+     * @return string|null
+     */
+    public function getRealTransactionId();
 }
