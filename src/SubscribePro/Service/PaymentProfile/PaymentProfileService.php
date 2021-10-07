@@ -36,7 +36,8 @@ class PaymentProfileService extends AbstractService
         PaymentProfileInterface::CUSTOMER_EMAIL,
         PaymentProfileInterface::PROFILE_TYPE,
         PaymentProfileInterface::PAYMENT_METHOD_TYPE,
-        PaymentProfileInterface::TRANSACTION_ID
+        PaymentProfileInterface::PAYMENT_TOKEN,
+        PaymentProfileInterface::TRANSACTION_ID,
     ];
 
     /**
