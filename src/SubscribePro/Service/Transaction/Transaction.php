@@ -59,6 +59,10 @@ class Transaction extends DataObject implements TransactionInterface
         self::IP => false,
         self::EMAIL => false,
         self::GATEWAY_SPECIFIC_FIELDS => false,
+        self::USE_THREE_DS => false,
+        self::THREE_DS_TYPE => false,
+        self::BROWSER_INFO => false,
+        self::THREE_DS_REDIRECT_URL => false,
     ];
 
     /**
@@ -399,7 +403,12 @@ class Transaction extends DataObject implements TransactionInterface
     }
 
     /**
-     * Transaction state: 'succeeded', 'gateway_processing_failed', 'failed', 'gateway_processing_result_unknown' or other
+     * Transaction state:
+     * 'succeeded',
+     * 'gateway_processing_failed',
+     * 'failed',
+     * 'gateway_processing_result_unknown'
+     *  or other
      *
      * @return string|null
      */
