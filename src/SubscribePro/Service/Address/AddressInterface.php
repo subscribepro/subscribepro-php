@@ -27,7 +27,6 @@ interface AddressInterface extends DataInterface
     const CREATED = 'created';
     const UPDATED = 'updated';
 
-
     /**
      * @return mixed[]
      */

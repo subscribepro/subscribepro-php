@@ -6,7 +6,7 @@ use SubscribePro\Service\DataObject;
 
 class SalesOrder extends DataObject implements SalesOrderInterface
 {
-        /**
+    /**
      * @return string|null
      */
     public function getId()
@@ -97,7 +97,7 @@ class SalesOrder extends DataObject implements SalesOrderInterface
      * @param string $orderDateTime
      * @return $this
      */
-    public function setOrderDateTime($orderDateTime =  '')
+    public function setOrderDateTime($orderDateTime = '')
     {
         return $this->setData(self::ORDER_DATE_TIME, $orderDateTime);
     }
