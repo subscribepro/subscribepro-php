@@ -20,7 +20,7 @@
   },
   "require": {
     "php": ">=5.5",
-    "guzzlehttp/guzzle": "~6.0.1|~6.1|~6.2"
+    "guzzlehttp/guzzle": "~7.4.5"
   },
   "require-dev": {
     "monolog/monolog": "^1.16.0"
