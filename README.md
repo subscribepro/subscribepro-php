@@ -1,7 +1,6 @@
 Subscribe Pro PHP Client
 ========================
 
-[![Build Status](https://travis-ci.org/subscribepro/subscribepro-php.svg?branch=master)](https://travis-ci.org/subscribepro/subscribepro-php)
 [![Latest Stable Version](https://poser.pugx.org/subscribepro/subscribepro-php/v/stable)](https://packagist.org/packages/subscribepro/subscribepro-php)
 [![Total Downloads](https://poser.pugx.org/subscribepro/subscribepro-php/downloads)](https://packagist.org/packages/subscribepro/subscribepro-php)
 [![Latest Unstable Version](https://poser.pugx.org/subscribepro/subscribepro-php/v/unstable)](https://packagist.org/packages/subscribepro/subscribepro-php)
