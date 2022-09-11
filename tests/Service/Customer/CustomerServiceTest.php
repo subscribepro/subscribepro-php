@@ -22,7 +22,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $httpClientMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->httpClientMock = $this->getMockBuilder('SubscribePro\Http')
             ->disableOriginalConstructor()
@@ -121,12 +121,10 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($customerMock, $this->customerService->loadCustomer($itemId));
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\InvalidArgumentException
-     * @expectedExceptionMessageRegExp /Only \[[a-z,_ ]+\] query filters are allowed./
-     */
     public function testFailToLoadCustomersIfFilterIsNotValid()
     {
+        $this->expectExceptionMessageMatches("/Only \[[a-z,_ ]+\] query filters are allowed./");
+        $this->expectException(\SubscribePro\Exception\InvalidArgumentException::class);
         $filters = ['invalid_key' => 'value'];
 
         $this->httpClientMock->expects($this->never())->method('get');

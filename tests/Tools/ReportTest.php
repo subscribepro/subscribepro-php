@@ -16,7 +16,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase
      */
     protected $httpClientMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->httpClientMock = $this->getMockBuilder('SubscribePro\Http')
             ->disableOriginalConstructor()
@@ -28,24 +28,20 @@ class ReportTest extends \PHPUnit_Framework_TestCase
             ->getMock();
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\InvalidArgumentException
-     * @expectedExceptionMessageRegExp /Invalid report code. Allowed values: [a-z,_ ]+/
-     */
     public function testFailToLoadReportIfReportCodeIsNotValid()
     {
+        $this->expectExceptionMessageMatches("/Invalid report code. Allowed values: [a-z,_ ]+/");
+        $this->expectException(\SubscribePro\Exception\InvalidArgumentException::class);
         $this->httpClientMock->expects($this->never())
             ->method('getToSink');
 
         $this->reportTool->loadReport('some_invalid_code', 'filePath');
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\InvalidArgumentException
-     * @expectedExceptionMessage file/path is not writable or a directory.
-     */
     public function testFailToLoadReportIfUnableToWriteToFile()
     {
+        $this->expectExceptionMessage("file/path is not writable or a directory.");
+        $this->expectException(\SubscribePro\Exception\InvalidArgumentException::class);
         $filePath = 'file/path';
         $code = Report::REPORT_CUSTOMER_ACTIVITY;
 

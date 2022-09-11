@@ -12,7 +12,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected $address;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->address = new Address();
     }

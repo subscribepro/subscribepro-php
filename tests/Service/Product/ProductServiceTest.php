@@ -22,7 +22,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $httpClientMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->httpClientMock = $this->getMockBuilder('SubscribePro\Http')
             ->disableOriginalConstructor()

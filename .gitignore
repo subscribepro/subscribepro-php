@@ -1,4 +1,4 @@
-composer.phar
+# Ignore composer vendor folder
 vendor/
 
 # Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
@@ -8,8 +8,9 @@ composer.lock
 # Mac OS X dumps these all over the place.
 .DS_Store
 
-# Ignore PHPUnit coverage file
+# Ignore PHPUnit files
 clover.xml
+.phpunit.result.cache
 
 # Ignore PHPStorm files
 .idea/

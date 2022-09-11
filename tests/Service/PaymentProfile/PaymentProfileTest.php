@@ -18,7 +18,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
      */
     protected $billingAddressMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->billingAddressMock = $this->getMockBuilder('SubscribePro\Service\Address\Address')
             ->disableOriginalConstructor()

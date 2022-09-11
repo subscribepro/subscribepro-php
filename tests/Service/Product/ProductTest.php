@@ -12,7 +12,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $product;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->product = new Product();
     }

@@ -14,7 +14,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
      */
     protected $transaction;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transaction = new Transaction();
     }

@@ -17,7 +17,7 @@ class HttpExceptionTest extends \PHPUnit_Framework_TestCase
      */
     protected $response;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->response = $this->getMockBuilder(ResponseInterface::class)->getMock();
         $this->httpException = new HttpException($this->response);

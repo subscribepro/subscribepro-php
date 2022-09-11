@@ -24,7 +24,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
      */
     protected $shippingAddressMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->paymentProfileMock = $this->createProfileMock();
         $this->shippingAddressMock = $this->createAddressMock();

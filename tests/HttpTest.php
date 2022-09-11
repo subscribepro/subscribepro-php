@@ -28,7 +28,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     protected $clientMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clientMock = $this->getMockBuilder('GuzzleHttp\Client')
             ->disableOriginalConstructor()
@@ -130,12 +130,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedRequestParams
      * @param string $url
      * @param \GuzzleHttp\Psr7\Response $response
+     *
      * @dataProvider failToGetIfStatusCodeIsNotSuccessDataProvider
-     * @expectedException \SubscribePro\Exception\HttpException
-     * @expectedExceptionMessageRegExp /[first|second] error message/
      */
     public function testFailToGetIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
+        $this->expectExceptionMessageMatches("/[first|second] error message/");
+        $this->expectException(\SubscribePro\Exception\HttpException::class);
         $this->clientMock->expects($this->once())
             ->method('get')
             ->with($url, $expectedRequestParams)
@@ -211,12 +212,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedRequestParams
      * @param string $url
      * @param \GuzzleHttp\Psr7\Response $response
+     *
      * @dataProvider failToPostIfStatusCodeIsNotSuccessDataProvider
-     * @expectedException \SubscribePro\Exception\HttpException
-     * @expectedExceptionMessageRegExp /[api|http] error/
      */
     public function testFailToPostIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
+        $this->expectExceptionMessageMatches("/[api|http] error/");
+        $this->expectException(\SubscribePro\Exception\HttpException::class);
         $this->clientMock->expects($this->once())
             ->method('post')
             ->with($url, $expectedRequestParams)
@@ -292,12 +294,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedRequestParams
      * @param string $url
      * @param \GuzzleHttp\Psr7\Response $response
+     *
      * @dataProvider failToPutIfStatusCodeIsNotSuccessDataProvider
-     * @expectedException \SubscribePro\Exception\HttpException
-     * @expectedExceptionMessageRegExp /[one|another] error/
      */
     public function testFailToPutIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
+        $this->expectExceptionMessageMatches("/[one|another] error/");
+        $this->expectException(\SubscribePro\Exception\HttpException::class);
         $this->clientMock->expects($this->once())
             ->method('put')
             ->with($url, $expectedRequestParams)
@@ -368,12 +371,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @expectedException \SubscribePro\Exception\HttpException
-     * @expectedExceptionMessage error
-     */
     public function testFailToGetToSinkIfStatusCodeIsNotSuccess()
     {
+        $this->expectExceptionMessage("error");
+        $this->expectException(\SubscribePro\Exception\HttpException::class);
         $url = 'site/url';
         $filePath = 'file/path';
         $response = new Response(300, [], json_encode(['message' => 'error']));

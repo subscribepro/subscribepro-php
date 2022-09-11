@@ -12,7 +12,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected $customer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customer = new Customer();
     }

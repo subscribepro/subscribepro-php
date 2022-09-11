@@ -15,11 +15,13 @@
     "issues": "https://github.com/subscribepro/subscribepro-php/issues"
   },
   "require": {
-    "php": ">=5.5",
+    "php": ">=7.1",
+    "ext-json": "*",
     "guzzlehttp/guzzle": "~6.5|~7.4"
   },
   "require-dev": {
-    "monolog/monolog": "~1.27|~2.8|~3.2"
+    "monolog/monolog": "~1.27|~2.8|~3.2",
+    "phpunit/phpunit": "^9.5"
   },
   "autoload": {
     "psr-4": {

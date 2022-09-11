@@ -24,6 +24,12 @@ To use the PHP client, use Composer's [autoload](https://getcomposer.org/doc/00-
 require_once('vendor/autoload.php');
 ```
 
+## Running the tests
+
+```bash
+vendor/bin/phpunit
+```
+
 ## Getting Started
 
 Simple usage looks like:
