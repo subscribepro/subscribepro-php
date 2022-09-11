@@ -43,7 +43,33 @@ vendor/bin/phpunit
 
 ## Getting Started
 
-Simple usage looks like:
+Simple usage looks like (example fetching a list of products):
 
 ```php
+<?php
+
+use SubscribePro\Sdk;
+
+// Set credentials
+$clientId     = 'XXXX';
+$clientSecret = 'XXXX';
+
+// Set log message format
+$messageFormat = "SUBSCRIBE PRO REST API Call: {method} - {uri}\nRequest body: {req_body}\n{code} {phrase}\nResponse body: {res_body}\n{error}\n";
+
+// Create SDK object
+// Setup with Platform API base url and credentials from Magento config
+$sdk = new Sdk([
+    'client_id' => $clientId,
+    'client_secret' => $clientSecret,
+    'logging_enable' => true,
+    'logging_file_name' => 'var/log/subscribe_pro_api.log',
+    'logging_message_format' => $messageFormat,
+    'api_request_timeout' => 60,
+]);
+
+$products = $sdk
+    ->getProductService()
+    ->loadProducts(['sku' => 'SOME-EXAMPLE-SKU']);
+
 ```
