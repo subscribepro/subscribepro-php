@@ -3,7 +3,6 @@
 namespace SubscribePro\Service\OrderDetails;
 
 use SubscribePro\Service\DataFactoryInterface;
-use SubscribePro\Exception\InvalidArgumentException;
 
 /**
  * @codeCoverageIgnore
@@ -26,6 +25,7 @@ class OrderDetailsFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\Subscription\SubscriptionInterface
      */
     public function create(array $data = [])

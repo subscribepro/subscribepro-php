@@ -130,7 +130,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                     ProductInterface::TRIAL_EMAIL_TEMPLATE_CODE => 'code',
                     ProductInterface::TRIAL_EMAIL_THRESHOLD_DAYS => 'days',
                     ProductInterface::TRIAL_WELCOME_EMAIL_TEMPLATE_CODE => 'welcome_code',
-                ]
+                ],
             ],
         ];
     }

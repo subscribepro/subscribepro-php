@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Customer;
 
-use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataFactoryInterface;
 
 /**
  * @codeCoverageIgnore
@@ -29,6 +29,7 @@ class CustomerFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\Customer\CustomerInterface
      */
     public function create(array $data = [])

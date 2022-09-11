@@ -2,50 +2,49 @@
 
 namespace SubscribePro\Service\Token;
 
-use SubscribePro\Service\DataInterface;
 use SubscribePro\Service\Address\AddressInterface;
+use SubscribePro\Service\DataInterface;
 
 interface TokenInterface extends DataInterface
 {
     /**
      * Data fields
      */
-    const TOKEN = 'token';
-    const PAYMENT_METHOD_TYPE = 'payment_method_type';
+    public const TOKEN = 'token';
+    public const PAYMENT_METHOD_TYPE = 'payment_method_type';
 
     // Fields which are sent back by service endpoints
-    const FIRST_NAME = 'first_name';
-    const LAST_NAME = 'last_name';
-    const FULL_NAME = 'full_name';
-    const ADDRESS1 = 'address1';
-    const ADDRESS2 = 'address2';
-    const CITY = 'city';
-    const STATE = 'state';
-    const ZIP = 'zip';
-    const COUNTRY = 'country';
-    const COMPANY = 'company';
-    const PHONE_NUMBER = 'phone_number';
-    const TEST = 'test';
-    const CARD_TYPE = 'card_type';
-    const MONTH = 'month';
-    const YEAR = 'year';
-    const ELIGIBLE_FOR_CARD_UPDATER = 'eligible_for_card_updater';
-    const STORAGE_STATE = 'storage_state';
-    const LAST_FOUR_DIGITS = 'last_four_digits';
-    const FIRST_SIX_DIGITS = 'first_six_digits';
-    const FINGERPRINT = 'fingerprint';
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+    public const FIRST_NAME = 'first_name';
+    public const LAST_NAME = 'last_name';
+    public const FULL_NAME = 'full_name';
+    public const ADDRESS1 = 'address1';
+    public const ADDRESS2 = 'address2';
+    public const CITY = 'city';
+    public const STATE = 'state';
+    public const ZIP = 'zip';
+    public const COUNTRY = 'country';
+    public const COMPANY = 'company';
+    public const PHONE_NUMBER = 'phone_number';
+    public const TEST = 'test';
+    public const CARD_TYPE = 'card_type';
+    public const MONTH = 'month';
+    public const YEAR = 'year';
+    public const ELIGIBLE_FOR_CARD_UPDATER = 'eligible_for_card_updater';
+    public const STORAGE_STATE = 'storage_state';
+    public const LAST_FOUR_DIGITS = 'last_four_digits';
+    public const FIRST_SIX_DIGITS = 'first_six_digits';
+    public const FINGERPRINT = 'fingerprint';
+    public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = 'updated_at';
 
     // Fields for create POST endpoints
-    const CREDITCARD_NUMBER = 'creditcard_number';
-    const CREDITCARD_VERIFICATION_VALUE = 'creditcard_verification_value';
-    const CREDITCARD_MONTH = 'creditcard_month';
-    const CREDITCARD_YEAR = 'creditcard_year';
-    const APPLEPAY_PAYMENT_DATA = 'applepay_payment_data';
-    const TEST_CARD_NUMBER = 'test_card_number';
-    const BILLING_ADDRESS = 'billing_address';
-
+    public const CREDITCARD_NUMBER = 'creditcard_number';
+    public const CREDITCARD_VERIFICATION_VALUE = 'creditcard_verification_value';
+    public const CREDITCARD_MONTH = 'creditcard_month';
+    public const CREDITCARD_YEAR = 'creditcard_year';
+    public const APPLEPAY_PAYMENT_DATA = 'applepay_payment_data';
+    public const TEST_CARD_NUMBER = 'test_card_number';
+    public const BILLING_ADDRESS = 'billing_address';
 
     /**
      * @return mixed[]
@@ -84,6 +83,7 @@ interface TokenInterface extends DataInterface
 
     /**
      * @param string $number
+     *
      * @return $this
      */
     public function setCreditCardNumber($number);
@@ -105,6 +105,7 @@ interface TokenInterface extends DataInterface
 
     /**
      * @param string $verificationValue
+     *
      * @return $this
      */
     public function setCreditCardVerificationValue($verificationValue);
@@ -116,6 +117,7 @@ interface TokenInterface extends DataInterface
 
     /**
      * @param string $month
+     *
      * @return $this
      */
     public function setCreditCardMonth($month);
@@ -127,6 +129,7 @@ interface TokenInterface extends DataInterface
 
     /**
      * @param string $year
+     *
      * @return $this
      */
     public function setCreditCardYear($year);
@@ -138,6 +141,7 @@ interface TokenInterface extends DataInterface
 
     /**
      * @param mixed[]|null $applePayPaymentData
+     *
      * @return $this
      */
     public function setApplePayPaymentData($applePayPaymentData);
@@ -149,6 +153,7 @@ interface TokenInterface extends DataInterface
 
     /**
      * @param string $testCardNumber
+     *
      * @return $this
      */
     public function setTestCardNumber($testCardNumber);
@@ -158,53 +163,54 @@ interface TokenInterface extends DataInterface
      */
     public function getBillingAddress();
 
-     /**
+    /**
      * @return string|null
      */
     public function getFirstName();
 
-     /**
+    /**
      * @return string|null
      */
     public function getLastName();
 
-     /**
+    /**
      * @return string|null
      */
     public function getFullName();
 
-     /**
+    /**
      * @return string|null
      */
     public function getAddress();
 
-     /**
+    /**
      * @return string|null
      */
     public function getCity();
 
-     /**
+    /**
      * @return string|null
      */
     public function getState();
 
-     /**
+    /**
      * @return string|null
      */
     public function getZip();
 
-     /**
+    /**
      * @return string|null
      */
     public function getCountry();
 
-     /**
+    /**
      * @return string|null
      */
     public function getPhoneNumber();
 
     /**
      * @param AddressInterface $address
+     *
      * @return $this
      */
     public function setBillingAddress(AddressInterface $address);
@@ -226,12 +232,14 @@ interface TokenInterface extends DataInterface
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getCreatedAt($format = null);
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getUpdatedAt($format = null);

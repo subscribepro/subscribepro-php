@@ -24,11 +24,11 @@ abstract class AbstractServiceFactory implements ServiceFactoryInterface
 
     /**
      * @param \SubscribePro\Service\ServiceFactoryResolver $serviceFactoryResolver
-     * @param \SubscribePro\Http $httpClient
-     * @param array $config
+     * @param \SubscribePro\Http                           $httpClient
+     * @param array                                        $config
      */
     public function __construct(
-        \SubscribePro\Service\ServiceFactoryResolver $serviceFactoryResolver,
+        ServiceFactoryResolver $serviceFactoryResolver,
         \SubscribePro\Http $httpClient,
         array $config = []
     ) {
@@ -38,8 +38,9 @@ abstract class AbstractServiceFactory implements ServiceFactoryInterface
     }
 
     /**
-     * @param string $key
+     * @param string     $key
      * @param mixed|null $defaultValue
+     *
      * @return mixed|null
      */
     protected function getConfigValue($key, $defaultValue = null)

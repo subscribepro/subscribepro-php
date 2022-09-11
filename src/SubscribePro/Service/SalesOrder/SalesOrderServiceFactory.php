@@ -3,8 +3,6 @@
 namespace SubscribePro\Service\SalesOrder;
 
 use SubscribePro\Service\AbstractServiceFactory;
-use SubscribePro\Service\Address\AddressService;
-use SubscribePro\Service\PaymentProfile\PaymentProfileService;
 
 /**
  * @codeCoverageIgnore
@@ -22,7 +20,7 @@ class SalesOrderServiceFactory extends AbstractServiceFactory
             $this->config
         );
     }
-    
+
     /**
      * @return \SubscribePro\Service\DataFactoryInterface
      */

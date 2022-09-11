@@ -7,10 +7,11 @@ class Oauth extends AbstractTool
     /**
      * Tool name
      */
-    const NAME = 'oauth';
+    public const NAME = 'oauth';
 
     /**
      * @param array $params
+     *
      * @return array
      */
     public function retrieveAccessToken(array $params)
@@ -20,13 +21,14 @@ class Oauth extends AbstractTool
             'scope' => 'client',
         ], $params);
 
-        $response = $this->httpClient->get("/oauth/v2/token?" . http_build_query($params));
+        $response = $this->httpClient->get('/oauth/v2/token?' . http_build_query($params));
 
         return is_array($response) ? $response : [];
     }
 
     /**
      * @param $customerId
+     *
      * @return array
      */
     public function retrieveWidgetAccessTokenByCustomerId($customerId)
@@ -39,6 +41,7 @@ class Oauth extends AbstractTool
 
     /**
      * @param string $customerEmail
+     *
      * @return array
      */
     public function retrieveWidgetAccessTokenByCustomerEmail($customerEmail)
@@ -48,5 +51,4 @@ class Oauth extends AbstractTool
             'customer_email' => $customerEmail,
         ]);
     }
-
 }

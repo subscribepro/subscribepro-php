@@ -9,58 +9,57 @@ interface ProductInterface extends DataInterface
     /**
      * Data fields
      */
-    const ID = 'id';
-    const SKU = 'sku';
-    const NAME = 'name';
-    const SHOW_ON_UI = 'show_on_ui';
-    const MIN_QTY = 'min_qty';
-    const MAX_QTY = 'max_qty';
-    const PRICE = 'price';
-    const DISCOUNT = 'discount';
-    const IS_DISCOUNT_PERCENTAGE = 'is_discount_percentage';
-    const SUBSCRIPTION_OPTION_MODE = 'subscription_option_mode';
-    const DEFAULT_SUBSCRIPTION_OPTION = 'default_subscription_option';
-	const USE_SCHEDULING_RULE = 'use_scheduling_rule';
-	const SCHEDULING_RULE_ID = 'scheduling_rule_id';
-	const DEFAULT_INTERVAL = 'default_interval';
-    const INTERVALS = 'intervals';
-    const PRODUCT_OPTIONS_MODE = 'product_options_mode';
-    const SHIPPING_MODE = 'shipping_mode';
-    const IS_TRIAL_PRODUCT = 'is_trial_product';
-    const TRIAL_INTERVAL = 'trial_interval';
-    const TRIAL_PRICE = 'trial_price';
-    const TRIAL_FULL_PRODUCT_SKU = 'trial_full_product_sku';
-    const TRIAL_EMAIL_TEMPLATE_CODE = 'trial_email_template_code';
-    const TRIAL_EMAIL_THRESHOLD_DAYS = 'trial_email_threshold_days';
-    const TRIAL_WELCOME_EMAIL_TEMPLATE_CODE = 'trial_welcome_email_template_code';
-    const IS_SUBSCRIPTION_ENABLED = 'is_subscription_enabled';
-    const THUMBNAIL_URL = 'thumbnail_url';
-    const MSRP = 'msrp';
-    const SALE_PRICE = 'sale_price';
-    const IS_ON_SALE = 'is_on_sale';
-    const QTY_IN_STOCK = 'qty_in_stock';
-    const IS_IN_STOCK = 'is_in_stock';
-    const CREATED = 'created';
-    const UPDATED = 'updated';
+    public const ID = 'id';
+    public const SKU = 'sku';
+    public const NAME = 'name';
+    public const SHOW_ON_UI = 'show_on_ui';
+    public const MIN_QTY = 'min_qty';
+    public const MAX_QTY = 'max_qty';
+    public const PRICE = 'price';
+    public const DISCOUNT = 'discount';
+    public const IS_DISCOUNT_PERCENTAGE = 'is_discount_percentage';
+    public const SUBSCRIPTION_OPTION_MODE = 'subscription_option_mode';
+    public const DEFAULT_SUBSCRIPTION_OPTION = 'default_subscription_option';
+    public const USE_SCHEDULING_RULE = 'use_scheduling_rule';
+    public const SCHEDULING_RULE_ID = 'scheduling_rule_id';
+    public const DEFAULT_INTERVAL = 'default_interval';
+    public const INTERVALS = 'intervals';
+    public const PRODUCT_OPTIONS_MODE = 'product_options_mode';
+    public const SHIPPING_MODE = 'shipping_mode';
+    public const IS_TRIAL_PRODUCT = 'is_trial_product';
+    public const TRIAL_INTERVAL = 'trial_interval';
+    public const TRIAL_PRICE = 'trial_price';
+    public const TRIAL_FULL_PRODUCT_SKU = 'trial_full_product_sku';
+    public const TRIAL_EMAIL_TEMPLATE_CODE = 'trial_email_template_code';
+    public const TRIAL_EMAIL_THRESHOLD_DAYS = 'trial_email_threshold_days';
+    public const TRIAL_WELCOME_EMAIL_TEMPLATE_CODE = 'trial_welcome_email_template_code';
+    public const IS_SUBSCRIPTION_ENABLED = 'is_subscription_enabled';
+    public const THUMBNAIL_URL = 'thumbnail_url';
+    public const MSRP = 'msrp';
+    public const SALE_PRICE = 'sale_price';
+    public const IS_ON_SALE = 'is_on_sale';
+    public const QTY_IN_STOCK = 'qty_in_stock';
+    public const IS_IN_STOCK = 'is_in_stock';
+    public const CREATED = 'created';
+    public const UPDATED = 'updated';
 
     /**
      * Subscription option modes
      */
-    const SOM_SUBSCRIPTION_AND_ONETIME_PURCHASE = 'subscription_and_onetime_purchase';
-    const SOM_SUBSCRIPTION_ONLY = 'subscription_only';
+    public const SOM_SUBSCRIPTION_AND_ONETIME_PURCHASE = 'subscription_and_onetime_purchase';
+    public const SOM_SUBSCRIPTION_ONLY = 'subscription_only';
 
     /**
      * Subscription options
      */
-    const SO_ONETIME_PURCHASE = 'onetime_purchase';
-    const SO_SUBSCRIPTION = 'subscription';
+    public const SO_ONETIME_PURCHASE = 'onetime_purchase';
+    public const SO_SUBSCRIPTION = 'subscription';
 
     /**
      * Product options modes
      */
-    const POM_PASS_THROUGH = 'pass_through';
-    const POM_NO_OPTIONS = 'no_options';
-
+    public const POM_PASS_THROUGH = 'pass_through';
+    public const POM_NO_OPTIONS = 'no_options';
 
     /**
      * @return mixed[]
@@ -69,6 +68,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param int|null $id
+     *
      * @return $this
      */
     public function setId($id);
@@ -80,6 +80,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string|null $sku
+     *
      * @return $this
      */
     public function setSku($sku);
@@ -91,6 +92,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string $name
+     *
      * @return $this
      */
     public function setName($name);
@@ -102,6 +104,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param bool|null $showOnUi
+     *
      * @return $this
      */
     public function setShowOnUi($showOnUi);
@@ -113,6 +116,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param int|null $minQty
+     *
      * @return $this
      */
     public function setMinQty($minQty);
@@ -124,6 +128,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param int|null $maxQty
+     *
      * @return $this
      */
     public function setMaxQty($maxQty);
@@ -135,6 +140,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param float|null $price
+     *
      * @return $this
      */
     public function setPrice($price);
@@ -146,6 +152,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param float|null $discount
+     *
      * @return $this
      */
     public function setDiscount($discount);
@@ -157,6 +164,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param bool|null $isDiscountPercentage
+     *
      * @return $this
      */
     public function setIsDiscountPercentage($isDiscountPercentage);
@@ -168,7 +176,9 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string $subscriptionOptionMode
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setSubscriptionOptionMode($subscriptionOptionMode);
@@ -180,40 +190,45 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string $defaultSubscriptionOption
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setDefaultSubscriptionOption($defaultSubscriptionOption);
 
-	/**
-	 * @return bool|null
-	 */
-	public function getUseSchedulingRule();
+    /**
+     * @return bool|null
+     */
+    public function getUseSchedulingRule();
 
-	/**
-	 * @param bool|null $useSchedulingRule
-	 * @return $this
-	 */
-	public function setUseSchedulingRule($useSchedulingRule);
+    /**
+     * @param bool|null $useSchedulingRule
+     *
+     * @return $this
+     */
+    public function setUseSchedulingRule($useSchedulingRule);
 
-	/**
-	 * @return string|null
-	 */
-	public function getSchedulingRuleId();
+    /**
+     * @return string|null
+     */
+    public function getSchedulingRuleId();
 
-	/**
-	 * @param string|null $schedulingRuleId
-	 * @return $this
-	 */
-	public function setSchedulingRuleId($schedulingRuleId);
+    /**
+     * @param string|null $schedulingRuleId
+     *
+     * @return $this
+     */
+    public function setSchedulingRuleId($schedulingRuleId);
 
-	/**
+    /**
      * @return string|null
      */
     public function getDefaultInterval();
 
     /**
      * @param string|null $defaultInterval
+     *
      * @return $this
      */
     public function setDefaultInterval($defaultInterval);
@@ -225,6 +240,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param array|null $intervals
+     *
      * @return $this
      */
     public function setIntervals($intervals);
@@ -236,7 +252,9 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string $productOptionsMode
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setProductOptionsMode($productOptionsMode);
@@ -248,6 +266,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string|null $shippingMode
+     *
      * @return $this
      */
     public function setShippingMode($shippingMode);
@@ -259,6 +278,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param bool|null $isTrialProduct
+     *
      * @return $this
      */
     public function setIsTrialProduct($isTrialProduct);
@@ -270,6 +290,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string|null $trialInterval
+     *
      * @return $this
      */
     public function setTrialInterval($trialInterval);
@@ -281,6 +302,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param float|null $trialPrice
+     *
      * @return $this
      */
     public function setTrialPrice($trialPrice);
@@ -292,6 +314,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string|null $trialFullProductSku
+     *
      * @return $this
      */
     public function setTrialFullProductSku($trialFullProductSku);
@@ -303,6 +326,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string|null $trialEmailTemplateCode
+     *
      * @return $this
      */
     public function setTrialEmailTemplateCode($trialEmailTemplateCode);
@@ -314,6 +338,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param int|null $trialEmailThresholdDays
+     *
      * @return $this
      */
     public function setTrialEmailThresholdDays($trialEmailThresholdDays);
@@ -325,6 +350,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string|null $trialWelcomeEmailTemplateCode
+     *
      * @return $this
      */
     public function setTrialWelcomeEmailTemplateCode($trialWelcomeEmailTemplateCode);
@@ -341,6 +367,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param string|null $thumbnailUrl
+     *
      * @return $this
      */
     public function setThumbnailUrl($thumbnailUrl);
@@ -352,6 +379,7 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param float|null $msrp
+     *
      * @return $this
      */
     public function setMSRP($msrp);
@@ -363,51 +391,57 @@ interface ProductInterface extends DataInterface
 
     /**
      * @param float|null $sale_price
+     *
      * @return $this
      */
     public function setSalePrice($sale_price);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsOnSale();
 
     /**
-     * @param boolean|null $is_on_sale
+     * @param bool|null $is_on_sale
+     *
      * @return $this
      */
     public function setIsOnSale($is_on_sale);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getQtyInStock();
 
     /**
-     * @param integer|null $qty_in_stock
+     * @param int|null $qty_in_stock
+     *
      * @return $this
      */
     public function setQtyInStock($qty_in_stock);
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsInStock();
 
     /**
-     * @param boolean|null $is_in_stock
+     * @param bool|null $is_in_stock
+     *
      * @return $this
      */
     public function setIsInStock($is_in_stock);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getUpdated($format = null);

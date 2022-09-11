@@ -8,11 +8,13 @@ class OrderDetails extends DataObject implements OrderDetailsInterface
 {
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function importData(array $data = [])
     {
         $this->data[self::ORDER_DETAILS] = $data;
+
         return $this;
     }
 

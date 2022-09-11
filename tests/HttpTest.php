@@ -50,13 +50,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string|null $fileName
-     * @param string|null $lineFormat
-     * @param string|null $messageFormat
-     * @param string $logLevel
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param string|null                  $fileName
+     * @param string|null                  $lineFormat
+     * @param string|null                  $messageFormat
+     * @param string                       $logLevel
+     * @param \Psr\Log\LoggerInterface     $logger
      * @param \GuzzleHttp\MessageFormatter $messageFormatter
-     * @param callable $middlewareCallback
+     * @param callable                     $middlewareCallback
      * @dataProvider addDefaultLoggerDataProvider
      */
     public function testAddDefaultLogger($fileName, $lineFormat, $messageFormat, $logLevel, $logger, $messageFormatter, $middlewareCallback)
@@ -92,7 +92,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
                 'logLevel' => LogLevel::INFO,
                 'logger' => new Logger('Logger', [$logHandler1]),
                 'messageFormatter' => new MessageFormatter(Http::DEFAULT_LOG_MESSAGE_FORMAT),
-                'middlewareCallback' => function () {},
+                'middlewareCallback' => function () {
+                },
             ],
             'Custom params' => [
                 'fileName' => 'fileName',
@@ -101,7 +102,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
                 'logLevel' => LogLevel::NOTICE,
                 'logger' => new Logger('Logger', [$logHandler2]),
                 'messageFormatter' => new MessageFormatter('{code}'),
-                'middlewareCallback' => function () {},
+                'middlewareCallback' => function () {
+                },
             ],
         ];
     }
@@ -111,7 +113,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $logger = new Logger('Logger');
         $messageFormatter = new MessageFormatter();
         $logLevel = LogLevel::ALERT;
-        $middlewareCallback = function() {};
+        $middlewareCallback = function () {
+        };
 
         $this->httpMock->expects($this->once())
             ->method('createMiddlewareLogCallback')
@@ -126,16 +129,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
-     * @param array $expectedRequestParams
-     * @param string $url
+     * @param array                     $params
+     * @param array                     $expectedRequestParams
+     * @param string                    $url
      * @param \GuzzleHttp\Psr7\Response $response
      *
      * @dataProvider failToGetIfStatusCodeIsNotSuccessDataProvider
      */
     public function testFailToGetIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
-        $this->expectExceptionMessageMatches("/[first|second] error message/");
+        $this->expectExceptionMessageMatches('/[first|second] error message/');
         $this->expectException(\SubscribePro\Exception\HttpException::class);
         $this->clientMock->expects($this->once())
             ->method('get')
@@ -167,11 +170,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $url
+     * @param string                    $url
      * @param \GuzzleHttp\Psr7\Response $response
-     * @param array $params
-     * @param array $expectedRequestParams
-     * @param array|int $result
+     * @param array                     $params
+     * @param array                     $expectedRequestParams
+     * @param array|int                 $result
      * @dataProvider getDataProvider
      */
     public function testGet($url, $response, $params, $expectedRequestParams, $result)
@@ -208,16 +211,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
-     * @param array $expectedRequestParams
-     * @param string $url
+     * @param array                     $params
+     * @param array                     $expectedRequestParams
+     * @param string                    $url
      * @param \GuzzleHttp\Psr7\Response $response
      *
      * @dataProvider failToPostIfStatusCodeIsNotSuccessDataProvider
      */
     public function testFailToPostIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
-        $this->expectExceptionMessageMatches("/[api|http] error/");
+        $this->expectExceptionMessageMatches('/[api|http] error/');
         $this->expectException(\SubscribePro\Exception\HttpException::class);
         $this->clientMock->expects($this->once())
             ->method('post')
@@ -249,11 +252,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $url
+     * @param string                    $url
      * @param \GuzzleHttp\Psr7\Response $response
-     * @param array $params
-     * @param array $expectedRequestParams
-     * @param array|int $result
+     * @param array                     $params
+     * @param array                     $expectedRequestParams
+     * @param array|int                 $result
      * @dataProvider postDataProvider
      */
     public function testPost($url, $response, $params, $expectedRequestParams, $result)
@@ -290,16 +293,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
-     * @param array $expectedRequestParams
-     * @param string $url
+     * @param array                     $params
+     * @param array                     $expectedRequestParams
+     * @param string                    $url
      * @param \GuzzleHttp\Psr7\Response $response
      *
      * @dataProvider failToPutIfStatusCodeIsNotSuccessDataProvider
      */
     public function testFailToPutIfStatusCodeIsNotSuccess($params, $expectedRequestParams, $url, $response)
     {
-        $this->expectExceptionMessageMatches("/[one|another] error/");
+        $this->expectExceptionMessageMatches('/[one|another] error/');
         $this->expectException(\SubscribePro\Exception\HttpException::class);
         $this->clientMock->expects($this->once())
             ->method('put')
@@ -331,11 +334,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $url
+     * @param string                    $url
      * @param \GuzzleHttp\Psr7\Response $response
-     * @param array $params
-     * @param array $expectedRequestParams
-     * @param array|int $result
+     * @param array                     $params
+     * @param array                     $expectedRequestParams
+     * @param array|int                 $result
      * @dataProvider putDataProvider
      */
     public function testPut($url, $response, $params, $expectedRequestParams, $result)
@@ -373,7 +376,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToGetToSinkIfStatusCodeIsNotSuccess()
     {
-        $this->expectExceptionMessage("error");
+        $this->expectExceptionMessage('error');
         $this->expectException(\SubscribePro\Exception\HttpException::class);
         $url = 'site/url';
         $filePath = 'file/path';
@@ -388,10 +391,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $url
+     * @param string                    $url
      * @param \GuzzleHttp\Psr7\Response $response
-     * @param string $filePath
-     * @param array|int $result
+     * @param string                    $filePath
+     * @param array|int                 $result
      * @dataProvider getToSinkDataProvider
      */
     public function testGetToSink($url, $response, $filePath, $result)

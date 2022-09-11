@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Product;
 
-use SubscribePro\Service\DataObject;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataObject;
 
 class Product extends DataObject implements ProductInterface
 {
@@ -88,7 +88,7 @@ class Product extends DataObject implements ProductInterface
      */
     protected $subscriptionOptionModes = [
         ProductInterface::SOM_SUBSCRIPTION_ONLY,
-        ProductInterface::SOM_SUBSCRIPTION_AND_ONETIME_PURCHASE
+        ProductInterface::SOM_SUBSCRIPTION_AND_ONETIME_PURCHASE,
     ];
 
     /**
@@ -98,7 +98,7 @@ class Product extends DataObject implements ProductInterface
      */
     protected $subscriptionOptions = [
         ProductInterface::SO_SUBSCRIPTION,
-        ProductInterface::SO_ONETIME_PURCHASE
+        ProductInterface::SO_ONETIME_PURCHASE,
     ];
 
     /**
@@ -108,7 +108,7 @@ class Product extends DataObject implements ProductInterface
      */
     protected $productOptionsModes = [
         ProductInterface::POM_PASS_THROUGH,
-        ProductInterface::POM_NO_OPTIONS
+        ProductInterface::POM_NO_OPTIONS,
     ];
 
     /**
@@ -127,15 +127,17 @@ class Product extends DataObject implements ProductInterface
         return array_intersect_key($this->data, $this->getFormFields());
     }
 
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @param int|null $id
+     *
      * @return $this
      */
     public function setId($id)
     {
         $this->setData($this->idField, $id);
+
         return $this;
     }
 
@@ -149,6 +151,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $sku
+     *
      * @return $this
      */
     public function setSku($sku)
@@ -166,6 +169,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string $name
+     *
      * @return $this
      */
     public function setName($name)
@@ -183,6 +187,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param bool|null $showOnUi
+     *
      * @return $this
      */
     public function setShowOnUi($showOnUi)
@@ -200,6 +205,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param int|null $minQty
+     *
      * @return $this
      */
     public function setMinQty($minQty)
@@ -217,6 +223,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param int|null $maxQty
+     *
      * @return $this
      */
     public function setMaxQty($maxQty)
@@ -234,6 +241,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param float|null $price
+     *
      * @return $this
      */
     public function setPrice($price)
@@ -251,6 +259,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param float|null $discount
+     *
      * @return $this
      */
     public function setDiscount($discount)
@@ -268,6 +277,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param bool|null $isDiscountPercentage
+     *
      * @return $this
      */
     public function setIsDiscountPercentage($isDiscountPercentage)
@@ -289,7 +299,9 @@ class Product extends DataObject implements ProductInterface
      * Subscription Option Mode: 'subscription_only' or 'subscription_and_onetime_purchase'
      *
      * @param string $subscriptionOptionMode
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setSubscriptionOptionMode($subscriptionOptionMode)
@@ -297,6 +309,7 @@ class Product extends DataObject implements ProductInterface
         if (!in_array($subscriptionOptionMode, $this->subscriptionOptionModes)) {
             throw new InvalidArgumentException('Unsupported subscription option mode.');
         }
+
         return $this->setData(self::SUBSCRIPTION_OPTION_MODE, $subscriptionOptionMode);
     }
 
@@ -314,7 +327,9 @@ class Product extends DataObject implements ProductInterface
      * Subscription option: 'subscription' or 'onetime_purchase'
      *
      * @param string $defaultSubscriptionOption
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setDefaultSubscriptionOption($defaultSubscriptionOption)
@@ -322,44 +337,47 @@ class Product extends DataObject implements ProductInterface
         if (!in_array($defaultSubscriptionOption, $this->subscriptionOptions)) {
             throw new InvalidArgumentException('Unsupported subscription option.');
         }
+
         return $this->setData(self::DEFAULT_SUBSCRIPTION_OPTION, $defaultSubscriptionOption);
     }
 
-	/**
-	 * @return bool|null
-	 */
-	public function getUseSchedulingRule()
-	{
-		return $this->getData(self::USE_SCHEDULING_RULE);
-	}
+    /**
+     * @return bool|null
+     */
+    public function getUseSchedulingRule()
+    {
+        return $this->getData(self::USE_SCHEDULING_RULE);
+    }
 
-	/**
-	 * @param bool|null $useSchedulingRule
-	 * @return $this
-	 */
-	public function setUseSchedulingRule($useSchedulingRule)
-	{
-		return $this->setData(self::USE_SCHEDULING_RULE, $useSchedulingRule);
-	}
+    /**
+     * @param bool|null $useSchedulingRule
+     *
+     * @return $this
+     */
+    public function setUseSchedulingRule($useSchedulingRule)
+    {
+        return $this->setData(self::USE_SCHEDULING_RULE, $useSchedulingRule);
+    }
 
-	/**
-	 * @return string|null
-	 */
-	public function getSchedulingRuleId()
-	{
-		return $this->getData(self::SCHEDULING_RULE_ID);
-	}
+    /**
+     * @return string|null
+     */
+    public function getSchedulingRuleId()
+    {
+        return $this->getData(self::SCHEDULING_RULE_ID);
+    }
 
-	/**
-	 * @param string|null $schedulingRuleId
-	 * @return $this
-	 */
-	public function setSchedulingRuleId($schedulingRuleId)
-	{
-		return $this->setData(self::SCHEDULING_RULE_ID, $schedulingRuleId);
-	}
+    /**
+     * @param string|null $schedulingRuleId
+     *
+     * @return $this
+     */
+    public function setSchedulingRuleId($schedulingRuleId)
+    {
+        return $this->setData(self::SCHEDULING_RULE_ID, $schedulingRuleId);
+    }
 
-	/**
+    /**
      * Default subscription option: 'subscription' or 'onetime_purchase'
      *
      * @return string|null
@@ -371,6 +389,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $defaultInterval
+     *
      * @return $this
      */
     public function setDefaultInterval($defaultInterval)
@@ -388,6 +407,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param array|null $intervals
+     *
      * @return $this
      */
     public function setIntervals($intervals)
@@ -409,7 +429,9 @@ class Product extends DataObject implements ProductInterface
      * Product options mode: 'pass_through' or 'no_options'
      *
      * @param string $productOptionsMode
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setProductOptionsMode($productOptionsMode)
@@ -417,6 +439,7 @@ class Product extends DataObject implements ProductInterface
         if (!in_array($productOptionsMode, $this->productOptionsModes)) {
             throw new InvalidArgumentException('Unsupported product options mode.');
         }
+
         return $this->setData(self::PRODUCT_OPTIONS_MODE, $productOptionsMode);
     }
 
@@ -430,6 +453,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $shippingMode
+     *
      * @return $this
      */
     public function setShippingMode($shippingMode)
@@ -447,6 +471,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param bool|null $isTrialProduct
+     *
      * @return $this
      */
     public function setIsTrialProduct($isTrialProduct)
@@ -464,6 +489,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $trialInterval
+     *
      * @return $this
      */
     public function setTrialInterval($trialInterval)
@@ -481,6 +507,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param float|null $trialPrice
+     *
      * @return $this
      */
     public function setTrialPrice($trialPrice)
@@ -498,6 +525,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $trialFullProductSku
+     *
      * @return $this
      */
     public function setTrialFullProductSku($trialFullProductSku)
@@ -515,6 +543,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $trialEmailTemplateCode
+     *
      * @return $this
      */
     public function setTrialEmailTemplateCode($trialEmailTemplateCode)
@@ -532,6 +561,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param int|null $trialEmailThresholdDays
+     *
      * @return $this
      */
     public function setTrialEmailThresholdDays($trialEmailThresholdDays)
@@ -549,6 +579,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $trialWelcomeEmailTemplateCode
+     *
      * @return $this
      */
     public function setTrialWelcomeEmailTemplateCode($trialWelcomeEmailTemplateCode)
@@ -574,6 +605,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $thumbnailUrl
+     *
      * @return $this
      */
     public function setThumbnailUrl($thumbnailUrl)
@@ -591,6 +623,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param float|null $msrp
+     *
      * @return $this
      */
     public function setMSRP($msrp)
@@ -608,6 +641,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param float|null $sale_price
+     *
      * @return $this
      */
     public function setSalePrice($sale_price)
@@ -616,7 +650,7 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsOnSale()
     {
@@ -624,7 +658,8 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @param boolean|null $is_on_sale
+     * @param bool|null $is_on_sale
+     *
      * @return $this
      */
     public function setIsOnSale($is_on_sale)
@@ -633,7 +668,7 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getQtyInStock()
     {
@@ -641,7 +676,8 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @param integer|null $qty_in_stock
+     * @param int|null $qty_in_stock
+     *
      * @return $this
      */
     public function setQtyInStock($qty_in_stock)
@@ -650,7 +686,7 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsInStock()
     {
@@ -658,7 +694,8 @@ class Product extends DataObject implements ProductInterface
     }
 
     /**
-     * @param boolean|null $is_in_stock
+     * @param bool|null $is_in_stock
+     *
      * @return $this
      */
     public function setIsInStock($is_in_stock)
@@ -668,6 +705,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null)
@@ -677,6 +715,7 @@ class Product extends DataObject implements ProductInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getUpdated($format = null)
@@ -684,5 +723,5 @@ class Product extends DataObject implements ProductInterface
         return $this->getDatetimeData(self::UPDATED, $format);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 }

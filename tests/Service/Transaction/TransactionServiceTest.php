@@ -37,7 +37,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
     {
         $transactionMock = $this->createTransactionMock();
         $transactionData = [
-            TransactionInterface::ID => 123
+            TransactionInterface::ID => 123,
         ];
 
         $this->transactionFactoryMock->expects($this->once())
@@ -69,7 +69,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToVerifyProfileIfNotValid()
     {
-        $this->expectExceptionMessage("Not all required fields are set.");
+        $this->expectExceptionMessage('Not all required fields are set.');
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
         $paymentProfileId = 1234;
 
@@ -163,7 +163,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToAuthorizeByTokenIfNotValidTransaction()
     {
-        $this->expectExceptionMessage("Not all required Transaction fields are set.");
+        $this->expectExceptionMessage('Not all required Transaction fields are set.');
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
@@ -177,7 +177,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToAuthorizeByTokenWithAddressIfNotValidTransaction()
     {
-        $this->expectExceptionMessage("Not all required Transaction fields are set.");
+        $this->expectExceptionMessage('Not all required Transaction fields are set.');
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
@@ -193,7 +193,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToAuthorizeByTokenIfNotValidAddress()
     {
-        $this->expectExceptionMessage("Not all required Address fields are set.");
+        $this->expectExceptionMessage('Not all required Address fields are set.');
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
@@ -273,7 +273,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToPurchaseByTokenIfNotValidTransaction()
     {
-        $this->expectExceptionMessage("Not all required Transaction fields are set.");
+        $this->expectExceptionMessage('Not all required Transaction fields are set.');
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
@@ -287,7 +287,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToPurchaseByTokenWithAddressIfNotValidTransaction()
     {
-        $this->expectExceptionMessage("Not all required Transaction fields are set.");
+        $this->expectExceptionMessage('Not all required Transaction fields are set.');
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
@@ -304,7 +304,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
     public function testFailToPurchaseByTokenIfNotValidAddress()
     {
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
-        $this->expectExceptionMessage("Not all required Address fields are set.");
+        $this->expectExceptionMessage('Not all required Address fields are set.');
         $transactionMock = $this->createTransactionMock();
         $transactionMock->expects($this->once())
             ->method('isTokenDataValid')
@@ -383,7 +383,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToCaptureIfNotValid()
     {
-        $this->expectExceptionMessage("Currency code not specified for given amount.");
+        $this->expectExceptionMessage('Currency code not specified for given amount.');
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
         $transactionId = '121';
 
@@ -445,7 +445,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToCreditIfNotValid()
     {
-        $this->expectExceptionMessage("Currency code not specified for given amount.");
+        $this->expectExceptionMessage('Currency code not specified for given amount.');
         $this->expectException(\SubscribePro\Exception\EntityInvalidDataException::class);
         $transactionId = 212;
 

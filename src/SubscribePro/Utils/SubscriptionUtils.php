@@ -6,7 +6,6 @@ use SubscribePro\Service\Subscription\SubscriptionInterface;
 
 class SubscriptionUtils
 {
-
     /**
      * @param array $subscriptions
      *
@@ -44,16 +43,17 @@ class SubscriptionUtils
 
     /**
      * @param SubscriptionInterface $subscription
+     *
      * @return bool
      */
-    protected static function matchesShouldDisplayFilter(\SubscribePro\Service\Subscription\SubscriptionInterface $subscription)
+    protected static function matchesShouldDisplayFilter(SubscriptionInterface $subscription)
     {
         // Ignore cancelled subscriptions
-        if ($subscription->getStatus() == 'Cancelled') {
+        if ('Cancelled' == $subscription->getStatus()) {
             return false;
         }
         // Ignore expired subscriptions
-        if ($subscription->getStatus() == 'Expired') {
+        if ('Expired' == $subscription->getStatus()) {
             return false;
         }
 
@@ -63,40 +63,38 @@ class SubscriptionUtils
     /**
      * @param SubscriptionInterface $a
      * @param SubscriptionInterface $b
+     *
      * @return int
      */
-    protected static function compareSubscriptions(\SubscribePro\Service\Subscription\SubscriptionInterface $a, \SubscribePro\Service\Subscription\SubscriptionInterface $b)
+    protected static function compareSubscriptions(SubscriptionInterface $a, SubscriptionInterface $b)
     {
         // Compare Status - Failed or Retry always comes first
-        if (($a->getStatus() == 'Failed' || $a->getStatus() == 'Retry') && $b->getStatus() != 'Failed' && $b->getStatus() != 'Retry') {
+        if (('Failed' == $a->getStatus() || 'Retry' == $a->getStatus()) && 'Failed' != $b->getStatus() && 'Retry' != $b->getStatus()) {
             return -1;
-        }
-        else if (($b->getStatus() == 'Failed' || $b->getStatus() == 'Retry') && $a->getStatus() != 'Failed' && $a->getStatus() != 'Retry') {
+        } elseif (('Failed' == $b->getStatus() || 'Retry' == $b->getStatus()) && 'Failed' != $a->getStatus() && 'Retry' != $a->getStatus()) {
             return 1;
         }
 
         // Compare Status - Paused always comes last
-        if ($a->getStatus() == 'Paused' && $b->getStatus() != 'Paused') {
+        if ('Paused' == $a->getStatus() && 'Paused' != $b->getStatus()) {
             return 1;
-        }
-        else if ($b->getStatus() == 'Paused' && $a->getStatus() != 'Paused') {
+        } elseif ('Paused' == $b->getStatus() && 'Paused' != $a->getStatus()) {
             return -1;
         }
 
         // Compare by next order date reversed
         $dateResult = (0 - strcmp($a->getNextOrderDate(), $b->getNextOrderDate()));
-        if($dateResult != 0) {
+        if (0 != $dateResult) {
             return $dateResult;
         }
 
         // Compare by shipping address
         $shippingAddressResult = strcmp($a->getShippingAddressId(), $b->getShippingAddressId());
-        if($shippingAddressResult != 0) {
+        if (0 != $shippingAddressResult) {
             return $shippingAddressResult;
         }
 
         // Otherwise, consider them to match
         return 0;
     }
-
 }

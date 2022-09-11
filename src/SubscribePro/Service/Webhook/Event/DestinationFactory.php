@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Webhook\Event;
 
-use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataFactoryInterface;
 
 /**
  * @codeCoverageIgnore
@@ -40,19 +40,21 @@ class DestinationFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\Webhook\Event\DestinationInterface
      */
     public function create(array $data = [])
     {
         $endpointData = $this->getFieldData($data, DestinationInterface::ENDPOINT);
         $data[DestinationInterface::ENDPOINT] = new $this->endpointInstanceName($endpointData);
-        
+
         return new $this->instanceName($data);
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $field
+     *
      * @return array
      */
     protected function getFieldData($data, $field)

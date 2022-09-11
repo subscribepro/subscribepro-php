@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Token;
 
-use SubscribePro\Service\DataObject;
 use SubscribePro\Service\Address\AddressInterface;
+use SubscribePro\Service\DataObject;
 
 class Token extends DataObject implements TokenInterface
 {
@@ -22,13 +22,14 @@ class Token extends DataObject implements TokenInterface
         self::CREDITCARD_YEAR => false,
         self::APPLEPAY_PAYMENT_DATA => false,
         self::TEST_CARD_NUMBER => false,
-        self::BILLING_ADDRESS => false
+        self::BILLING_ADDRESS => false,
     ];
 
     public function toArray()
     {
         $data = parent::toArray();
         $data[self::BILLING_ADDRESS] = $this->getBillingAddress()->toArray();
+
         return $data;
     }
 
@@ -48,6 +49,7 @@ class Token extends DataObject implements TokenInterface
     public function getFormData()
     {
         $formData = array_intersect_key($this->data, $this->creatingFields);
+
         return $this->updateBillingFormData($formData);
     }
 
@@ -61,6 +63,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param array $tokenFormData
+     *
      * @return mixed[]
      */
     protected function updateBillingFormData(array $tokenFormData)
@@ -69,10 +72,11 @@ class Token extends DataObject implements TokenInterface
         if (empty($tokenFormData[self::BILLING_ADDRESS])) {
             unset($tokenFormData[self::BILLING_ADDRESS]);
         }
+
         return $tokenFormData;
     }
 
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @return string|null
@@ -124,6 +128,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param string $number
+     *
      * @return $this
      */
     public function setCreditCardNumber($number)
@@ -157,6 +162,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param string $verificationValue
+     *
      * @return $this
      */
     public function setCreditCardVerificationValue($verificationValue)
@@ -174,6 +180,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param string $month
+     *
      * @return $this
      */
     public function setCreditCardMonth($month)
@@ -191,6 +198,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param string $year
+     *
      * @return $this
      */
     public function setCreditCardYear($year)
@@ -228,6 +236,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface $billingAddress
+     *
      * @return $this
      */
     public function setBillingAddress(AddressInterface $billingAddress)
@@ -235,7 +244,7 @@ class Token extends DataObject implements TokenInterface
         return $this->setData(self::BILLING_ADDRESS, $billingAddress);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getFirstName()
@@ -243,7 +252,7 @@ class Token extends DataObject implements TokenInterface
         return $this->getData(self::FIRST_NAME);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getLastName()
@@ -251,7 +260,7 @@ class Token extends DataObject implements TokenInterface
         return $this->getData(self::LAST_NAME);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getFullName()
@@ -259,7 +268,7 @@ class Token extends DataObject implements TokenInterface
         return $this->getData(self::FULL_NAME);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getAddress()
@@ -267,7 +276,7 @@ class Token extends DataObject implements TokenInterface
         return $this->getData(self::ADDRESS1);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getCity()
@@ -275,7 +284,7 @@ class Token extends DataObject implements TokenInterface
         return $this->getData(self::CITY);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getState()
@@ -283,7 +292,7 @@ class Token extends DataObject implements TokenInterface
         return $this->getData(self::STATE);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getZip()
@@ -291,7 +300,7 @@ class Token extends DataObject implements TokenInterface
         return $this->getData(self::ZIP);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getCountry()
@@ -299,7 +308,7 @@ class Token extends DataObject implements TokenInterface
         return $this->getData(self::COUNTRY);
     }
 
-     /**
+    /**
      * @return string|null
      */
     public function getPhoneNumber()
@@ -341,6 +350,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreatedAt($format = null)
@@ -350,6 +360,7 @@ class Token extends DataObject implements TokenInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getUpdatedAt($format = null)
@@ -357,5 +368,5 @@ class Token extends DataObject implements TokenInterface
         return $this->getDatetimeData(self::UPDATED_AT, $format);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 }

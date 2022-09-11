@@ -19,12 +19,12 @@ class DestinationTest extends \PHPUnit_Framework_TestCase
             DestinationInterface::ID => 11,
             DestinationInterface::ENDPOINT => $endpointMock,
         ]);
-        
+
         $expectedData = [
             DestinationInterface::ID => 11,
             DestinationInterface::ENDPOINT => ['endpoint data'],
         ];
-        
+
         $this->assertEquals($expectedData, $destination->toArray());
     }
 }

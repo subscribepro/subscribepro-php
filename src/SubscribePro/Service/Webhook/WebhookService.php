@@ -2,14 +2,15 @@
 
 namespace SubscribePro\Service\Webhook;
 
-use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\HttpException;
+use SubscribePro\Service\AbstractService;
 
 /**
  * Config options for webhook service:
  * - instance_name
  *   Specified class must implement \SubscribePro\Service\Webhook\EventInterface interface
  *   Default value is \SubscribePro\Service\Webhook\Event
+ *
  *   @see \SubscribePro\Service\Webhook\EventInterface
  * - instance_name_destination
  *   Specified class must implement \SubscribePro\Service\Webhook\Event\DestinationInterface interface
@@ -20,8 +21,9 @@ use SubscribePro\Exception\HttpException;
  *   Default value is \SubscribePro\Service\Webhook\Event\Destination\Endpoint
  *   @see \SubscribePro\Service\Webhook\Event\Destination\EndpointInterface
  *
- * @method \SubscribePro\Service\Webhook\EventInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Webhook\EventInterface   retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
  * @method \SubscribePro\Service\Webhook\EventInterface[] retrieveItems($response, $entitiesName)
+ *
  * @property \SubscribePro\Service\Webhook\EventFactory $dataFactory
  */
 class WebhookService extends AbstractService
@@ -29,12 +31,12 @@ class WebhookService extends AbstractService
     /**
      * Service name
      */
-    const NAME = 'webhook';
-    
-    const API_NAME_WEBHOOK_EVENT = 'webhook_event';
+    public const NAME = 'webhook';
 
-    const CONFIG_INSTANCE_NAME_DESTINATION = 'instance_name_destination';
-    const CONFIG_INSTANCE_NAME_ENDPOINT = 'instance_name_endpoint';
+    public const API_NAME_WEBHOOK_EVENT = 'webhook_event';
+
+    public const CONFIG_INSTANCE_NAME_DESTINATION = 'instance_name_destination';
+    public const CONFIG_INSTANCE_NAME_ENDPOINT = 'instance_name_endpoint';
 
     /**
      * @return bool
@@ -46,6 +48,7 @@ class WebhookService extends AbstractService
         } catch (HttpException $exception) {
             return false;
         }
+
         return true;
     }
 
@@ -60,17 +63,21 @@ class WebhookService extends AbstractService
         $webhookEvent = !empty($rawRequestBody['webhook_event'])
             ? json_decode($rawRequestBody['webhook_event'], true)
             : false;
+
         return $webhookEvent ? $this->dataFactory->create($webhookEvent) : false;
     }
 
     /**
      * @param int $eventId
+     *
      * @return \SubscribePro\Service\Webhook\EventInterface
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadEvent($eventId)
     {
         $response = $this->httpClient->get("/services/v2/webhook-events/{$eventId}.json");
+
         return $this->retrieveItem($response, self::API_NAME_WEBHOOK_EVENT);
     }
 }

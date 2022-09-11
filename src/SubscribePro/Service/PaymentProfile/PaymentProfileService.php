@@ -3,18 +3,20 @@
 namespace SubscribePro\Service\PaymentProfile;
 
 use SubscribePro\Exception\EntityInvalidDataException;
-use SubscribePro\Service\AbstractService;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\AbstractService;
 
 /**
  * Config options for payment profile service:
  * - instance_name
  *   Specified class must implement \SubscribePro\Service\PaymentProfile\PaymentProfileInterface interface
  *   Default value is \SubscribePro\Service\PaymentProfile\PaymentProfile
+ *
  *   @see \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
  *
- * @method \SubscribePro\Service\PaymentProfile\PaymentProfileInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\PaymentProfile\PaymentProfileInterface   retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
  * @method \SubscribePro\Service\PaymentProfile\PaymentProfileInterface[] retrieveItems($response, $entitiesName)
+ *
  * @property \SubscribePro\Service\PaymentProfile\PaymentProfileFactory $dataFactory
  */
 class PaymentProfileService extends AbstractService
@@ -22,10 +24,10 @@ class PaymentProfileService extends AbstractService
     /**
      * Service name
      */
-    const NAME = 'payment_profile';
+    public const NAME = 'payment_profile';
 
-    const API_NAME_PROFILE = 'payment_profile';
-    const API_NAME_PROFILES = 'payment_profiles';
+    public const API_NAME_PROFILE = 'payment_profile';
+    public const API_NAME_PROFILES = 'payment_profiles';
 
     /**
      * @var array
@@ -42,6 +44,7 @@ class PaymentProfileService extends AbstractService
 
     /**
      * @param array $paymentProfileData
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
     public function createProfile(array $paymentProfileData = [])
@@ -52,55 +55,65 @@ class PaymentProfileService extends AbstractService
 
     /**
      * @param array $paymentProfileData
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
     public function createExternalVaultProfile(array $paymentProfileData = [])
     {
         $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_EXTERNAL_VAULT;
+
         return $this->dataFactory->create($paymentProfileData);
     }
 
     /**
      * @param array $paymentProfileData
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
     public function createCreditCardProfile(array $paymentProfileData = [])
     {
         $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
         $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_CREDIT_CARD;
+
         return $this->dataFactory->create($paymentProfileData);
     }
 
     /**
      * @param array $paymentProfileData
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
     public function createBankAccountProfile(array $paymentProfileData = [])
     {
         $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
         $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_BANK_ACCOUNT;
+
         return $this->dataFactory->create($paymentProfileData);
     }
 
     /**
      * @param array $paymentProfileData
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
     public function createApplePayProfile(array $paymentProfileData = [])
     {
         $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
         $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_APPLE_PAY;
+
         return $this->dataFactory->create($paymentProfileData);
     }
 
     /**
      * @param array $paymentProfileData
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
     public function createAndroidPayProfile(array $paymentProfileData = [])
     {
         $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
         $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_ANDROID_PAY;
+
         return $this->dataFactory->create($paymentProfileData);
     }
 
@@ -112,27 +125,28 @@ class PaymentProfileService extends AbstractService
     {
         $paymentProfileData[PaymentProfileInterface::PROFILE_TYPE] = PaymentProfileInterface::TYPE_SPREEDLY_VAULT;
         $paymentProfileData[PaymentProfileInterface::PAYMENT_METHOD_TYPE] = PaymentProfileInterface::TYPE_THIRD_PARTY_TOKEN;
+
         return $this->dataFactory->create($paymentProfileData);
     }
 
-
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
     public function saveProfile(PaymentProfileInterface $paymentProfile)
     {
-        switch($paymentProfile->getProfileType()) {
+        switch ($paymentProfile->getProfileType()) {
             case PaymentProfileInterface::TYPE_EXTERNAL_VAULT:
                 return $this->saveExternalVaultProfile($paymentProfile);
 
             case PaymentProfileInterface::TYPE_SPREEDLY_DUAL_VAULT:
                 throw new EntityInvalidDataException('Unsupported profile type: ' . $paymentProfile->getProfileType());
-
             case PaymentProfileInterface::TYPE_SPREEDLY_VAULT:
-                switch($paymentProfile->getPaymentMethodType()) {
+                switch ($paymentProfile->getPaymentMethodType()) {
                     case PaymentProfileInterface::TYPE_BANK_ACCOUNT:
                         return $this->saveBankAccountProfile($paymentProfile);
 
@@ -145,7 +159,6 @@ class PaymentProfileService extends AbstractService
                     case PaymentProfileInterface::TYPE_ANDROID_PAY:
                         // Not implemented yet
                         throw new EntityInvalidDataException('Unsupported payment method type: ' . $paymentProfile->getPaymentMethodType());
-
                     case PaymentProfileInterface::TYPE_CREDIT_CARD:
                     default:
                         // The default is always save credit card profile to be backwards compatible
@@ -163,8 +176,7 @@ class PaymentProfileService extends AbstractService
         if ($paymentProfile->isNew()) {
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getExternalVaultCreatingFormData()];
             $response = $this->httpClient->post('/services/v2/vault/paymentprofile/external-vault.json', $postData);
-        }
-        else {
+        } else {
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getExternalVaultSavingFormData()];
             $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
@@ -174,7 +186,9 @@ class PaymentProfileService extends AbstractService
 
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -183,8 +197,7 @@ class PaymentProfileService extends AbstractService
         $postData = [self::API_NAME_PROFILE => $paymentProfile->getFormData()];
         if ($paymentProfile->isNew()) {
             $response = $this->httpClient->post('/services/v2/vault/paymentprofile/creditcard.json', $postData);
-        }
-        else {
+        } else {
             $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
 
@@ -193,7 +206,9 @@ class PaymentProfileService extends AbstractService
 
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -206,12 +221,15 @@ class PaymentProfileService extends AbstractService
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getApplePaySavingFormData()];
             $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
+
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -224,28 +242,35 @@ class PaymentProfileService extends AbstractService
             $postData = [self::API_NAME_PROFILE => $paymentProfile->getBankAccountSavingFormData()];
             $response = $this->httpClient->post("/services/v2/vault/paymentprofiles/{$paymentProfile->getId()}.json", $postData);
         }
+
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 
     /**
      * @param int $paymentProfileId
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function redactProfile($paymentProfileId)
     {
         $response = $this->httpClient->put("/services/v1/vault/paymentprofiles/{$paymentProfileId}/redact.json");
+
         return $this->retrieveItem($response, self::API_NAME_PROFILE);
     }
 
     /**
      * @param int $paymentProfileId
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadProfile($paymentProfileId)
     {
         $response = $this->httpClient->get("/services/v2/vault/paymentprofiles/{$paymentProfileId}.json");
+
         return $this->retrieveItem($response, self::API_NAME_PROFILE);
     }
 
@@ -259,25 +284,28 @@ class PaymentProfileService extends AbstractService
      * - transaction_id
      *
      * @param array $filters
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface[]
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadProfiles(array $filters = [])
     {
         $invalidFilters = array_diff_key($filters, array_flip($this->allowedFilters));
         if (!empty($invalidFilters)) {
-            throw new InvalidArgumentException(
-                'Only [' . implode(', ', $this->allowedFilters) . '] query filters are allowed.'
-            );
+            throw new InvalidArgumentException('Only [' . implode(', ', $this->allowedFilters) . '] query filters are allowed.');
         }
 
         $response = $this->httpClient->get('/services/v2/vault/paymentprofiles.json', $filters);
+
         return $this->retrieveItems($response, self::API_NAME_PROFILES);
     }
 
     /**
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -295,10 +323,12 @@ class PaymentProfileService extends AbstractService
     }
 
     /**
-     * @param string $token
+     * @param string                                                       $token
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
-     * @param array|null $metadata
+     * @param array|null                                                   $metadata
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -309,13 +339,16 @@ class PaymentProfileService extends AbstractService
             $postData['_meta'] = $metadata;
         }
         $response = $this->httpClient->post("/services/v1/vault/tokens/{$token}/store.json", $postData);
+
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 
     /**
-     * @param string $token
+     * @param string                                                       $token
      * @param \SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -325,17 +358,21 @@ class PaymentProfileService extends AbstractService
             "/services/v1/vault/tokens/{$token}/verifyandstore.json",
             ['payment_profile' => $paymentProfile->getTokenFormData()]
         );
+
         return $this->retrieveItem($response, self::API_NAME_PROFILE, $paymentProfile);
     }
 
     /**
      * @param string $token
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadProfileByToken($token)
     {
         $response = $this->httpClient->get("/services/v1/vault/tokens/{$token}/paymentprofile.json");
+
         return $this->retrieveItem($response, self::API_NAME_PROFILE);
     }
 }

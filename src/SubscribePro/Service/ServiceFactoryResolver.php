@@ -16,12 +16,12 @@ class ServiceFactoryResolver
      * @var array
      */
     protected $config;
-    
+
     /**
      * @var \SubscribePro\Http
      */
     protected $httpClient;
-    
+
     /**
      * @var \SubscribePro\Service\ServiceFactoryInterface[]
      */
@@ -29,7 +29,7 @@ class ServiceFactoryResolver
 
     /**
      * @param \SubscribePro\Http $http
-     * @param array $config
+     * @param array              $config
      */
     public function __construct(
         \SubscribePro\Http $http,
@@ -41,7 +41,9 @@ class ServiceFactoryResolver
 
     /**
      * @param string $name
+     *
      * @return \SubscribePro\Service\ServiceFactoryInterface|\SubscribePro\Service\AbstractServiceFactory
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function getServiceFactory($name)
@@ -49,12 +51,15 @@ class ServiceFactoryResolver
         if (!isset($this->factories[$name])) {
             $this->factories[$name] = $this->createServiceFactory($name);
         }
+
         return $this->factories[$name];
     }
 
     /**
      * @param string $name
+     *
      * @return \SubscribePro\Service\ServiceFactoryInterface
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     protected function createServiceFactory($name)
@@ -70,6 +75,7 @@ class ServiceFactoryResolver
 
     /**
      * @param string $name
+     *
      * @return string
      */
     private function getClassName($name)
@@ -81,10 +87,11 @@ class ServiceFactoryResolver
 
     /**
      * @param string $name
+     *
      * @return array
      */
     protected function getServiceConfig($name)
     {
-        return (array)(empty($this->config[$name]) ? [] : $this->config[$name]);
+        return (array) (empty($this->config[$name]) ? [] : $this->config[$name]);
     }
 }

@@ -14,3 +14,6 @@ clover.xml
 
 # Ignore PHPStorm files
 .idea/
+
+# Ignore php-cs-fixer files
+.php-cs-fixer.cache

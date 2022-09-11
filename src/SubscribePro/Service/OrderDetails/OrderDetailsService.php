@@ -4,17 +4,17 @@ namespace SubscribePro\Service\OrderDetails;
 
 use SubscribePro\Service\AbstractService;
 use SubscribePro\Service\SalesOrder\SalesOrderFactory;
-use SubscribePro\Service\SalesOrder\SalesOrderService;
 
 class OrderDetailsService extends AbstractService
 {
-    const NAME = 'order_details';
+    public const NAME = 'order_details';
 
-    const API_NAME_ORDER_DETAILS = 'order_details';
-    const API_NAME_SALES_ORDER = 'sales_order';
+    public const API_NAME_ORDER_DETAILS = 'order_details';
+    public const API_NAME_SALES_ORDER = 'sales_order';
 
     /**
      * @param array $orderDetails
+     *
      * @return \SubscribePro\Service\OrderDetails\OrderDetailsInterface
      */
     public function createOrderDetails(array $orderDetailsData = [])
@@ -24,6 +24,7 @@ class OrderDetailsService extends AbstractService
 
     /**
      * @param OrderDetails $orderDetails
+     *
      * @return \SubscribePro\Service\DataInterface
      */
     public function saveNewOrderDetails(OrderDetails $orderDetails)
@@ -32,11 +33,13 @@ class OrderDetailsService extends AbstractService
             self::API_NAME_ORDER_DETAILS => $orderDetails->getOrderDetails(),
         ]);
         $salesOrderFactory = new SalesOrderFactory('\SubscribePro\Service\SalesOrder\SalesOrder');
+
         return $salesOrderFactory->create($response[self::API_NAME_SALES_ORDER]);
     }
 
     /**
      * @param OrderDetails $orderDetails
+     *
      * @return \SubscribePro\Service\DataInterface
      */
     public function saveNewOrUpdateExistingOrderDetails(OrderDetails $orderDetails)
@@ -45,6 +48,7 @@ class OrderDetailsService extends AbstractService
             self::API_NAME_ORDER_DETAILS => $orderDetails->getOrderDetails(),
         ]);
         $salesOrderFactory = new SalesOrderFactory('\SubscribePro\Service\SalesOrder\SalesOrder');
+
         return $salesOrderFactory->create($response[self::API_NAME_SALES_ORDER]);
     }
 }

@@ -111,10 +111,10 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $url
      * @param string $itemId
-     * @param bool $isNew
+     * @param bool   $isNew
      * @param string $method
-     * @param array $formData
-     * @param array $resultData
+     * @param array  $formData
+     * @param array  $resultData
      * @dataProvider saveProfileDataProvider
      */
     public function testSaveProfile($url, $itemId, $isNew, $method, $formData, $resultData)
@@ -225,7 +225,7 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
         $filters = ['invalid_key' => 'value'];
 
         $this->httpClientMock->expects($this->never())->method('get');
-        
+
         $this->paymentProfileService->loadProfiles($filters);
     }
 
@@ -265,14 +265,14 @@ class PaymentProfileServiceTest extends \PHPUnit_Framework_TestCase
                 'filters' => [],
                 'itemsData' => [
                     [PaymentProfileInterface::ID => 111],
-                    [PaymentProfileInterface::ID => 222]
+                    [PaymentProfileInterface::ID => 222],
                 ],
             ],
             'Loading by magento_customer_id' => [
                 'filters' => [PaymentProfileInterface::MAGENTO_CUSTOMER_ID => 123],
                 'itemsData' => [[
                     PaymentProfileInterface::ID => 333,
-                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => 123
+                    PaymentProfileInterface::MAGENTO_CUSTOMER_ID => 123,
                 ]],
             ],
         ];

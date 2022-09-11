@@ -9,24 +9,23 @@ interface AddressInterface extends DataInterface
     /**
      * Data fields
      */
-    const ID = 'id';
-    const CUSTOMER_ID = 'customer_id';
-    const MAGENTO_ADDRESS_ID = 'magento_address_id';
-    const FIRST_NAME = 'first_name';
-    const MIDDLE_NAME = 'middle_name';
-    const LAST_NAME = 'last_name';
-    const COMPANY = 'company';
-    const STREET1 = 'street1';
-    const STREET2 = 'street2';
-    const STREET3 = 'street3';
-    const CITY = 'city';
-    const REGION = 'region';
-    const POSTCODE = 'postcode';
-    const COUNTRY = 'country';
-    const PHONE = 'phone';
-    const CREATED = 'created';
-    const UPDATED = 'updated';
-
+    public const ID = 'id';
+    public const CUSTOMER_ID = 'customer_id';
+    public const MAGENTO_ADDRESS_ID = 'magento_address_id';
+    public const FIRST_NAME = 'first_name';
+    public const MIDDLE_NAME = 'middle_name';
+    public const LAST_NAME = 'last_name';
+    public const COMPANY = 'company';
+    public const STREET1 = 'street1';
+    public const STREET2 = 'street2';
+    public const STREET3 = 'street3';
+    public const CITY = 'city';
+    public const REGION = 'region';
+    public const POSTCODE = 'postcode';
+    public const COUNTRY = 'country';
+    public const PHONE = 'phone';
+    public const CREATED = 'created';
+    public const UPDATED = 'updated';
 
     /**
      * @return mixed[]
@@ -35,18 +34,21 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param int|null $id
+     *
      * @return $this
      */
     public function setId($id);
 
     /**
      * @param bool $isNew
+     *
      * @return bool
      */
     public function isAsChildValid($isNew);
 
     /**
      * @param bool $isNew
+     *
      * @return mixed[]
      */
     public function getAsChildFormData($isNew);
@@ -58,6 +60,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string $customerId
+     *
      * @return $this
      */
     public function setCustomerId($customerId);
@@ -69,6 +72,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string $firstName
+     *
      * @return $this
      */
     public function setFirstName($firstName);
@@ -80,6 +84,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string $lastName
+     *
      * @return $this
      */
     public function setLastName($lastName);
@@ -91,6 +96,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string|null $middleName
+     *
      * @return $this
      */
     public function setMiddleName($middleName);
@@ -107,6 +113,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string|null $company
+     *
      * @return $this
      */
     public function setCompany($company);
@@ -118,6 +125,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string|null $street1
+     *
      * @return $this
      */
     public function setStreet1($street1);
@@ -129,6 +137,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string|null $street2
+     *
      * @return $this
      */
     public function setStreet2($street2);
@@ -140,6 +149,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string|null $street3
+     *
      * @return $this
      */
     public function setStreet3($street3);
@@ -151,6 +161,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string $city
+     *
      * @return $this
      */
     public function setCity($city);
@@ -162,6 +173,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string $region
+     *
      * @return $this
      */
     public function setRegion($region);
@@ -173,6 +185,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string $postcode
+     *
      * @return $this
      */
     public function setPostcode($postcode);
@@ -184,6 +197,7 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string $country
+     *
      * @return $this
      */
     public function setCountry($country);
@@ -195,18 +209,21 @@ interface AddressInterface extends DataInterface
 
     /**
      * @param string $phone
+     *
      * @return $this
      */
     public function setPhone($phone);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getUpdated($format = null);

@@ -9,8 +9,8 @@ abstract class AbstractService
     /**
      * Config instance name
      */
-    const CONFIG_INSTANCE_NAME = 'instance_name';
-    
+    public const CONFIG_INSTANCE_NAME = 'instance_name';
+
     /**
      * @var \SubscribePro\Http
      */
@@ -27,9 +27,9 @@ abstract class AbstractService
     protected $config;
 
     /**
-     * @param Http $http
+     * @param Http                 $http
      * @param DataFactoryInterface $factory
-     * @param array $config
+     * @param array                $config
      */
     public function __construct(Http $http, DataFactoryInterface $factory, array $config = [])
     {
@@ -39,32 +39,37 @@ abstract class AbstractService
     }
 
     /**
-     * @param array $response
-     * @param string $entityName
+     * @param array                                    $response
+     * @param string                                   $entityName
      * @param \SubscribePro\Service\DataInterface|null $item
+     *
      * @return \SubscribePro\Service\DataInterface
      */
     protected function retrieveItem($response, $entityName, DataInterface $item = null)
     {
         $itemData = !empty($response[$entityName]) ? $response[$entityName] : [];
         $item = $item ? $item->importData($itemData) : $this->dataFactory->create($itemData);
+
         return $item;
     }
 
     /**
-     * @param array $response
+     * @param array  $response
      * @param string $entitiesName
+     *
      * @return \SubscribePro\Service\DataInterface[]
      */
     protected function retrieveItems($response, $entitiesName)
     {
         $responseData = !empty($response[$entitiesName]) ? $response[$entitiesName] : [];
         $items = $this->createItems($responseData);
+
         return $items;
     }
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\DataInterface[]
      */
     private function createItems(array $data = [])

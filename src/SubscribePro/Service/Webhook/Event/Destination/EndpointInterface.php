@@ -9,13 +9,13 @@ interface EndpointInterface extends DataInterface
     /**
      * Data fields
      */
-    const ID = 'id';
-    const STATUS = 'status';
-    const URL = 'url';
-    const ALL_SUBSCRIBED_EVENT_TYPES = 'all_subscribed_event_types';
-    const SUBSCRIBED_EVENT_TYPES = 'subscribed_event_types';
-    const CREATED = 'created';
-    const UPDATED = 'updated';
+    public const ID = 'id';
+    public const STATUS = 'status';
+    public const URL = 'url';
+    public const ALL_SUBSCRIBED_EVENT_TYPES = 'all_subscribed_event_types';
+    public const SUBSCRIBED_EVENT_TYPES = 'subscribed_event_types';
+    public const CREATED = 'created';
+    public const UPDATED = 'updated';
 
     /**
      * @return string
@@ -39,12 +39,14 @@ interface EndpointInterface extends DataInterface
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getCreated($format = null);
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getUpdated($format = null);

@@ -30,7 +30,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToLoadReportIfReportCodeIsNotValid()
     {
-        $this->expectExceptionMessageMatches("/Invalid report code. Allowed values: [a-z,_ ]+/");
+        $this->expectExceptionMessageMatches('/Invalid report code. Allowed values: [a-z,_ ]+/');
         $this->expectException(\SubscribePro\Exception\InvalidArgumentException::class);
         $this->httpClientMock->expects($this->never())
             ->method('getToSink');
@@ -40,7 +40,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase
 
     public function testFailToLoadReportIfUnableToWriteToFile()
     {
-        $this->expectExceptionMessage("file/path is not writable or a directory.");
+        $this->expectExceptionMessage('file/path is not writable or a directory.');
         $this->expectException(\SubscribePro\Exception\InvalidArgumentException::class);
         $filePath = 'file/path';
         $code = Report::REPORT_CUSTOMER_ACTIVITY;

@@ -2,44 +2,44 @@
 
 namespace SubscribePro;
 
-use SubscribePro\Exception\InvalidArgumentException;
 use SubscribePro\Exception\BadMethodCallException;
+use SubscribePro\Exception\InvalidArgumentException;
 use SubscribePro\Service\ServiceFactoryResolver;
 use SubscribePro\Tools\ToolFactory;
 use SubscribePro\Utils\StringUtils;
 
 /**
- * @method \SubscribePro\Service\Product\ProductService getProductService()
- * @method \SubscribePro\Service\Customer\CustomerService getCustomerService()
- * @method \SubscribePro\Service\Address\AddressService getAddressService()
- * @method \SubscribePro\Service\Subscription\SubscriptionService getSubscriptionService()
+ * @method \SubscribePro\Service\Product\ProductService               getProductService()
+ * @method \SubscribePro\Service\Customer\CustomerService             getCustomerService()
+ * @method \SubscribePro\Service\Address\AddressService               getAddressService()
+ * @method \SubscribePro\Service\Subscription\SubscriptionService     getSubscriptionService()
  * @method \SubscribePro\Service\PaymentProfile\PaymentProfileService getPaymentProfileService()
- * @method \SubscribePro\Service\Transaction\TransactionService getTransactionService()
- * @method \SubscribePro\Service\Token\TokenService getTokenService()
- * @method \SubscribePro\Service\Webhook\WebhookService getWebhookService()
- * @method \SubscribePro\Tools\Report getReportTool()
- * @method \SubscribePro\Tools\Config getConfigTool()
- * @method \SubscribePro\Tools\Oauth getOauthTool()
+ * @method \SubscribePro\Service\Transaction\TransactionService       getTransactionService()
+ * @method \SubscribePro\Service\Token\TokenService                   getTokenService()
+ * @method \SubscribePro\Service\Webhook\WebhookService               getWebhookService()
+ * @method \SubscribePro\Tools\Report                                 getReportTool()
+ * @method \SubscribePro\Tools\Config                                 getConfigTool()
+ * @method \SubscribePro\Tools\Oauth                                  getOauthTool()
  *
  * @codeCoverageIgnore
  */
 class Sdk
 {
     use StringUtils;
-    
+
     /**
      * The name of the environment variable that contains the client ID
      *
      * @const string
      */
-    const CLIENT_ID_ENV_NAME = 'SUBSCRIBEPRO_CLIENT_ID';
+    public const CLIENT_ID_ENV_NAME = 'SUBSCRIBEPRO_CLIENT_ID';
 
     /**
      * The name of the environment variable that contains the client secret
      *
      * @const string
      */
-    const CLIENT_SECRET_ENV_NAME = 'SUBSCRIBEPRO_CLIENT_SECRET';
+    public const CLIENT_SECRET_ENV_NAME = 'SUBSCRIBEPRO_CLIENT_SECRET';
 
     /**
      * @var \SubscribePro\Service\ServiceFactoryResolver
@@ -85,6 +85,7 @@ class Sdk
      *   Config options for specified service
      *
      * @param array $config
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function __construct(array $config = [])
@@ -145,7 +146,9 @@ class Sdk
      * Get service by name
      *
      * @param string $name
+     *
      * @return \SubscribePro\Service\AbstractService
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function getService($name)
@@ -153,12 +156,15 @@ class Sdk
         if (!isset($this->services[$name])) {
             $this->services[$name] = $this->createService($name);
         }
+
         return $this->services[$name];
     }
 
     /**
      * @param string $name
+     *
      * @return \SubscribePro\Service\AbstractService
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     private function createService($name)
@@ -170,7 +176,9 @@ class Sdk
      * Get tool by name
      *
      * @param string $name
+     *
      * @return \SubscribePro\Tools\AbstractTool
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function getTool($name)
@@ -178,11 +186,13 @@ class Sdk
         if (!isset($this->tools[$name])) {
             $this->tools[$name] = $this->createTool($name);
         }
+
         return $this->tools[$name];
     }
 
     /**
      * @param $name
+     *
      * @return \SubscribePro\Tools\AbstractTool
      */
     private function createTool($name)
@@ -192,17 +202,19 @@ class Sdk
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
+     *
      * @return \SubscribePro\Service\AbstractService|\SubscribePro\Tools\AbstractTool
+     *
      * @throws \BadMethodCallException
      */
     public function __call($method, $args)
     {
-        if (substr($method, 0, 3) === 'get' && substr($method, -7) === 'Service') {
+        if ('get' === substr($method, 0, 3) && 'Service' === substr($method, -7)) {
             return $this->getService($this->underscore(substr($method, 3, -7)));
         }
 
-        if (substr($method, 0, 3) === 'get' && substr($method, -4) === 'Tool') {
+        if ('get' === substr($method, 0, 3) && 'Tool' === substr($method, -4)) {
             return $this->getTool($this->underscore(substr($method, 3, -4)));
         }
 

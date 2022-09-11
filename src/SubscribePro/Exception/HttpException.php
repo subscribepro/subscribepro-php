@@ -14,8 +14,8 @@ class HttpException extends \RuntimeException
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param int $code
-     * @param Exception|null $previous
+     * @param int                                 $code
+     * @param Exception|null                      $previous
      */
     public function __construct(ResponseInterface $response, $code = 0, Exception $previous = null)
     {
@@ -42,11 +42,13 @@ class HttpException extends \RuntimeException
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
+     *
      * @return string
      */
     protected function getErrorMessage(ResponseInterface $response)
     {
-        $errorBody = json_decode((string)$response->getBody(), true);
+        $errorBody = json_decode((string) $response->getBody(), true);
+
         return !empty($errorBody['message']) ? $errorBody['message'] : $response->getReasonPhrase();
     }
 }

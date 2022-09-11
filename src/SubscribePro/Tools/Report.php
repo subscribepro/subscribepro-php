@@ -9,21 +9,21 @@ class Report extends AbstractTool
     /**
      * Tool name
      */
-    const NAME = 'report';
+    public const NAME = 'report';
 
     /**
      * Report codes
      */
-    const REPORT_DAILY_SUBSCRIPTIONS = 'daily_subscriptions';
-    const REPORT_COMPLETE_SUBSCRIPTIONS = 'complete_subscriptions';
-    const REPORT_SUBSCRIPTION_HISTORY = 'subscription_history';
-    const REPORT_EXPIRED_CREDIT_CARD = 'expired_credit_card';
-    const REPORT_CUSTOMER_ACTIVITY = 'customer_activity';
-    const REPORT_FAILED_SUBSCRIPTIONS = 'failed_subscriptions';
-    const REPORT_SUBSCRIPTION_ORDER_HISTORY = 'subscription_order_history';
-    const REPORT_COMPLETE_SALES_ORDERS = 'complete_sales_orders';
-    const REPORT_COMPLETE_TRANSACTION = 'complete_transaction';
-    const REPORT_PRODUCTS = 'products';
+    public const REPORT_DAILY_SUBSCRIPTIONS = 'daily_subscriptions';
+    public const REPORT_COMPLETE_SUBSCRIPTIONS = 'complete_subscriptions';
+    public const REPORT_SUBSCRIPTION_HISTORY = 'subscription_history';
+    public const REPORT_EXPIRED_CREDIT_CARD = 'expired_credit_card';
+    public const REPORT_CUSTOMER_ACTIVITY = 'customer_activity';
+    public const REPORT_FAILED_SUBSCRIPTIONS = 'failed_subscriptions';
+    public const REPORT_SUBSCRIPTION_ORDER_HISTORY = 'subscription_order_history';
+    public const REPORT_COMPLETE_SALES_ORDERS = 'complete_sales_orders';
+    public const REPORT_COMPLETE_TRANSACTION = 'complete_transaction';
+    public const REPORT_PRODUCTS = 'products';
 
     /**
      * @var array
@@ -55,9 +55,11 @@ class Report extends AbstractTool
      * - complete_transaction
      * - products
      *
-     * @param string $code
+     * @param string          $code
      * @param string|resource $filePath
+     *
      * @return void
+     *
      * @throws \SubscribePro\Exception\HttpException
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
@@ -78,6 +80,7 @@ class Report extends AbstractTool
      * @codeCoverageIgnore
      *
      * @param string $filePath
+     *
      * @return bool
      */
     protected function isResource($filePath)
@@ -89,6 +92,7 @@ class Report extends AbstractTool
      * @codeCoverageIgnore
      *
      * @param string $filePath
+     *
      * @return bool
      */
     protected function isWritable($filePath)

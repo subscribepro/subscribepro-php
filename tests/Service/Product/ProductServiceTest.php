@@ -49,9 +49,9 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $url
      * @param string $itemId
-     * @param bool $isNew
-     * @param array $formData
-     * @param array $resultData
+     * @param bool   $isNew
+     * @param array  $formData
+     * @param array  $resultData
      * @dataProvider saveProductDataProvider
      */
     public function testSaveProduct($url, $itemId, $isNew, $formData, $resultData)
@@ -116,7 +116,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $customerId
+     * @param int   $customerId
      * @param array $filters
      * @param array $itemsData
      * @dataProvider loadProductsDataProvider
@@ -151,12 +151,12 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             'Loading without filter' => [
                 'sku' => null,
                 'filters' => [],
-                'itemsData' => [[ProductInterface::ID => 111], [ProductInterface::ID => 222]]
+                'itemsData' => [[ProductInterface::ID => 111], [ProductInterface::ID => 222]],
             ],
             'Loading by sku' => [
                 'sku' => '122-aab',
                 'filters' => [ProductInterface::SKU => '122-aab'],
-                'itemsData' => [[ProductInterface::SKU => '122-aab', ProductInterface::ID => 333]]
+                'itemsData' => [[ProductInterface::SKU => '122-aab', ProductInterface::ID => 333]],
             ],
         ];
     }

@@ -2,9 +2,9 @@
 
 namespace SubscribePro\Tests\Utils;
 
-use SubscribePro\Utils\SubscriptionUtils;
 use SubscribePro\Service\Subscription\Subscription;
 use SubscribePro\Service\Subscription\SubscriptionInterface;
+use SubscribePro\Utils\SubscriptionUtils;
 
 class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,18 +25,18 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
             ],
             '1 Subscription | Filtered to 0 (Cancelled)' => [
                 'subscriptions' => [
-                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED],
+                    [SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED],
                 ],
                 'expectedSubscriptions' => [],
             ],
             'Multiple Subscriptions | All Statuses Filtered' => [
                 'subscriptions' => [
-                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE],
-                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_FAILED],
-                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_RETRY],
-                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_PAUSED],
-                    [ SubscriptionInterface::ID => 5, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED],
-                    [ SubscriptionInterface::ID => 6, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED],
+                    [SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE],
+                    [SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_FAILED],
+                    [SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_RETRY],
+                    [SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_PAUSED],
+                    [SubscriptionInterface::ID => 5, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_CANCELLED],
+                    [SubscriptionInterface::ID => 6, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED],
                 ],
                 'expectedSubscriptions' => [1, 2, 3, 4],
             ],
@@ -51,34 +51,34 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
         return [
             'Sort Failed and Retry First | All Same Next Order Date and Shipping Address' => [
                 'subscriptions' => [
-                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_FAILED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_RETRY, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_FAILED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_RETRY, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                 ],
                 'expectedSubscriptions' => [3, 2, 1],
             ],
             'Sort Paused to the End | All Same Next Order Date and Shipping Address' => [
                 'subscriptions' => [
-                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_PAUSED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_PAUSED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_EXPIRED, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                 ],
                 'expectedSubscriptions' => [1, 3, 2],
             ],
             'Sort Next Order Date | All Active Subscriptions, Same Shipping Address' => [
                 'subscriptions' => [
-                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2018-12-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2016-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2018-05-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2018-12-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2016-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 4, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2018-05-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
                 ],
                 'expectedSubscriptions' => [2, 4, 1, 3],
             ],
             'Sort Shipping Address | All Active Subscriptions, Same Next Order Date' => [
                 'subscriptions' => [
-                    [ SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
-                    [ SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 3],
-                    [ SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 2],
+                    [SubscriptionInterface::ID => 1, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 1],
+                    [SubscriptionInterface::ID => 2, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 3],
+                    [SubscriptionInterface::ID => 3, SubscriptionInterface::STATUS => SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::NEXT_ORDER_DATE => '2017-01-01', SubscriptionInterface::SHIPPING_ADDRESS_ID => 2],
                 ],
                 'expectedSubscriptions' => [1, 3, 2],
             ],
@@ -115,6 +115,7 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $subscriptionData
+     *
      * @return array
      */
     protected function createSubscriptionsFromTestData($subscriptionData)
@@ -137,6 +138,7 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $subscriptions
+     *
      * @return array
      */
     protected function getSubscriptionIdsFromList($subscriptions)
@@ -145,6 +147,7 @@ class SubscriptionUtilsTest extends \PHPUnit_Framework_TestCase
         foreach ($subscriptions as $subscription) {
             $ids[] = $subscription->getId();
         }
+
         return $ids;
     }
 }

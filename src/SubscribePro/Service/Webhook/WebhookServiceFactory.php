@@ -21,7 +21,7 @@ class WebhookServiceFactory extends AbstractServiceFactory
             $this->config
         );
     }
-    
+
     /**
      * @return \SubscribePro\Service\DataFactoryInterface
      */
@@ -31,7 +31,7 @@ class WebhookServiceFactory extends AbstractServiceFactory
             $this->getConfigValue(WebhookService::CONFIG_INSTANCE_NAME_DESTINATION, '\SubscribePro\Service\Webhook\Event\Destination'),
             $this->getConfigValue(WebhookService::CONFIG_INSTANCE_NAME_ENDPOINT, '\SubscribePro\Service\Webhook\Event\Destination\Endpoint')
         );
-        
+
         return new EventFactory(
             $destinationFactory,
             $this->getConfigValue(WebhookService::CONFIG_INSTANCE_NAME, '\SubscribePro\Service\Webhook\Event')

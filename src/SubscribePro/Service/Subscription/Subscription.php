@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Subscription;
 
-use SubscribePro\Service\DataObject;
 use SubscribePro\Service\Address\AddressInterface;
+use SubscribePro\Service\DataObject;
 use SubscribePro\Service\PaymentProfile\PaymentProfileInterface;
 
 class Subscription extends DataObject implements SubscriptionInterface
@@ -69,6 +69,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\DataObject
      */
     public function importData(array $data = [])
@@ -146,15 +147,17 @@ class Subscription extends DataObject implements SubscriptionInterface
             && $this->getData(self::MAGENTO_SHIPPING_METHOD_CODE, false);
     }
 
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @param int|null $id
+     *
      * @return $this
      */
     public function setId($id)
     {
         $this->setData($this->idField, $id);
+
         return $this;
     }
 
@@ -168,6 +171,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $customerId
+     *
      * @return $this
      */
     public function setCustomerId($customerId)
@@ -195,6 +199,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $productSku
+     *
      * @return $this
      */
     public function setProductSku($productSku)
@@ -212,6 +217,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param bool $useShipping
+     *
      * @return $this
      */
     public function setRequiresShipping($useShipping)
@@ -237,6 +243,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param int $qty
+     *
      * @return $this
      */
     public function setQty($qty)
@@ -254,6 +261,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param bool $useFixedPrice
+     *
      * @return $this
      */
     public function setUseFixedPrice($useFixedPrice)
@@ -271,6 +279,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param float $fixedPrice
+     *
      * @return $this
      */
     public function setFixedPrice($fixedPrice)
@@ -288,6 +297,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $interval
+     *
      * @return $this
      */
     public function setInterval($interval)
@@ -305,6 +315,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $magentoStoreCode
+     *
      * @return $this
      */
     public function setMagentoStoreCode($magentoStoreCode)
@@ -322,6 +333,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param int $paymentProfileId
+     *
      * @return $this
      */
     public function setPaymentProfileId($paymentProfileId)
@@ -330,6 +342,7 @@ class Subscription extends DataObject implements SubscriptionInterface
         if ($this->getPaymentProfile()->getId() != $paymentProfileId) {
             $this->getPaymentProfile()->importData([PaymentProfileInterface::ID => $paymentProfileId]);
         }
+
         return $this;
     }
 
@@ -351,6 +364,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $paymentMethodCode
+     *
      * @return $this
      */
     public function setPaymentMethodCode($paymentMethodCode)
@@ -392,6 +406,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param int $shippingAddressId
+     *
      * @return $this
      */
     public function setShippingAddressId($shippingAddressId)
@@ -400,6 +415,7 @@ class Subscription extends DataObject implements SubscriptionInterface
         if ($shippingAddressId && $this->getShippingAddress()->getId() != $shippingAddressId) {
             $this->getShippingAddress()->importData([AddressInterface::ID => $shippingAddressId]);
         }
+
         return $this;
     }
 
@@ -413,6 +429,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface|null $shippingAddress
+     *
      * @return $this
      */
     public function setShippingAddress($shippingAddress)
@@ -438,6 +455,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $magentoShippingMethodCode
+     *
      * @return $this
      */
     public function setMagentoShippingMethodCode($magentoShippingMethodCode)
@@ -455,13 +473,13 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $shippingMethodCode
+     *
      * @return $this
      */
     public function setShippingMethodCode($shippingMethodCode)
     {
         return $this->setData(self::SHIPPING_METHOD_CODE, $shippingMethodCode);
     }
-
 
     /**
      * @return bool|null
@@ -473,6 +491,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param bool $sendCustomerNotificationEmail
+     *
      * @return $this
      */
     public function setSendCustomerNotificationEmail($sendCustomerNotificationEmail)
@@ -490,6 +509,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param bool $firstOrderAlreadyCreated
+     *
      * @return $this
      */
     public function setFirstOrderAlreadyCreated($firstOrderAlreadyCreated)
@@ -499,6 +519,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getNextOrderDate($format = null)
@@ -508,6 +529,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $nextOrderDate
+     *
      * @return $this
      */
     public function setNextOrderDate($nextOrderDate)
@@ -517,6 +539,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getLastOrderDate($format = null)
@@ -526,6 +549,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getExpirationDate($format = null)
@@ -535,6 +559,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $expirationDate
+     *
      * @return $this
      */
     public function setExpirationDate($expirationDate)
@@ -552,6 +577,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string $couponCode
+     *
      * @return $this
      */
     public function setCouponCode($couponCode)
@@ -569,6 +595,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param array $userDefinedFields
+     *
      * @return $this
      */
     public function setUserDefinedFields(array $userDefinedFields)
@@ -586,6 +613,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param array $platformSpecificFields
+     *
      * @return $this
      */
     public function setPlatformSpecificFields(array $platformSpecificFields)
@@ -595,6 +623,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getErrorTime($format = null)
@@ -644,6 +673,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getRetryAfter($format = null)
@@ -661,6 +691,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null)
@@ -670,6 +701,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getUpdated($format = null)
@@ -679,6 +711,7 @@ class Subscription extends DataObject implements SubscriptionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCancelled($format = null)
@@ -699,5 +732,5 @@ class Subscription extends DataObject implements SubscriptionInterface
         return $this->setData(self::ORDER_ITEM_ID, $orderItemId);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 }

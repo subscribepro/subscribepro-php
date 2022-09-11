@@ -9,10 +9,12 @@ use SubscribePro\Service\AbstractService;
  * - instance_name
  *   Specified class must implement \SubscribePro\Service\SalesOrder\SalesOrderInterface interface
  *   Default value is \SubscribePro\Service\SalesOrder\SalesOrder
+ *
  *   @see \SubscribePro\Service\SalesOrder\SalesOrderInterface
  *
- * @method \SubscribePro\Service\SalesOrder\SalesOrderInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\SalesOrder\SalesOrderInterface   retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
  * @method \SubscribePro\Service\SalesOrder\SalesOrderInterface[] retrieveItems($response, $entitiesName)
+ *
  * @property \SubscribePro\Service\SalesOrder\SubscriptionFactory $dataFactory
  */
 class SalesOrderService extends AbstractService
@@ -20,10 +22,11 @@ class SalesOrderService extends AbstractService
     /**
      * Service name
      */
-    const NAME = 'sales_order';
+    public const NAME = 'sales_order';
 
     /**
      * @param array $salesOrderData
+     *
      * @return \SubscribePro\Service\SalesOrder\SalesOrderInterface
      */
     public function createSalesOrder(array $salesOrderData = [])

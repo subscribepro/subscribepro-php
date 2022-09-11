@@ -9,59 +9,58 @@ interface SubscriptionInterface extends DataInterface
     /**
      * Data fields
      */
-    const ID = 'id';
-    const CUSTOMER_ID = 'customer_id';
-    const STATUS = 'status';
-    const PRODUCT_SKU = 'product_sku';
-    const REQUIRES_SHIPPING = 'requires_shipping';
-    const SUBSCRIPTION_PRODUCTS = 'subscription_products';
-    const QTY = 'qty';
-    const USE_FIXED_PRICE = 'use_fixed_price';
-    const FIXED_PRICE = 'fixed_price';
-    const INTERVAL = 'interval';
-    const MAGENTO_STORE_CODE = 'magento_store_code';
-    const PAYMENT_PROFILE_ID = 'payment_profile_id';
-    const PAYMENT_PROFILE = 'payment_profile';
-    const PAYMENT_METHOD_CODE = 'payment_method_code';
-    const AUTHORIZE_NET_PAYMENT_PROFILE_ID = 'authorize_net_payment_profile_id';
-    const CREDITCARD_LAST_DIGITS = 'creditcard_last_digits';
-    const MAGENTO_BILLING_ADDRESS_ID = 'magento_billing_address_id';
-    const SHIPPING_ADDRESS_ID = 'shipping_address_id';
-    const SHIPPING_ADDRESS = 'shipping_address';
-    const MAGENTO_SHIPPING_ADDRESS_ID = 'magento_shipping_address_id';
-    const MAGENTO_SHIPPING_METHOD_CODE = 'magento_shipping_method_code';
-    const SHIPPING_METHOD_CODE = 'shipping_method_code';
-    const SEND_CUSTOMER_NOTIFICATION_EMAIL = 'send_customer_notification_email';
-    const FIRST_ORDER_ALREADY_CREATED = 'first_order_already_created';
-    const NEXT_ORDER_DATE = 'next_order_date';
-    const LAST_ORDER_DATE = 'last_order_date';
-    const EXPIRATION_DATE = 'expiration_date';
-    const COUPON_CODE = 'coupon_code';
-    const USER_DEFINED_FIELDS = 'user_defined_fields';
-    const PLATFORM_SPECIFIC_FIELDS = 'platform_specific_fields';
-    const RECURRING_ORDER_COUNT = 'recurring_order_count';
-    const ERROR_TIME = 'error_time';
-    const ERROR_CLASS = 'error_class';
-    const ERROR_CLASS_DESCRIPTION = 'error_class_description';
-    const ERROR_TYPE = 'error_type';
-    const ERROR_MESSAGE = 'error_message';
-    const FAILED_ORDER_ATTEMPT_COUNT = 'failed_order_attempt_count';
-    const RETRY_AFTER = 'retry_after';
-    const CREATED = 'created';
-    const UPDATED = 'updated';
-    const CANCELLED = 'cancelled';
-    const ORDER_ITEM_ID = 'order_item_id';
+    public const ID = 'id';
+    public const CUSTOMER_ID = 'customer_id';
+    public const STATUS = 'status';
+    public const PRODUCT_SKU = 'product_sku';
+    public const REQUIRES_SHIPPING = 'requires_shipping';
+    public const SUBSCRIPTION_PRODUCTS = 'subscription_products';
+    public const QTY = 'qty';
+    public const USE_FIXED_PRICE = 'use_fixed_price';
+    public const FIXED_PRICE = 'fixed_price';
+    public const INTERVAL = 'interval';
+    public const MAGENTO_STORE_CODE = 'magento_store_code';
+    public const PAYMENT_PROFILE_ID = 'payment_profile_id';
+    public const PAYMENT_PROFILE = 'payment_profile';
+    public const PAYMENT_METHOD_CODE = 'payment_method_code';
+    public const AUTHORIZE_NET_PAYMENT_PROFILE_ID = 'authorize_net_payment_profile_id';
+    public const CREDITCARD_LAST_DIGITS = 'creditcard_last_digits';
+    public const MAGENTO_BILLING_ADDRESS_ID = 'magento_billing_address_id';
+    public const SHIPPING_ADDRESS_ID = 'shipping_address_id';
+    public const SHIPPING_ADDRESS = 'shipping_address';
+    public const MAGENTO_SHIPPING_ADDRESS_ID = 'magento_shipping_address_id';
+    public const MAGENTO_SHIPPING_METHOD_CODE = 'magento_shipping_method_code';
+    public const SHIPPING_METHOD_CODE = 'shipping_method_code';
+    public const SEND_CUSTOMER_NOTIFICATION_EMAIL = 'send_customer_notification_email';
+    public const FIRST_ORDER_ALREADY_CREATED = 'first_order_already_created';
+    public const NEXT_ORDER_DATE = 'next_order_date';
+    public const LAST_ORDER_DATE = 'last_order_date';
+    public const EXPIRATION_DATE = 'expiration_date';
+    public const COUPON_CODE = 'coupon_code';
+    public const USER_DEFINED_FIELDS = 'user_defined_fields';
+    public const PLATFORM_SPECIFIC_FIELDS = 'platform_specific_fields';
+    public const RECURRING_ORDER_COUNT = 'recurring_order_count';
+    public const ERROR_TIME = 'error_time';
+    public const ERROR_CLASS = 'error_class';
+    public const ERROR_CLASS_DESCRIPTION = 'error_class_description';
+    public const ERROR_TYPE = 'error_type';
+    public const ERROR_MESSAGE = 'error_message';
+    public const FAILED_ORDER_ATTEMPT_COUNT = 'failed_order_attempt_count';
+    public const RETRY_AFTER = 'retry_after';
+    public const CREATED = 'created';
+    public const UPDATED = 'updated';
+    public const CANCELLED = 'cancelled';
+    public const ORDER_ITEM_ID = 'order_item_id';
 
     /**
      * Subscription statuses
      */
-    const STATUS_ACTIVE = 'Active';
-    const STATUS_CANCELLED = 'Cancelled';
-    const STATUS_EXPIRED = 'Expired';
-    const STATUS_RETRY = 'Retry';
-    const STATUS_FAILED = 'Failed';
-    const STATUS_PAUSED = 'Paused';
-
+    public const STATUS_ACTIVE = 'Active';
+    public const STATUS_CANCELLED = 'Cancelled';
+    public const STATUS_EXPIRED = 'Expired';
+    public const STATUS_RETRY = 'Retry';
+    public const STATUS_FAILED = 'Failed';
+    public const STATUS_PAUSED = 'Paused';
 
     /**
      * @return mixed[]
@@ -70,6 +69,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param int|null $id
+     *
      * @return $this
      */
     public function setId($id);
@@ -81,6 +81,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string $customerId
+     *
      * @return $this
      */
     public function setCustomerId($customerId);
@@ -104,12 +105,14 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param bool $useShipping
+     *
      * @return $this
      */
     public function setRequiresShipping($useShipping);
 
     /**
      * @param string $productSku
+     *
      * @return $this
      */
     public function setProductSku($productSku);
@@ -126,6 +129,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param int $qty
+     *
      * @return $this
      */
     public function setQty($qty);
@@ -137,6 +141,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param bool $useFixedPrice
+     *
      * @return $this
      */
     public function setUseFixedPrice($useFixedPrice);
@@ -148,6 +153,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param float $fixedPrice
+     *
      * @return $this
      */
     public function setFixedPrice($fixedPrice);
@@ -159,6 +165,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string $interval
+     *
      * @return $this
      */
     public function setInterval($interval);
@@ -170,6 +177,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string $magentoStoreCode
+     *
      * @return $this
      */
     public function setMagentoStoreCode($magentoStoreCode);
@@ -181,6 +189,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param int $paymentProfileId
+     *
      * @return $this
      */
     public function setPaymentProfileId($paymentProfileId);
@@ -197,6 +206,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string $paymentMethodCode
+     *
      * @return $this
      */
     public function setPaymentMethodCode($paymentMethodCode);
@@ -223,6 +233,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param int $shippingAddressId
+     *
      * @return $this
      */
     public function setShippingAddressId($shippingAddressId);
@@ -234,6 +245,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface|null $shippingAddress
+     *
      * @return $this
      */
     public function setShippingAddress($shippingAddress);
@@ -250,6 +262,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string $magentoShippingMethodCode
+     *
      * @return $this
      */
     public function setMagentoShippingMethodCode($magentoShippingMethodCode);
@@ -261,6 +274,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string $shippingMethodCode
+     *
      * @return $this
      */
     public function setShippingMethodCode($shippingMethodCode);
@@ -272,6 +286,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param bool $sendCustomerNotificationEmail
+     *
      * @return $this
      */
     public function setSendCustomerNotificationEmail($sendCustomerNotificationEmail);
@@ -283,18 +298,21 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param bool $firstOrderAlreadyCreated
+     *
      * @return $this
      */
     public function setFirstOrderAlreadyCreated($firstOrderAlreadyCreated);
 
     /**
      * @param string $nextOrderDate
+     *
      * @return $this
      */
     public function setNextOrderDate($nextOrderDate);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getNextOrderDate($format = null);
@@ -306,24 +324,28 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string $orderItemId
+     *
      * @return $this
      */
     public function setOrderItemId($orderItemId);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getLastOrderDate($format = null);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getExpirationDate($format = null);
 
     /**
      * @param string $expirationDate
+     *
      * @return $this
      */
     public function setExpirationDate($expirationDate);
@@ -335,6 +357,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string $couponCode
+     *
      * @return $this
      */
     public function setCouponCode($couponCode);
@@ -346,6 +369,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param array $userDefinedFields
+     *
      * @return $this
      */
     public function setUserDefinedFields(array $userDefinedFields);
@@ -357,12 +381,14 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param array $platformSpecificFields
+     *
      * @return $this
      */
     public function setPlatformSpecificFields(array $platformSpecificFields);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getErrorTime($format = null);
@@ -394,6 +420,7 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getRetryAfter($format = null);
@@ -405,18 +432,21 @@ interface SubscriptionInterface extends DataInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getUpdated($format = null);
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCancelled($format = null);

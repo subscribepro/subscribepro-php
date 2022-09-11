@@ -52,9 +52,9 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $url
      * @param string $itemId
-     * @param bool $isNew
-     * @param array $formData
-     * @param array $resultData
+     * @param bool   $isNew
+     * @param array  $formData
+     * @param array  $resultData
      * @dataProvider saveCustomerDataProvider
      */
     public function testSaveCustomer($url, $itemId, $isNew, $formData, $resultData)

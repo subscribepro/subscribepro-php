@@ -43,6 +43,7 @@ class Endpoint extends DataObject implements EndpointInterface
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getCreated($format = null)
@@ -52,6 +53,7 @@ class Endpoint extends DataObject implements EndpointInterface
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getUpdated($format = null)

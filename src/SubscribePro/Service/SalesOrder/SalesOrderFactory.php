@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\SalesOrder;
 
-use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataFactoryInterface;
 
 /**
  * @codeCoverageIgnore
@@ -29,6 +29,7 @@ class SalesOrderFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\SalesOrder\SalesOrderInterface
      */
     public function create(array $data = [])
@@ -37,8 +38,9 @@ class SalesOrderFactory implements DataFactoryInterface
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $field
+     *
      * @return mixed[]
      */
     protected function getFieldData($data, $field)

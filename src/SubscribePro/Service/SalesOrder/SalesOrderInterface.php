@@ -9,24 +9,26 @@ interface SalesOrderInterface extends DataInterface
     /**
      * Data fields
      */
-    const ID = 'id';
-    const CUSTOMER = 'customer';
-    const IS_SUBSCRIPTION_ORDER = 'is_subscription_order';
-    const ORDER_NUMBER = 'order_number';
-    const ORDER_STATUS = 'order_status';
-    const ORDER_DATE_TIME = 'order_date_time';
-    const TOTAL = 'total';
-    const ITEMS = 'items';
-    const SUBSCRIPTIONS = 'subscriptions';
-    const CREATED = 'created';
-    const UPDATED = 'updated';
+    public const ID = 'id';
+    public const CUSTOMER = 'customer';
+    public const IS_SUBSCRIPTION_ORDER = 'is_subscription_order';
+    public const ORDER_NUMBER = 'order_number';
+    public const ORDER_STATUS = 'order_status';
+    public const ORDER_DATE_TIME = 'order_date_time';
+    public const TOTAL = 'total';
+    public const ITEMS = 'items';
+    public const SUBSCRIPTIONS = 'subscriptions';
+    public const CREATED = 'created';
+    public const UPDATED = 'updated';
 
     /**
      * @return string|null
      */
     public function getId();
+
     /**
      * @param string $id
+     *
      * @return $this
      */
     public function setId($id);
@@ -35,18 +37,22 @@ interface SalesOrderInterface extends DataInterface
      * @return SubscribePro\Service\DataInterface|null
      */
     public function getCustomer();
+
     /**
      * @param SubscribePro\Service\DataInterface $customer
+     *
      * @return $this
      */
-    public function setCustomer(\SubscribePro\Service\DataInterface $customer);
+    public function setCustomer(DataInterface $customer);
 
     /**
      * @return bool
      */
     public function getIsSubscriptionOrder();
+
     /**
      * @param $bool $isSubscriptionOrder
+     *
      * @return $this
      */
     public function setIsSubscriptionOrder($isSubscriptionOrder = false);
@@ -55,8 +61,10 @@ interface SalesOrderInterface extends DataInterface
      * @return string|null
      */
     public function getOrderNumber();
+
     /**
      * @param string $orderNumber
+     *
      * @return $this
      */
     public function setOrderNumber($orderNumber = '');
@@ -65,8 +73,10 @@ interface SalesOrderInterface extends DataInterface
      * @return string|null
      */
     public function getOrderStatus();
+
     /**
      * @param string $orderStatus
+     *
      * @return $this
      */
     public function setOrderStatus($orderStatus = '');
@@ -75,18 +85,22 @@ interface SalesOrderInterface extends DataInterface
      * @return string|null
      */
     public function getOrderDateTime();
+
     /**
      * @param string $orderDateTime
+     *
      * @return $this
      */
-    public function setOrderDateTime($orderDateTime =  '');
+    public function setOrderDateTime($orderDateTime = '');
 
     /**
      * @return string|null
      */
     public function getTotal();
+
     /**
      * @param string $total
+     *
      * @return $this
      */
     public function setTotal($total = '');
@@ -95,8 +109,10 @@ interface SalesOrderInterface extends DataInterface
      * @return array|null
      */
     public function getItems();
+
     /**
      * @param array $items
+     *
      * @return $this
      */
     public function setItems($items = []);
@@ -105,8 +121,10 @@ interface SalesOrderInterface extends DataInterface
      * @return array|null
      */
     public function getSubscriptions();
+
     /**
      * @param array $subscriptions
+     *
      * @return $this
      */
     public function setSubscriptions($subscriptions = []);
@@ -115,8 +133,10 @@ interface SalesOrderInterface extends DataInterface
      * @return string|null
      */
     public function getCreated();
+
     /**
      * @param string $created
+     *
      * @return $this
      */
     public function setCreated($created = '');
@@ -125,8 +145,10 @@ interface SalesOrderInterface extends DataInterface
      * @return string|null
      */
     public function getUpdated();
+
     /**
      * @param string $updated
+     *
      * @return $this
      */
     public function setUpdated($updated = '');

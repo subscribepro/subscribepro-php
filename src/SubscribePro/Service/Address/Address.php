@@ -27,7 +27,7 @@ class Address extends DataObject implements AddressInterface
         self::REGION => false,
         self::POSTCODE => false,
         self::COUNTRY => false,
-        self::PHONE => false
+        self::PHONE => false,
     ];
 
     /**
@@ -45,7 +45,7 @@ class Address extends DataObject implements AddressInterface
         self::REGION => false,
         self::POSTCODE => false,
         self::COUNTRY => false,
-        self::PHONE => false
+        self::PHONE => false,
     ];
 
     /**
@@ -63,7 +63,7 @@ class Address extends DataObject implements AddressInterface
         self::REGION => false,
         self::POSTCODE => false,
         self::COUNTRY => false,
-        self::PHONE => false
+        self::PHONE => false,
     ];
 
     /**
@@ -84,6 +84,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param bool $isNew
+     *
      * @return bool
      */
     public function isAsChildValid($isNew)
@@ -93,6 +94,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param bool $isNew
+     *
      * @return mixed[]
      */
     public function getAsChildFormData($isNew)
@@ -102,6 +104,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param bool $isNew
+     *
      * @return mixed[]
      */
     protected function getAsChildFormFields($isNew)
@@ -109,15 +112,17 @@ class Address extends DataObject implements AddressInterface
         return $isNew ? $this->creatingAsChildFields : $this->updatingFields;
     }
 
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @param int|null $id
+     *
      * @return $this
      */
     public function setId($id)
     {
         $this->setData($this->idField, $id);
+
         return $this;
     }
 
@@ -131,6 +136,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string $customerId
+     *
      * @return $this
      */
     public function setCustomerId($customerId)
@@ -148,6 +154,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string $firstName
+     *
      * @return $this
      */
     public function setFirstName($firstName)
@@ -165,6 +172,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string $lastName
+     *
      * @return $this
      */
     public function setLastName($lastName)
@@ -182,6 +190,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string|null $middleName
+     *
      * @return $this
      */
     public function setMiddleName($middleName)
@@ -207,6 +216,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string|null $company
+     *
      * @return $this
      */
     public function setCompany($company)
@@ -224,6 +234,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string|null $street1
+     *
      * @return $this
      */
     public function setStreet1($street1)
@@ -241,6 +252,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string|null $street2
+     *
      * @return $this
      */
     public function setStreet2($street2)
@@ -258,6 +270,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string|null $street3
+     *
      * @return $this
      */
     public function setStreet3($street3)
@@ -275,6 +288,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string $city
+     *
      * @return $this
      */
     public function setCity($city)
@@ -292,6 +306,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string $region
+     *
      * @return $this
      */
     public function setRegion($region)
@@ -309,6 +324,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string $postcode
+     *
      * @return $this
      */
     public function setPostcode($postcode)
@@ -326,6 +342,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string $country
+     *
      * @return $this
      */
     public function setCountry($country)
@@ -343,6 +360,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string $phone
+     *
      * @return $this
      */
     public function setPhone($phone)
@@ -352,6 +370,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null)
@@ -361,6 +380,7 @@ class Address extends DataObject implements AddressInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getUpdated($format = null)
@@ -368,5 +388,5 @@ class Address extends DataObject implements AddressInterface
         return $this->getDatetimeData(self::UPDATED, $format);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 }

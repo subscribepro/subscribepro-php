@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\PaymentProfile;
 
-use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataFactoryInterface;
 
 /**
  * @codeCoverageIgnore
@@ -22,10 +22,10 @@ class PaymentProfileFactory implements DataFactoryInterface
 
     /**
      * @param \SubscribePro\Service\DataFactoryInterface $addressFactory
-     * @param string $instanceName
+     * @param string                                     $instanceName
      */
     public function __construct(
-        \SubscribePro\Service\DataFactoryInterface $addressFactory,
+        DataFactoryInterface $addressFactory,
         $instanceName = '\SubscribePro\Service\PaymentProfile\PaymentProfile'
     ) {
         if (!is_subclass_of($instanceName, '\SubscribePro\Service\PaymentProfile\PaymentProfileInterface')) {
@@ -37,6 +37,7 @@ class PaymentProfileFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\PaymentProfile\PaymentProfileInterface
      */
     public function create(array $data = [])
@@ -48,8 +49,9 @@ class PaymentProfileFactory implements DataFactoryInterface
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $field
+     *
      * @return mixed[]
      */
     protected function getFieldData($data, $field)

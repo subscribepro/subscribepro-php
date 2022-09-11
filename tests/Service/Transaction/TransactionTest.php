@@ -63,7 +63,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             TransactionInterface::EMAIL => 'email@example.com',
             TransactionInterface::ORDER_ID => '123',
             TransactionInterface::IP => '0.0.0.0',
-            TransactionInterface::UNIQUE_ID => '123456789'
+            TransactionInterface::UNIQUE_ID => '123456789',
         ];
 
         $this->transaction->importData($data);
@@ -112,7 +112,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             TransactionInterface::CURRENCY_CODE => 'currency code',
             TransactionInterface::EMAIL => 'email@example.com',
             TransactionInterface::ORDER_ID => '123',
-            TransactionInterface::IP => '0.0.0.0'
+            TransactionInterface::IP => '0.0.0.0',
         ];
 
         $this->transaction->importData($data);
@@ -168,7 +168,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface|null $address
-     * @param array $expectedData
+     * @param array                                               $expectedData
      * @dataProvider getTokenFormDataTest
      */
     public function testGetTokenFormData($address, $expectedData)
@@ -227,8 +227,8 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
                     TransactionInterface::IP => '0.0.0.0',
                     TransactionInterface::CREDITCARD_MONTH => '04',
                     TransactionInterface::CREDITCARD_YEAR => '2019',
-                    TransactionInterface::UNIQUE_ID => '129834765'
-                ]
+                    TransactionInterface::UNIQUE_ID => '129834765',
+                ],
             ],
             'With address' => [
                 'address' => new Address([
@@ -270,8 +270,8 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::STREET2 => 'street2',
                         AddressInterface::STREET3 => 'street3',
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

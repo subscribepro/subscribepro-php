@@ -6,7 +6,7 @@ use SubscribePro\Service\DataObject;
 
 class Destination extends DataObject implements DestinationInterface
 {
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @return string
@@ -18,6 +18,7 @@ class Destination extends DataObject implements DestinationInterface
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getLastAttempt($format = null)
@@ -41,7 +42,7 @@ class Destination extends DataObject implements DestinationInterface
         return $this->getData(self::ENDPOINT);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 
     /**
      * @return mixed[]
@@ -50,6 +51,7 @@ class Destination extends DataObject implements DestinationInterface
     {
         $data = parent::toArray();
         $data[self::ENDPOINT] = $this->getEndpoint()->toArray();
+
         return $data;
     }
 }

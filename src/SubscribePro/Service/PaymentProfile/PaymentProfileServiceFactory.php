@@ -21,7 +21,7 @@ class PaymentProfileServiceFactory extends AbstractServiceFactory
             $this->config
         );
     }
-    
+
     /**
      * @return \SubscribePro\Service\DataFactoryInterface
      */

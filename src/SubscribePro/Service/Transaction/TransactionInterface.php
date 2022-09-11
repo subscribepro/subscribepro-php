@@ -2,75 +2,74 @@
 
 namespace SubscribePro\Service\Transaction;
 
-use SubscribePro\Service\DataInterface;
 use SubscribePro\Service\Address\AddressInterface;
+use SubscribePro\Service\DataInterface;
 
 interface TransactionInterface extends DataInterface
 {
     /**
      * Data fields
      */
-    const ID = 'id';
-    const GATEWAY_SPECIFIC_RESPONSE = 'gateway_specific_response';
-    const GATEWAY_SPECIFIC_FIELDS = 'gateway_specific_fields';
-    const GATEWAY_TYPE = 'gateway_type';
-    const USE_THREE_DS = 'use_three_ds';
-    const BROWSER_INFO = 'browser_info';
-    const THREE_DS_TYPE = 'three_ds_type';
-    const THREE_DS_REDIRECT_URL = 'three_ds_redirect_url';
-    const AUTHORIZE_NET_RESPONSE_REASON_CODE = 'authorize_net_response_reason_code';
-    const SUBSCRIBE_PRO_ERROR_DESCRIPTION = 'subscribe_pro_error_description';
-    const CREDITCARD_TYPE = 'creditcard_type';
-    const CREDITCARD_LAST_DIGITS = 'creditcard_last_digits';
-    const CREDITCARD_FIRST_DIGITS = 'creditcard_first_digits';
-    const CREDITCARD_MONTH = 'creditcard_month';
-    const CREDITCARD_YEAR = 'creditcard_year';
-    const BILLING_ADDRESS = 'billing_address';
-    const UNIQUE_ID = 'unique_id';
-    const SUBSCRIBE_PRO_ORDER_TOKEN = 'subscribe_pro_order_token';
-    const REF_PAYMENT_PROFILE_ID = 'ref_payment_profile_id';
-    const REF_TRANSACTION_ID = 'ref_transaction_id';
-    const REF_GATEWAY_ID = 'ref_gateway_id';
-    const REF_TOKEN = 'ref_token';
-    const TOKEN = 'token';
-    const TYPE = 'type';
-    const AMOUNT = 'amount';
-    const CURRENCY_CODE = 'currency_code';
-    const STATE = 'state';
-    const GATEWAY_TRANSACTION_ID = 'gateway_transaction_id';
-    const EMAIL = 'email';
-    const ORDER_ID = 'order_id';
-    const IP = 'ip';
-    const RESPONSE_MESSAGE = 'response_message';
-    const ERROR_CODE = 'error_code';
-    const ERROR_DETAIL = 'error_detail';
-    const CVV_CODE = 'cvv_code';
-    const CVV_MESSAGE = 'cvv_message';
-    const AVS_CODE = 'avs_code';
-    const AVS_MESSAGE = 'avs_message';
-    const SUBSCRIBE_PRO_ERROR_CLASS = 'subscribe_pro_error_class';
-    const SUBSCRIBE_PRO_ERROR_TYPE = 'subscribe_pro_error_type';
-    const CREATED = 'created';
+    public const ID = 'id';
+    public const GATEWAY_SPECIFIC_RESPONSE = 'gateway_specific_response';
+    public const GATEWAY_SPECIFIC_FIELDS = 'gateway_specific_fields';
+    public const GATEWAY_TYPE = 'gateway_type';
+    public const USE_THREE_DS = 'use_three_ds';
+    public const BROWSER_INFO = 'browser_info';
+    public const THREE_DS_TYPE = 'three_ds_type';
+    public const THREE_DS_REDIRECT_URL = 'three_ds_redirect_url';
+    public const AUTHORIZE_NET_RESPONSE_REASON_CODE = 'authorize_net_response_reason_code';
+    public const SUBSCRIBE_PRO_ERROR_DESCRIPTION = 'subscribe_pro_error_description';
+    public const CREDITCARD_TYPE = 'creditcard_type';
+    public const CREDITCARD_LAST_DIGITS = 'creditcard_last_digits';
+    public const CREDITCARD_FIRST_DIGITS = 'creditcard_first_digits';
+    public const CREDITCARD_MONTH = 'creditcard_month';
+    public const CREDITCARD_YEAR = 'creditcard_year';
+    public const BILLING_ADDRESS = 'billing_address';
+    public const UNIQUE_ID = 'unique_id';
+    public const SUBSCRIBE_PRO_ORDER_TOKEN = 'subscribe_pro_order_token';
+    public const REF_PAYMENT_PROFILE_ID = 'ref_payment_profile_id';
+    public const REF_TRANSACTION_ID = 'ref_transaction_id';
+    public const REF_GATEWAY_ID = 'ref_gateway_id';
+    public const REF_TOKEN = 'ref_token';
+    public const TOKEN = 'token';
+    public const TYPE = 'type';
+    public const AMOUNT = 'amount';
+    public const CURRENCY_CODE = 'currency_code';
+    public const STATE = 'state';
+    public const GATEWAY_TRANSACTION_ID = 'gateway_transaction_id';
+    public const EMAIL = 'email';
+    public const ORDER_ID = 'order_id';
+    public const IP = 'ip';
+    public const RESPONSE_MESSAGE = 'response_message';
+    public const ERROR_CODE = 'error_code';
+    public const ERROR_DETAIL = 'error_detail';
+    public const CVV_CODE = 'cvv_code';
+    public const CVV_MESSAGE = 'cvv_message';
+    public const AVS_CODE = 'avs_code';
+    public const AVS_MESSAGE = 'avs_message';
+    public const SUBSCRIBE_PRO_ERROR_CLASS = 'subscribe_pro_error_class';
+    public const SUBSCRIBE_PRO_ERROR_TYPE = 'subscribe_pro_error_type';
+    public const CREATED = 'created';
 
     /**
      * Transaction types
      */
-    const TYPE_AUTHORIZATION = 'Authorization';
-    const TYPE_PURCHASE = 'Purchase';
-    const TYPE_CAPTURE = 'Capture';
-    const TYPE_VOID = 'Void';
-    const TYPE_CREDIT = 'Credit';
-    const TYPE_VERIFICATION = 'Verification';
+    public const TYPE_AUTHORIZATION = 'Authorization';
+    public const TYPE_PURCHASE = 'Purchase';
+    public const TYPE_CAPTURE = 'Capture';
+    public const TYPE_VOID = 'Void';
+    public const TYPE_CREDIT = 'Credit';
+    public const TYPE_VERIFICATION = 'Verification';
 
     /**
      * Transaction states
      */
-    const STATE_SUCCEEDED = 'succeeded';
-    const STATE_PENDING = 'pending';
-    const STATE_FAILED = 'failed';
-    const STATE_GATEWAY_PROCESSING_FAILED = 'gateway_processing_failed';
-    const STATE_GATEWAY_PROCESSING_RESULT_UNKNOWN = 'gateway_processing_result_unknown';
-
+    public const STATE_SUCCEEDED = 'succeeded';
+    public const STATE_PENDING = 'pending';
+    public const STATE_FAILED = 'failed';
+    public const STATE_GATEWAY_PROCESSING_FAILED = 'gateway_processing_failed';
+    public const STATE_GATEWAY_PROCESSING_RESULT_UNKNOWN = 'gateway_processing_result_unknown';
 
     /**
      * @return mixed[]
@@ -99,6 +98,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface $address
+     *
      * @return mixed[]
      */
     public function getTokenFormData(AddressInterface $address = null);
@@ -115,7 +115,9 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param int $amount
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setAmount($amount);
@@ -127,7 +129,9 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param string $currencyCode
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setCurrencyCode($currencyCode);
@@ -139,6 +143,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param int $orderId
+     *
      * @return $this
      */
     public function setOrderId($orderId);
@@ -150,6 +155,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param string $ip
+     *
      * @return $this
      */
     public function setIp($ip);
@@ -161,6 +167,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param string $email
+     *
      * @return $this
      */
     public function setEmail($email);
@@ -217,6 +224,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param string $creditcardMonth
+     *
      * @return $this
      */
     public function setCreditcardMonth($creditcardMonth);
@@ -228,6 +236,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param string $creditcardYear
+     *
      * @return $this
      */
     public function setCreditcardYear($creditcardYear);
@@ -239,6 +248,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param int $uniqueId
+     *
      * @return $this
      */
     public function setUniqueId($uniqueId);
@@ -334,6 +344,7 @@ interface TransactionInterface extends DataInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null);

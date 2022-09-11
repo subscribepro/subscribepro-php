@@ -9,7 +9,7 @@ interface OrderDetailsInterface extends DataInterface
     /**
      * Data fields
      */
-    const ORDER_DETAILS = 'order_details';
+    public const ORDER_DETAILS = 'order_details';
 
     /**
      * @return mixed[]
@@ -18,6 +18,7 @@ interface OrderDetailsInterface extends DataInterface
 
     /**
      * @param array $orderDetails
+     *
      * @return mixed
      */
     public function setOrderDetails(array $orderDetails);

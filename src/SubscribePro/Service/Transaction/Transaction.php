@@ -2,9 +2,9 @@
 
 namespace SubscribePro\Service\Transaction;
 
-use SubscribePro\Service\DataObject;
-use SubscribePro\Service\Address\AddressInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\Address\AddressInterface;
+use SubscribePro\Service\DataObject;
 
 class Transaction extends DataObject implements TransactionInterface
 {
@@ -70,7 +70,7 @@ class Transaction extends DataObject implements TransactionInterface
      */
     protected $serviceFields = [
         self::AMOUNT => true,
-        self::CURRENCY_CODE => true
+        self::CURRENCY_CODE => true,
     ];
 
     /**
@@ -99,6 +99,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface $address
+     *
      * @return mixed[]
      */
     public function getTokenFormData(AddressInterface $address = null)
@@ -107,6 +108,7 @@ class Transaction extends DataObject implements TransactionInterface
         if ($address) {
             $tokenFormData[self::BILLING_ADDRESS] = $address->getAsChildFormData(true);
         }
+
         return $tokenFormData;
     }
 
@@ -134,7 +136,7 @@ class Transaction extends DataObject implements TransactionInterface
         return $this->checkRequiredFields($this->serviceFields);
     }
 
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @return int|null
@@ -146,7 +148,9 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param int $amount
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setAmount($amount)
@@ -154,6 +158,7 @@ class Transaction extends DataObject implements TransactionInterface
         if (!is_numeric($amount) || $amount <= 0) {
             throw new InvalidArgumentException('The amount should be always given as an integer number of cents. ');
         }
+
         return $this->setData(self::AMOUNT, $amount);
     }
 
@@ -167,14 +172,17 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param string $currencyCode
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setCurrencyCode($currencyCode)
     {
-        if (strlen($currencyCode) != 3) {
+        if (3 != strlen($currencyCode)) {
             throw new InvalidArgumentException('Currency code should consist of 3 letters.');
         }
+
         return $this->setData(self::CURRENCY_CODE, $currencyCode);
     }
 
@@ -188,6 +196,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param int $orderId
+     *
      * @return $this
      */
     public function setOrderId($orderId)
@@ -205,6 +214,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param string $ip
+     *
      * @return $this
      */
     public function setIp($ip)
@@ -222,6 +232,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param string $email
+     *
      * @return $this
      */
     public function setEmail($email)
@@ -250,7 +261,7 @@ class Transaction extends DataObject implements TransactionInterface
      */
     public function getUseThreeDs()
     {
-        return (bool)$this->getData(self::USE_THREE_DS);
+        return (bool) $this->getData(self::USE_THREE_DS);
     }
 
     /**
@@ -311,6 +322,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param string $creditcardMonth
+     *
      * @return $this
      */
     public function setCreditcardMonth($creditcardMonth)
@@ -328,6 +340,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param string $creditcardYear
+     *
      * @return $this
      */
     public function setCreditcardYear($creditcardYear)
@@ -345,6 +358,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param int $uniqueId
+     *
      * @return $this
      */
     public function setUniqueId($uniqueId)
@@ -499,6 +513,7 @@ class Transaction extends DataObject implements TransactionInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null)
@@ -506,5 +521,5 @@ class Transaction extends DataObject implements TransactionInterface
         return $this->getDatetimeData(self::CREATED, $format);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 }

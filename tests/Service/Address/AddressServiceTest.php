@@ -45,16 +45,16 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with($addressData)
             ->willReturn($addressMock);
-        
+
         $this->assertSame($addressMock, $this->addressService->createAddress($addressData));
     }
 
     /**
      * @param string $url
      * @param string $itemId
-     * @param bool $isNew
-     * @param array $formData
-     * @param array $resultData
+     * @param bool   $isNew
+     * @param array  $formData
+     * @param array  $resultData
      * @dataProvider saveAddressDataProvider
      */
     public function testSaveAddress($url, $itemId, $isNew, $formData, $resultData)
@@ -90,7 +90,7 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
                 'resultData' => [AddressInterface::ID => 12],
             ],
             'Update existing address' => [
-                'url' => "/services/v2/addresses/11.json",
+                'url' => '/services/v2/addresses/11.json',
                 'itemId' => 11,
                 'isNew' => false,
                 'formData' => [AddressInterface::CITY => 'city two'],
@@ -138,12 +138,12 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with($itemData)
             ->willReturn($addressMock);
-        
+
         $this->assertSame($addressMock, $this->addressService->loadAddress($itemId));
     }
 
     /**
-     * @param int $customerId
+     * @param int   $customerId
      * @param array $filters
      * @param array $itemsData
      * @dataProvider loadAddressesDataProvider
@@ -176,15 +176,15 @@ class AddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Loading without filter' => [
-                'customerId' => null, 
+                'customerId' => null,
                 'filters' => [],
-                'itemsData' => [[AddressInterface::ID => 111], [AddressInterface::ID => 222]]
+                'itemsData' => [[AddressInterface::ID => 111], [AddressInterface::ID => 222]],
             ],
             'Loading by customer ID' => [
                 'customerId' => 123,
                 'filters' => [AddressInterface::CUSTOMER_ID => 123],
-                'itemsData' => [[AddressInterface::CUSTOMER_ID => 123, AddressInterface::ID => 111]]
-            ]
+                'itemsData' => [[AddressInterface::CUSTOMER_ID => 123, AddressInterface::ID => 111]],
+            ],
         ];
     }
 

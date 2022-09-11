@@ -6,15 +6,17 @@ use SubscribePro\Service\DataObject;
 
 class SalesOrder extends DataObject implements SalesOrderInterface
 {
-        /**
+    /**
      * @return string|null
      */
     public function getId()
     {
         return $this->getData(self::ID);
     }
+
     /**
      * @param string $id
+     *
      * @return $this
      */
     public function setId($id)
@@ -29,8 +31,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::CUSTOMER);
     }
+
     /**
      * @param SubscribePro\Service\DataInterface $customer
+     *
      * @return $this
      */
     public function setCustomer(\SubscribePro\Service\DataInterface $customer)
@@ -45,8 +49,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::IS_SUBSCRIPTION_ORDER);
     }
+
     /**
      * @param $bool $isSubscriptionOrder
+     *
      * @return $this
      */
     public function setIsSubscriptionOrder($isSubscriptionOrder = false)
@@ -61,8 +67,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::ORDER_NUMBER);
     }
+
     /**
      * @param string $orderNumber
+     *
      * @return $this
      */
     public function setOrderNumber($orderNumber = '')
@@ -77,8 +85,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::ORDER_STATUS);
     }
+
     /**
      * @param string $orderStatus
+     *
      * @return $this
      */
     public function setOrderStatus($orderStatus = '')
@@ -93,11 +103,13 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::ORDER_DATE_TIME);
     }
+
     /**
      * @param string $orderDateTime
+     *
      * @return $this
      */
-    public function setOrderDateTime($orderDateTime =  '')
+    public function setOrderDateTime($orderDateTime = '')
     {
         return $this->setData(self::ORDER_DATE_TIME, $orderDateTime);
     }
@@ -109,8 +121,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::TOTAL);
     }
+
     /**
      * @param string $total
+     *
      * @return $this
      */
     public function setTotal($total = '')
@@ -125,8 +139,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::ITEMS);
     }
+
     /**
      * @param array $items
+     *
      * @return $this
      */
     public function setItems($items = [])
@@ -141,8 +157,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::SUBSCRIPTIONS);
     }
+
     /**
      * @param array $subscriptions
+     *
      * @return $this
      */
     public function setSubscriptions($subscriptions = [])
@@ -157,8 +175,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::CREATED);
     }
+
     /**
      * @param string $created
+     *
      * @return $this
      */
     public function setCreated($created = '')
@@ -173,8 +193,10 @@ class SalesOrder extends DataObject implements SalesOrderInterface
     {
         return $this->getData(self::UPDATED);
     }
+
     /**
      * @param string $updated
+     *
      * @return $this
      */
     public function setUpdated($updated = '')

@@ -20,7 +20,7 @@ class AddressServiceFactory extends AbstractServiceFactory
             $this->config
         );
     }
-    
+
     /**
      * @return \SubscribePro\Service\DataFactoryInterface
      */

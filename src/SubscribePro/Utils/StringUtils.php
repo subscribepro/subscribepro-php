@@ -9,6 +9,7 @@ trait StringUtils
 {
     /**
      * @param string $name
+     *
      * @return string
      */
     protected function camelize($name)
@@ -18,6 +19,7 @@ trait StringUtils
 
     /**
      * @param string $name
+     *
      * @return string
      */
     protected function underscore($name)

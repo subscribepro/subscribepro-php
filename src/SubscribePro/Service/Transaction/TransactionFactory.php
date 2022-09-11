@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Transaction;
 
-use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataFactoryInterface;
 
 /**
  * @codeCoverageIgnore
@@ -29,6 +29,7 @@ class TransactionFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      */
     public function create(array $data = [])

@@ -2,9 +2,9 @@
 
 namespace SubscribePro\Service\PaymentProfile;
 
-use SubscribePro\Service\DataObject;
-use SubscribePro\Service\Address\AddressInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\Address\AddressInterface;
+use SubscribePro\Service\DataObject;
 
 class PaymentProfile extends DataObject implements PaymentProfileInterface
 {
@@ -23,7 +23,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         self::CREDITCARD_VERIFICATION_VALUE => false,
         self::CREDITCARD_MONTH => true,
         self::CREDITCARD_YEAR => true,
-        self::BILLING_ADDRESS => true
+        self::BILLING_ADDRESS => true,
     ];
 
     /**
@@ -32,7 +32,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     protected $updatingFields = [
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
-        self::BILLING_ADDRESS => false
+        self::BILLING_ADDRESS => false,
     ];
 
     /**
@@ -44,14 +44,14 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         self::BANK_ROUTING_NUMBER => true,
         self::BANK_ACCOUNT_TYPE => true,
         self::BANK_ACCOUNT_HOLDER_TYPE => true,
-        self::BILLING_ADDRESS => true
+        self::BILLING_ADDRESS => true,
     ];
 
     /**
      * @var array
      */
     protected $updatingBankAccountFields = [
-        self::BILLING_ADDRESS => true
+        self::BILLING_ADDRESS => true,
     ];
 
     /**
@@ -90,7 +90,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     protected $creatingApplePayFields = [
         self::CUSTOMER_ID => true,
         self::APPLEPAY_PAYMENT_DATA => true,
-        self::TEST_CARD_NUMBER => false
+        self::TEST_CARD_NUMBER => false,
     ];
 
     /**
@@ -106,7 +106,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         self::MAGENTO_CUSTOMER_ID => false,
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
-        self::BILLING_ADDRESS => false
+        self::BILLING_ADDRESS => false,
     ];
 
     /**
@@ -121,7 +121,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         self::CREDITCARD_FIRST_DIGITS => false,
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
-        self::BILLING_ADDRESS => true
+        self::BILLING_ADDRESS => true,
     ];
 
     /**
@@ -131,7 +131,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         self::THIRD_PARTY_PAYMENT_TOKEN => true,
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
-        self::BILLING_ADDRESS => true
+        self::BILLING_ADDRESS => true,
     ];
 
     /**
@@ -144,7 +144,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         self::CC_TYPE_DISCOVER,
         self::CC_TYPE_JCB,
         self::CC_TYPE_DINERS_CLUB,
-        self::CC_TYPE_DANKORT
+        self::CC_TYPE_DANKORT,
     ];
 
     /**
@@ -154,12 +154,13 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     {
         $data = parent::toArray();
         $data[self::BILLING_ADDRESS] = $this->getBillingAddress()->toArray();
+
         return $data;
     }
 
-
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function importData(array $data = [])
@@ -212,6 +213,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getFormData()
     {
         $formData = array_intersect_key($this->data, $this->getFormFields());
+
         return $this->updateBillingFormData($formData);
     }
 
@@ -221,6 +223,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getTokenFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->savingTokenFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -230,6 +233,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getBankAccountCreatingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->creatingBankAccountFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -239,6 +243,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getBankAccountSavingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->updatingBankAccountFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -248,6 +253,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getExternalVaultCreatingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->creatingExternalVaultFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -257,6 +263,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getExternalVaultSavingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->udpatingExternalVaultFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -266,6 +273,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getApplePaySavingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->updatingApplePayFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -275,6 +283,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getApplePayCreatingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->creatingApplePayFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -284,6 +293,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getThirdPartyTokenCreatingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->creatingThirdPartyTokenFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
@@ -293,11 +303,13 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
     public function getThirdPartyTokenSavingFormData()
     {
         $tokenFormData = array_intersect_key($this->data, $this->updatingThirdPartyTokenFields);
+
         return $this->updateBillingFormData($tokenFormData);
     }
 
     /**
      * @param array $tokenFormData
+     *
      * @return mixed[]
      */
     protected function updateBillingFormData(array $tokenFormData)
@@ -306,29 +318,33 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         if (empty($tokenFormData[self::BILLING_ADDRESS])) {
             unset($tokenFormData[self::BILLING_ADDRESS]);
         }
+
         return $tokenFormData;
     }
 
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @param string
      * @param string|null
+     *
      * @return bool
      */
     public function isType($profileType, $paymentMethodType = null)
     {
-        return ($this->data[self::PROFILE_TYPE] == $profileType
-            && ($this->data[self::PAYMENT_METHOD_TYPE] == $paymentMethodType || $paymentMethodType === null));
+        return $this->data[self::PROFILE_TYPE] == $profileType
+            && ($this->data[self::PAYMENT_METHOD_TYPE] == $paymentMethodType || null === $paymentMethodType);
     }
 
     /**
      * @param int|null $id
+     *
      * @return $this
      */
     public function setId($id)
     {
         $this->setData($this->idField, $id);
+
         return $this;
     }
 
@@ -342,6 +358,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $customerId
+     *
      * @return $this
      */
     public function setCustomerId($customerId)
@@ -359,6 +376,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $magentoCustomerId
+     *
      * @return $this
      */
     public function setMagentoCustomerId($magentoCustomerId)
@@ -404,7 +422,9 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
      * Credit card type: visa, master, american_express, discover, jcb, diners_club or dankort
      *
      * @param string $creditcardType
+     *
      * @return $this
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function setCreditcardType($creditcardType)
@@ -426,6 +446,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $creditcardNumber
+     *
      * @return $this
      */
     public function setCreditcardNumber($creditcardNumber)
@@ -443,6 +464,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $creditcardFirstDigits
+     *
      * @return $this
      */
     public function setCreditcardFirstDigits($creditcardFirstDigits)
@@ -460,6 +482,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $creditcardLastDigits
+     *
      * @return $this
      */
     public function setCreditcardLastDigits($creditcardLastDigits)
@@ -477,6 +500,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $creditcardVerificationValue
+     *
      * @return $this
      */
     public function setCreditcardVerificationValue($creditcardVerificationValue)
@@ -494,6 +518,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $creditcardMonth
+     *
      * @return $this
      */
     public function setCreditcardMonth($creditcardMonth)
@@ -511,6 +536,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $creditcardYear
+     *
      * @return $this
      */
     public function setCreditcardYear($creditcardYear)
@@ -613,6 +639,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param \SubscribePro\Service\Address\AddressInterface $billingAddress
+     *
      * @return $this
      */
     public function setBillingAddress(AddressInterface $billingAddress)
@@ -661,6 +688,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param $paymentToken
+     *
      * @return PaymentProfile
      */
     public function setPaymentToken($paymentToken)
@@ -686,6 +714,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $thirdPartyVaultType
+     *
      * @return $this
      */
     public function setThirdPartyVaultType($thirdPartyVaultType)
@@ -711,6 +740,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param string $thirdPartyPaymentToken
+     *
      * @return $this
      */
     public function setThirdPartyPaymentToken($thirdPartyPaymentToken)
@@ -730,6 +760,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param null $format
+     *
      * @return string
      */
     public function getCreated($format = null)
@@ -739,6 +770,7 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
 
     /**
      * @param null $format
+     *
      * @return string
      */
     public function getUpdated($format = null)
@@ -746,5 +778,5 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         return $this->getDatetimeData(self::UPDATED, $format);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 }

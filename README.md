@@ -24,7 +24,18 @@ To use the PHP client, use Composer's [autoload](https://getcomposer.org/doc/00-
 require_once('vendor/autoload.php');
 ```
 
+## Clean up code style
+
+With `php-cs-fixer` v3.x installed, run this in project folder:
+
+```bash
+php-cs-fixer fix
+```
+
+
 ## Running the tests
+
+With dev dependencies installed via composer (these will install phpunit >= 9.5), run this:
 
 ```bash
 vendor/bin/phpunit

@@ -25,7 +25,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->paymentProfile = new PaymentProfile([
-            PaymentProfileInterface::BILLING_ADDRESS => $this->billingAddressMock
+            PaymentProfileInterface::BILLING_ADDRESS => $this->billingAddressMock,
         ]);
     }
 
@@ -60,30 +60,30 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                 'data' => [],
                 'billingData' => [],
                 'expectedData' => [
-                    PaymentProfileInterface::BILLING_ADDRESS => []
-                ]
+                    PaymentProfileInterface::BILLING_ADDRESS => [],
+                ],
             ],
             'Billing address data is not array' => [
                 'data' => [
-                    PaymentProfileInterface::BILLING_ADDRESS => 'invalid'
+                    PaymentProfileInterface::BILLING_ADDRESS => 'invalid',
                 ],
                 'billingData' => [],
                 'expectedData' => [
-                    PaymentProfileInterface::BILLING_ADDRESS => []
-                ]
+                    PaymentProfileInterface::BILLING_ADDRESS => [],
+                ],
             ],
             'Billing address data is an array' => [
                 'data' => [
                     PaymentProfileInterface::BILLING_ADDRESS => [
-                        AddressInterface::CITY => 'city'
-                    ]
+                        AddressInterface::CITY => 'city',
+                    ],
                 ],
                 'billingData' => [AddressInterface::CITY => 'city'],
                 'expectedData' => [
                     PaymentProfileInterface::BILLING_ADDRESS => [
-                        AddressInterface::CITY => 'city'
-                    ]
-                ]
+                        AddressInterface::CITY => 'city',
+                    ],
+                ],
             ],
         ];
     }
@@ -92,12 +92,12 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
     {
         $data = [
             PaymentProfileInterface::ID => 111,
-            PaymentProfileInterface::BILLING_ADDRESS => $this->billingAddressMock
+            PaymentProfileInterface::BILLING_ADDRESS => $this->billingAddressMock,
         ];
         $billingData = [AddressInterface::CITY => 'city'];
         $expectedData = [
             PaymentProfileInterface::ID => 111,
-            PaymentProfileInterface::BILLING_ADDRESS => $billingData
+            PaymentProfileInterface::BILLING_ADDRESS => $billingData,
         ];
 
         $this->billingAddressMock->expects($this->atLeastOnce())
@@ -115,7 +115,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
         $expectedData = [
             PaymentProfileInterface::ID => 111,
             PaymentProfileInterface::CUSTOMER_ID => 123,
-            PaymentProfileInterface::BILLING_ADDRESS => $billingData
+            PaymentProfileInterface::BILLING_ADDRESS => $billingData,
         ];
 
         $this->billingAddressMock->expects($this->atLeastOnce())
@@ -129,7 +129,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool $isNew
+     * @param bool  $isNew
      * @param array $data
      * @param array $billingData
      * @param array $expectedData
@@ -182,7 +182,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::UPDATED => '2016-12-12',
                     PaymentProfileInterface::BILLING_ADDRESS => [
                         AddressInterface::MAGENTO_ADDRESS_ID => '23',
-                    ]
+                    ],
                 ],
                 'billingData' => [AddressInterface::MAGENTO_ADDRESS_ID => '23'],
                 'expectedData' => [
@@ -193,7 +193,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
                 ],
-                'billingFormData' => []
+                'billingFormData' => [],
             ],
             'New profile with address' => [
                 'isNew' => true,
@@ -232,7 +232,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
                         AddressInterface::STREET3 => 'street3',
-                    ]
+                    ],
                 ],
                 'billingData' => [
                     AddressInterface::CITY => 'city',
@@ -259,13 +259,13 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
                     PaymentProfileInterface::BILLING_ADDRESS => [
                         AddressInterface::CITY => 'city',
-                        AddressInterface::COUNTRY => 'country'
-                    ]
+                        AddressInterface::COUNTRY => 'country',
+                    ],
                 ],
                 'billingFormData' => [
                     AddressInterface::CITY => 'city',
-                    AddressInterface::COUNTRY => 'country'
-                ]
+                    AddressInterface::COUNTRY => 'country',
+                ],
             ],
             'Not new profile with address' => [
                 'isNew' => false,
@@ -305,7 +305,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
                         AddressInterface::STREET3 => 'street3',
-                    ]
+                    ],
                 ],
                 'billingData' => [
                     AddressInterface::CITY => 'city',
@@ -339,7 +339,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
                         AddressInterface::STREET3 => 'street3',
-                    ]
+                    ],
                 ],
                 'billingFormData' => [
                     AddressInterface::CITY => 'city',
@@ -354,13 +354,13 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
                     AddressInterface::STREET3 => 'street3',
-                ]
+                ],
             ],
         ];
     }
 
     /**
-     * @param bool $isNew
+     * @param bool  $isNew
      * @param array $data
      * @param array $billingData
      * @param array $expectedData
@@ -413,7 +413,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::UPDATED => '2016-12-12',
                     PaymentProfileInterface::BILLING_ADDRESS => [
                         AddressInterface::MAGENTO_ADDRESS_ID => '23',
-                    ]
+                    ],
                 ],
                 'billingData' => [AddressInterface::MAGENTO_ADDRESS_ID => '23'],
                 'expectedData' => [
@@ -422,7 +422,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
                 ],
-                'billingFormData' => []
+                'billingFormData' => [],
             ],
             'With address' => [
                 'isNew' => true,
@@ -461,7 +461,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
                         AddressInterface::STREET3 => 'street3',
-                    ]
+                    ],
                 ],
                 'billingData' => [
                     AddressInterface::CITY => 'city',
@@ -497,7 +497,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
                         AddressInterface::STREET3 => 'street3',
-                    ]
+                    ],
                 ],
                 'billingFormData' => [
                     AddressInterface::CITY => 'city',
@@ -512,13 +512,13 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
                     AddressInterface::STREET3 => 'street3',
-                ]
+                ],
             ],
         ];
     }
 
     /**
-     * @param bool $isNew
+     * @param bool  $isNew
      * @param array $data
      * @param array $billingData
      * @param array $expectedData
@@ -542,7 +542,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool $isNew
+     * @param bool  $isNew
      * @param array $data
      * @param array $billingData
      * @param array $expectedData
@@ -595,7 +595,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::UPDATED => '2016-12-12',
                     PaymentProfileInterface::BILLING_ADDRESS => [
                         AddressInterface::MAGENTO_ADDRESS_ID => '23',
-                    ]
+                    ],
                 ],
                 'billingData' => [
                     AddressInterface::MAGENTO_ADDRESS_ID => '23',
@@ -610,7 +610,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     PaymentProfileInterface::CREDITCARD_MONTH => '04',
                     PaymentProfileInterface::CREDITCARD_YEAR => '2018',
                 ],
-                'billingFormData' => []
+                'billingFormData' => [],
             ],
             'With address' => [
                 'isNew' => true,
@@ -649,7 +649,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
                         AddressInterface::STREET3 => 'street3',
-                    ]
+                    ],
                 ],
                 'billingData' => [
                     AddressInterface::CITY => 'city',
@@ -689,7 +689,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                         AddressInterface::STREET1 => 'street1',
                         AddressInterface::STREET2 => 'street2',
                         AddressInterface::STREET3 => 'street3',
-                    ]
+                    ],
                 ],
                 'billingFormData' => [
                     AddressInterface::CITY => 'city',
@@ -704,7 +704,7 @@ class PaymentProfileTest extends \PHPUnit_Framework_TestCase
                     AddressInterface::STREET1 => 'street1',
                     AddressInterface::STREET2 => 'street2',
                     AddressInterface::STREET3 => 'street3',
-                ]
+                ],
             ],
         ];
     }

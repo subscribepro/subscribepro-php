@@ -7,7 +7,7 @@ use SubscribePro\Service\Webhook\Event\DestinationInterface;
 
 class Event extends DataObject implements EventInterface
 {
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @return string
@@ -27,6 +27,7 @@ class Event extends DataObject implements EventInterface
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getCreated($format = null)
@@ -36,6 +37,7 @@ class Event extends DataObject implements EventInterface
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getUpdated($format = null)
@@ -43,16 +45,17 @@ class Event extends DataObject implements EventInterface
         return $this->getDatetimeData(self::UPDATED, $format);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 
     /**
      * @param string|null $field
+     *
      * @return mixed|null
      */
     public function getEventData($field = null)
     {
         $data = $this->getData(self::DATA);
-        if ($field && $data !== null) {
+        if ($field && null !== $data) {
             return isset($data[$field]) ? $data[$field] : null;
         }
 
@@ -68,6 +71,7 @@ class Event extends DataObject implements EventInterface
         $data[self::DESTINATIONS] = array_map(function (DestinationInterface $destination) {
             return $destination->toArray();
         }, $this->getDestinations());
+
         return $data;
     }
 }

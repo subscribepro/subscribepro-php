@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Token;
 
-use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataFactoryInterface;
 
 /**
  * @codeCoverageIgnore
@@ -22,7 +22,7 @@ class TokenFactory implements DataFactoryInterface
 
     /**
      * @param \SubscribePro\Service\DataFactoryInterface $addressFactory
-     * @param string $instanceName
+     * @param string                                     $instanceName
      */
     public function __construct(
         DataFactoryInterface $addressFactory,
@@ -37,6 +37,7 @@ class TokenFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\Token\TokenInterface
      */
     public function create(array $data = [])
@@ -48,13 +49,13 @@ class TokenFactory implements DataFactoryInterface
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $field
+     *
      * @return array
      */
     protected function getFieldData($data, $field)
     {
         return !empty($data[$field]) ? $data[$field] : [];
     }
-
 }

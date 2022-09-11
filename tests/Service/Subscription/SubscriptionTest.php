@@ -28,21 +28,21 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->paymentProfileMock = $this->createProfileMock();
         $this->shippingAddressMock = $this->createAddressMock();
-        
+
         $this->subscription = new Subscription([
             SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
-            SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock
+            SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock,
         ]);
     }
 
     /**
      * @param array $data
      * @param array $expectedAddressData
-     * @param int $addressId
+     * @param int   $addressId
      * @param array $expectedPaymentProfileData
-     * @param int $profileId
+     * @param int   $profileId
      * @param array $expectedData
-     * @param boolean $addressProvided
+     * @param bool  $addressProvided
      * @dataProvider importDataDataProvider
      */
     public function testImportData($data, $expectedAddressData, $addressId, $expectedPaymentProfileData, $profileId, $expectedData, $addressProvided)
@@ -92,7 +92,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             'Shipping address and payment profile data are not array' => [
                 'data' => [
                     SubscriptionInterface::SHIPPING_ADDRESS => 'invalid',
-                    SubscriptionInterface::PAYMENT_PROFILE => 'invalid'
+                    SubscriptionInterface::PAYMENT_PROFILE => 'invalid',
                 ],
                 'expectedAddressData' => [],
                 'shippingAddressId' => null,
@@ -173,7 +173,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::SHIPPING_ADDRESS => null,
                 ],
                 'addressProvided' => false,
-            ]
+            ],
         ];
     }
 
@@ -191,7 +191,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             SubscriptionInterface::SHIPPING_ADDRESS => $addressMock,
             SubscriptionInterface::PAYMENT_PROFILE => $profileMock,
         ];
-        
+
         $this->subscription->importData($data);
         $this->assertEquals($subscriptionId, $this->subscription->getId());
         $this->assertEquals($addressId, $this->subscription->getShippingAddressId());
@@ -221,7 +221,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->shippingAddressMock->expects($this->once())
             ->method('toArray')
             ->willReturn($addressData);
-        
+
         $this->subscription->setId(111);
         $this->assertEquals($expectedData, $this->subscription->toArray());
     }
@@ -231,7 +231,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
      * @param array $addressData
      * @param array $addressAsChildFormData
      * @param array $expectedData
-     * @param bool $isNew
+     * @param bool  $isNew
      * @dataProvider getFormDataProvider
      */
     public function testGetFormData($data, $addressData, $addressAsChildFormData, $expectedData, $isNew)
@@ -250,7 +250,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->method('getAsChildFormData')
             ->with($isNew)
             ->willReturn($addressAsChildFormData);
-        
+
         $this->subscription->importData($data);
         $this->assertEquals($expectedData, $this->subscription->getFormData());
     }
@@ -299,7 +299,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::ERROR_TYPE => 'type',
                     SubscriptionInterface::ERROR_MESSAGE => 'message',
                     SubscriptionInterface::FAILED_ORDER_ATTEMPT_COUNT => '2',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value', 'key2' => 'value2']
+                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value', 'key2' => 'value2'],
                 ],
                 'addressData' => ['key' => 'value', 'key2' => 'value2'],
                 'addressAsChildFormData' => ['key' => 'value'],
@@ -320,9 +320,9 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::USER_DEFINED_FIELDS => [],
                     SubscriptionInterface::EXPIRATION_DATE => '2016-11-11',
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-11',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
+                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value'],
                 ],
-                'isNew' => true
+                'isNew' => true,
             ],
             'New subscription with shipping address ID' => [
                 'data' => [
@@ -363,7 +363,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::ERROR_MESSAGE => 'message',
                     SubscriptionInterface::FAILED_ORDER_ATTEMPT_COUNT => '2',
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => 242,
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value', 'key2' => 'value2']
+                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value', 'key2' => 'value2'],
                 ],
                 'addressData' => ['key' => 'value', 'key2' => 'value2'],
                 'addressAsChildFormData' => ['key' => 'value'],
@@ -386,7 +386,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-11',
                     SubscriptionInterface::SHIPPING_ADDRESS_ID => 242,
                 ],
-                'isNew' => true
+                'isNew' => true,
             ],
             'Not new subscription with shipping address' => [
                 'data' => [
@@ -427,7 +427,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::ERROR_TYPE => 'type',
                     SubscriptionInterface::ERROR_MESSAGE => 'message',
                     SubscriptionInterface::FAILED_ORDER_ATTEMPT_COUNT => '2',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value', 'key2' => 'value2']
+                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value', 'key2' => 'value2'],
                 ],
                 'addressData' => ['key' => 'value', 'key2' => 'value2'],
                 'addressAsChildFormData' => ['key' => 'value'],
@@ -446,9 +446,9 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                     SubscriptionInterface::USER_DEFINED_FIELDS => [],
                     SubscriptionInterface::EXPIRATION_DATE => '2016-11-11',
                     SubscriptionInterface::NEXT_ORDER_DATE => '2016-12-11',
-                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value']
+                    SubscriptionInterface::SHIPPING_ADDRESS => ['key' => 'value'],
                 ],
-                'isNew' => false
+                'isNew' => false,
             ],
         ];
     }
@@ -466,13 +466,12 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             SubscriptionInterface::LAST_ORDER_DATE => $date,
             SubscriptionInterface::EXPIRATION_DATE => $date,
             SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
-            SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock
+            SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock,
         ]);
 
         $this->assertEquals($result, $subscription->getLastOrderDate($format));
         $this->assertEquals($result, $subscription->getNextOrderDate($format));
         $this->assertEquals($result, $subscription->getExpirationDate($format));
-
     }
 
     /**
@@ -483,7 +482,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         return [
             ['2012-01-01', 'Y m d', '2012 01 01'],
             ['2016-01-01', 'Y', '2016'],
-            ['2016-01-01', 'M d Y', 'Jan 01 2016']
+            ['2016-01-01', 'M d Y', 'Jan 01 2016'],
         ];
     }
 
@@ -502,7 +501,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             SubscriptionInterface::RETRY_AFTER => $date,
             SubscriptionInterface::ERROR_TIME => $date,
             SubscriptionInterface::SHIPPING_ADDRESS => $this->shippingAddressMock,
-            SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock
+            SubscriptionInterface::PAYMENT_PROFILE => $this->paymentProfileMock,
         ]);
 
         $this->assertEquals($result, $subscription->getCreated($format));
@@ -520,7 +519,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         return [
             ['2016-01-10T09:03:00+0000', 'Y d m', '2016 10 01'],
             ['2020-12-31T09:03:00+0000', 'Y', '2020'],
-            ['2018-05-10T09:03:00+0000', 'M d Y i:s', 'May 10 2018 03:00']
+            ['2018-05-10T09:03:00+0000', 'M d Y i:s', 'May 10 2018 03:00'],
         ];
     }
 

@@ -2,7 +2,6 @@
 
 namespace SubscribePro\Service\OrderDetails;
 
-use SubscribePro\Service\AbstractService;
 use SubscribePro\Service\AbstractServiceFactory;
 
 /**

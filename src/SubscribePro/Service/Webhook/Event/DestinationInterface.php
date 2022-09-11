@@ -9,11 +9,11 @@ interface DestinationInterface extends DataInterface
     /**
      * Data fields
      */
-    const ID = 'id';
-    const STATUS = 'status';
-    const LAST_ATTEMPT = 'last_attempt';
-    const ENDPOINT = 'endpoint';
-    const LAST_ERROR_MESSAGE = 'last_error_message';
+    public const ID = 'id';
+    public const STATUS = 'status';
+    public const LAST_ATTEMPT = 'last_attempt';
+    public const ENDPOINT = 'endpoint';
+    public const LAST_ERROR_MESSAGE = 'last_error_message';
 
     /**
      * @return string
@@ -22,6 +22,7 @@ interface DestinationInterface extends DataInterface
 
     /**
      * @param string|null $format
+     *
      * @return string
      */
     public function getLastAttempt($format = null);

@@ -6,6 +6,7 @@ interface DataInterface
 {
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function importData(array $data = []);

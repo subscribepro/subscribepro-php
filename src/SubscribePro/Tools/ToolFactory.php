@@ -27,7 +27,9 @@ class ToolFactory
 
     /**
      * @param string $name
+     *
      * @return \SubscribePro\Tools\AbstractTool
+     *
      * @throws \SubscribePro\Exception\InvalidArgumentException
      */
     public function create($name)
@@ -43,6 +45,7 @@ class ToolFactory
 
     /**
      * @param string $name
+     *
      * @return string
      */
     private function getClassName($name)

@@ -49,11 +49,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         return [
             'Not valid response' => [
                 'resultData' => ['some_key' => 'some_value'],
-                'expectedResult' => []
+                'expectedResult' => [],
             ],
             'Valid response' => [
-                'resultData' => [Config::API_NAME_CONFIG => ['config_option' => 'option_value']], 
-                'expectedResult' => ['config_option' => 'option_value']
+                'resultData' => [Config::API_NAME_CONFIG => ['config_option' => 'option_value']],
+                'expectedResult' => ['config_option' => 'option_value'],
             ],
         ];
     }

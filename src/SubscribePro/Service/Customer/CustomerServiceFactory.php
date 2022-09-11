@@ -20,7 +20,7 @@ class CustomerServiceFactory extends AbstractServiceFactory
             $this->config
         );
     }
-    
+
     /**
      * @return \SubscribePro\Service\DataFactoryInterface
      */

@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Webhook;
 
-use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataFactoryInterface;
 
 /**
  * @codeCoverageIgnore
@@ -22,29 +22,30 @@ class EventFactory implements DataFactoryInterface
 
     /**
      * @param \SubscribePro\Service\DataFactoryInterface $destinationFactory
-     * @param string $instanceName
+     * @param string                                     $instanceName
      */
     public function __construct(
-        \SubscribePro\Service\DataFactoryInterface $destinationFactory,
+        DataFactoryInterface $destinationFactory,
         $instanceName = '\SubscribePro\Service\Webhook\Event'
     ) {
         if (!is_subclass_of($instanceName, '\SubscribePro\Service\Webhook\EventInterface')) {
             throw new InvalidArgumentException("{$instanceName} must implement \\SubscribePro\\Service\\Webhook\\EventInterface'.");
         }
-        
+
         $this->instanceName = $instanceName;
         $this->destinationFactory = $destinationFactory;
     }
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\Webhook\EventInterface
      */
     public function create(array $data = [])
     {
         $eventData = $this->getEventData($data);
         $destinationsData = $this->getFieldData($data, EventInterface::DESTINATIONS);
-            
+
         $data[EventInterface::DESTINATIONS] = $this->createDestinationItems($destinationsData);
         $data[EventInterface::DATA] = $eventData;
 
@@ -52,8 +53,9 @@ class EventFactory implements DataFactoryInterface
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $field
+     *
      * @return array
      */
     protected function getFieldData($data, $field)
@@ -63,17 +65,20 @@ class EventFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return array
      */
     protected function getEventData($data)
     {
         $eventData = $this->getJsonData($data, EventInterface::DATA);
+
         return is_array($eventData) ? $eventData : [];
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $field
+     *
      * @return mixed
      */
     private function getJsonData($data, $field)
@@ -83,6 +88,7 @@ class EventFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\Webhook\Event\DestinationInterface[]
      */
     protected function createDestinationItems(array $data = [])

@@ -49,9 +49,9 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $url
      * @param string $itemId
-     * @param bool $isNew
-     * @param array $formData
-     * @param array $resultData
+     * @param bool   $isNew
+     * @param array  $formData
+     * @param array  $resultData
      * @dataProvider saveSubscriptionDataProvider
      */
     public function testSaveSubscription($url, $itemId, $isNew, $formData, $resultData)
@@ -116,7 +116,7 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $customerId
+     * @param int   $customerId
      * @param array $filters
      * @param array $itemsData
      * @dataProvider loadSubscriptionsDataProvider
@@ -151,12 +151,12 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
             'Loading without filter' => [
                 'customerId' => null,
                 'filters' => ['count' => 25],
-                'itemsData' => [[SubscriptionInterface::ID => 111], [SubscriptionInterface::ID => 222]]
+                'itemsData' => [[SubscriptionInterface::ID => 111], [SubscriptionInterface::ID => 222]],
             ],
             'Loading by customer ID' => [
                 'customerId' => 122,
                 'filters' => [SubscriptionInterface::CUSTOMER_ID => 122, 'count' => 25],
-                'itemsData' => [[SubscriptionInterface::CUSTOMER_ID => 122, SubscriptionInterface::ID => 333]]
+                'itemsData' => [[SubscriptionInterface::CUSTOMER_ID => 122, SubscriptionInterface::ID => 333]],
             ],
         ];
     }
@@ -164,44 +164,44 @@ class SubscriptionServiceTest extends \PHPUnit_Framework_TestCase
     public function testCancelSubscription()
     {
         $subscriptionId = 17;
-        
+
         $this->httpClientMock->expects($this->once())
             ->method('post')
             ->with("/services/v2/subscriptions/{$subscriptionId}/cancel.json");
-        
+
         $this->subscriptionService->cancelSubscription($subscriptionId);
     }
 
     public function testPauseSubscription()
     {
         $subscriptionId = 23;
-        
+
         $this->httpClientMock->expects($this->once())
             ->method('post')
             ->with("/services/v2/subscriptions/{$subscriptionId}/pause.json");
-        
+
         $this->subscriptionService->pauseSubscription($subscriptionId);
     }
 
     public function testRestartSubscription()
     {
         $subscriptionId = 41;
-        
+
         $this->httpClientMock->expects($this->once())
             ->method('post')
             ->with("/services/v2/subscriptions/{$subscriptionId}/restart.json");
-        
+
         $this->subscriptionService->restartSubscription($subscriptionId);
     }
 
     public function testSkipSubscription()
     {
         $subscriptionId = 3;
-        
+
         $this->httpClientMock->expects($this->once())
             ->method('post')
             ->with("/services/v2/subscriptions/{$subscriptionId}/skip.json");
-        
+
         $this->subscriptionService->skipSubscription($subscriptionId);
     }
 

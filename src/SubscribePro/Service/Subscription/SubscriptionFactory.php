@@ -2,8 +2,8 @@
 
 namespace SubscribePro\Service\Subscription;
 
-use SubscribePro\Service\DataFactoryInterface;
 use SubscribePro\Exception\InvalidArgumentException;
+use SubscribePro\Service\DataFactoryInterface;
 
 /**
  * @codeCoverageIgnore
@@ -28,7 +28,7 @@ class SubscriptionFactory implements DataFactoryInterface
     /**
      * @param \SubscribePro\Service\DataFactoryInterface $addressFactory
      * @param \SubscribePro\Service\DataFactoryInterface $paymentProfileFactory
-     * @param string $instanceName
+     * @param string                                     $instanceName
      */
     public function __construct(
         DataFactoryInterface $addressFactory,
@@ -45,6 +45,7 @@ class SubscriptionFactory implements DataFactoryInterface
 
     /**
      * @param array $data
+     *
      * @return \SubscribePro\Service\Subscription\SubscriptionInterface
      */
     public function create(array $data = [])
@@ -59,8 +60,9 @@ class SubscriptionFactory implements DataFactoryInterface
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $field
+     *
      * @return mixed[]
      */
     protected function getFieldData($data, $field)

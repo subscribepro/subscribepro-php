@@ -3,13 +3,13 @@
 namespace SubscribePro;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use GuzzleHttp\MessageFormatter;
-use Monolog\Logger;
-use Monolog\Handler\RotatingFileHandler;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\RequestOptions;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 use Psr\Log\LogLevel;
 use SubscribePro\Exception\HttpException;
 
@@ -18,22 +18,22 @@ class Http
     /**
      * Default API base url
      */
-    const API_BASE_URL = 'https://api.subscribepro.com';
+    public const API_BASE_URL = 'https://api.subscribepro.com';
 
     /**
      * Default log file name
      */
-    const DEFAULT_LOG_FILE_NAME = 'log/subscribepro.log';
+    public const DEFAULT_LOG_FILE_NAME = 'log/subscribepro.log';
 
     /**
      * Default log line format
      */
-    const DEFAULT_LOG_LINE_FORMAT = "[%datetime%] %channel%.%level_name%: %message%\n";
+    public const DEFAULT_LOG_LINE_FORMAT = "[%datetime%] %channel%.%level_name%: %message%\n";
 
     /**
      * Default log message format
      */
-    const DEFAULT_LOG_MESSAGE_FORMAT = "{method} - {uri}\nRequest body: {req_body}\n{code} {phrase}\nResponse body: {res_body}\n{error}\n";
+    public const DEFAULT_LOG_MESSAGE_FORMAT = "{method} - {uri}\nRequest body: {req_body}\n{code} {phrase}\nResponse body: {res_body}\n{error}\n";
 
     /**
      * @var string
@@ -60,6 +60,7 @@ class Http
 
     /**
      * Http constructor.
+     *
      * @param $app
      * @param $requestTimeout
      * @param string|null $baseUrl
@@ -81,7 +82,7 @@ class Http
     {
         return new Client([
             'base_uri' => $this->baseUrl,
-            'handler'  => $this->handlerStack,
+            'handler' => $this->handlerStack,
             RequestOptions::HTTP_ERRORS => false,
             RequestOptions::AUTH => [$this->app->getClientId(), $this->app->getClientSecret()],
             RequestOptions::TIMEOUT => $this->requestTimeout,
@@ -113,6 +114,7 @@ class Http
      * @param string|null $lineFormat
      * @param string|null $messageFormat
      * @param string|null $logLevel
+     *
      * @return Http
      */
     public function addDefaultLogger($fileName = null, $lineFormat = null, $messageFormat = null, $logLevel = null)
@@ -129,9 +131,10 @@ class Http
     }
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Psr\Log\LoggerInterface     $logger
      * @param \GuzzleHttp\MessageFormatter $messageFormatter
-     * @param string $logLevel
+     * @param string                       $logLevel
+     *
      * @return $this
      */
     public function addLogger($logger, $messageFormatter, $logLevel = LogLevel::INFO)
@@ -141,15 +144,17 @@ class Http
                 $this->createMiddlewareLogCallback($logger, $messageFormatter, $logLevel),
                 'logger'
             );
+
         return $this;
     }
 
     /**
      * @codeCoverageIgnore
      *
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Psr\Log\LoggerInterface     $logger
      * @param \GuzzleHttp\MessageFormatter $messageFormatter
-     * @param string $logLevel
+     * @param string                       $logLevel
+     *
      * @return callable
      */
     protected function createMiddlewareLogCallback($logger, $messageFormatter, $logLevel = LogLevel::INFO)
@@ -165,13 +170,16 @@ class Http
         if (null === $this->client) {
             $this->client = $this->createClient();
         }
+
         return $this->client;
     }
 
     /**
      * @param string $uri
-     * @param array $params
+     * @param array  $params
+     *
      * @return array|int|null
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function get($uri, $params = [])
@@ -184,8 +192,10 @@ class Http
 
     /**
      * @param string $uri
-     * @param array $postData
+     * @param array  $postData
+     *
      * @return array|int|null
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function post($uri, $postData = [])
@@ -198,8 +208,10 @@ class Http
 
     /**
      * @param string $uri
-     * @param array $putData
+     * @param array  $putData
+     *
      * @return array|int|null
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function put($uri, $putData = [])
@@ -213,7 +225,9 @@ class Http
     /**
      * @param string $uri
      * @param string $filePath
+     *
      * @return array|int|null
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function getToSink($uri, $filePath)
@@ -225,13 +239,16 @@ class Http
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
+     *
      * @return array|int|null
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     protected function processResponse($response)
     {
         if ($response->getStatusCode() < 300) {
-            $body = (string)$response->getBody();
+            $body = (string) $response->getBody();
+
             return !empty($body) ? json_decode($body, true) : $response->getStatusCode();
         }
 
@@ -246,6 +263,7 @@ class Http
     public function getRawRequest()
     {
         $rawRequest = file_get_contents('php://input');
+
         return $rawRequest ? json_decode($rawRequest, true) : false;
     }
 }

@@ -9,10 +9,12 @@ use SubscribePro\Service\AbstractService;
  * - instance_name
  *   Specified class must implement \SubscribePro\Service\Subscription\SubscriptionInterface interface
  *   Default value is \SubscribePro\Service\Subscription\Subscription
+ *
  *   @see \SubscribePro\Service\Subscription\SubscriptionInterface
  *
- * @method \SubscribePro\Service\Subscription\SubscriptionInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Subscription\SubscriptionInterface   retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
  * @method \SubscribePro\Service\Subscription\SubscriptionInterface[] retrieveItems($response, $entitiesName)
+ *
  * @property \SubscribePro\Service\Subscription\SubscriptionFactory $dataFactory
  */
 class SubscriptionService extends AbstractService
@@ -20,14 +22,15 @@ class SubscriptionService extends AbstractService
     /**
      * Service name
      */
-    const NAME = 'subscription';
+    public const NAME = 'subscription';
 
-    const API_NAME_SUBSCRIPTION = 'subscription';
-    const API_NAME_SUBSCRIPTIONS = 'subscriptions';
-    const API_NAME_META = '_meta';
+    public const API_NAME_SUBSCRIPTION = 'subscription';
+    public const API_NAME_SUBSCRIPTIONS = 'subscriptions';
+    public const API_NAME_META = '_meta';
 
     /**
      * @param array $subscriptionData
+     *
      * @return \SubscribePro\Service\Subscription\SubscriptionInterface
      */
     public function createSubscription(array $subscriptionData = [])
@@ -37,8 +40,10 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param SubscriptionInterface $subscription
-     * @param array|null $metadata
+     * @param array|null            $metadata
+     *
      * @return SubscriptionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -50,24 +55,30 @@ class SubscriptionService extends AbstractService
             $payload[self::API_NAME_META] = $metadata;
         }
         $response = $this->httpClient->post($url, $payload);
+
         return $this->retrieveItem($response, self::API_NAME_SUBSCRIPTION, $subscription);
     }
 
     /**
      * @param int $subscriptionId
+     *
      * @return \SubscribePro\Service\Subscription\SubscriptionInterface
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadSubscription($subscriptionId)
     {
         $response = $this->httpClient->get("/services/v2/subscriptions/{$subscriptionId}.json");
+
         return $this->retrieveItem($response, self::API_NAME_SUBSCRIPTION);
     }
 
     /**
      * @param int|null $customerId
-     * @param int $count
+     * @param int      $count
+     *
      * @return \SubscribePro\Service\Subscription\SubscriptionInterface[]
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadSubscriptions($customerId = null, $count = 25)
@@ -80,11 +91,13 @@ class SubscriptionService extends AbstractService
         }
 
         $response = $this->httpClient->get('/services/v2/subscriptions.json', $filters);
+
         return $this->retrieveItems($response, self::API_NAME_SUBSCRIPTIONS);
     }
 
     /**
      * @param int $subscriptionId
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function cancelSubscription($subscriptionId)
@@ -94,6 +107,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param int $subscriptionId
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function pauseSubscription($subscriptionId)
@@ -103,6 +117,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param int $subscriptionId
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function restartSubscription($subscriptionId)
@@ -112,6 +127,7 @@ class SubscriptionService extends AbstractService
 
     /**
      * @param int $subscriptionId
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function skipSubscription($subscriptionId)

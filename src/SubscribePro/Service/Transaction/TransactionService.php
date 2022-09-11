@@ -11,10 +11,12 @@ use SubscribePro\Service\Address\AddressInterface;
  * - instance_name
  *   Specified class must implement \SubscribePro\Service\Transaction\TransactionInterface interface
  *   Default value is \SubscribePro\Service\Transaction\Transaction
+ *
  *   @see \SubscribePro\Service\Transaction\TransactionInterface
  *
- * @method \SubscribePro\Service\Transaction\TransactionInterface retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
+ * @method \SubscribePro\Service\Transaction\TransactionInterface   retrieveItem($response, $entityName, \SubscribePro\Service\DataInterface $item = null)
  * @method \SubscribePro\Service\Transaction\TransactionInterface[] retrieveItems($response, $entitiesName)
+ *
  * @property \SubscribePro\Service\Transaction\TransactionFactory $dataFactory
  */
 class TransactionService extends AbstractService
@@ -22,12 +24,13 @@ class TransactionService extends AbstractService
     /**
      * Service name
      */
-    const NAME = 'transaction';
+    public const NAME = 'transaction';
 
-    const API_NAME_TRANSACTION = 'transaction';
+    public const API_NAME_TRANSACTION = 'transaction';
 
     /**
      * @param array $transactionData
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
      */
     public function createTransaction(array $transactionData = [])
@@ -37,20 +40,25 @@ class TransactionService extends AbstractService
 
     /**
      * @param int $transactionId
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function loadTransaction($transactionId)
     {
         $response = $this->httpClient->get("/services/v1/vault/transactions/{$transactionId}.json");
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION);
     }
 
     /**
-     * @param int $paymentProfileId
+     * @param int                                                    $paymentProfileId
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
-     * @param array|null $metadata
+     * @param array|null                                             $metadata
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -68,14 +76,17 @@ class TransactionService extends AbstractService
             "/services/v1/vault/paymentprofiles/{$paymentProfileId}/verify.json",
             $postData
         );
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
-     * @param string $token
+     * @param string                                                 $token
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
-     * @param \SubscribePro\Service\Address\AddressInterface|null $address
+     * @param \SubscribePro\Service\Address\AddressInterface|null    $address
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -93,14 +104,17 @@ class TransactionService extends AbstractService
             '/services/v1/vault/tokens/{$token}/verifyandstore.json',
             [self::API_NAME_TRANSACTION => $transaction->getTokenFormData($address)]
         );
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
-     * @param array $authorizeData
+     * @param array                                                  $authorizeData
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
-     * @param array|null $metadata
+     * @param array|null                                             $metadata
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -118,14 +132,17 @@ class TransactionService extends AbstractService
             $postData['_meta'] = $metadata;
         }
         $response = $this->httpClient->post("/services/v1/vault/paymentprofiles/{$profileId}/authorize.json", $postData);
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
-     * @param array $authorizeData
+     * @param array                                                  $authorizeData
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
-     * @param array|null $metadata
+     * @param array|null                                             $metadata
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -143,15 +160,18 @@ class TransactionService extends AbstractService
             $postData['_meta'] = $metadata;
         }
         $response = $this->httpClient->post("/services/v1/vault/paymentprofiles/{$profileId}/purchase.json", $postData);
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
-     * @param string $token
+     * @param string                                                 $token
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
-     * @param \SubscribePro\Service\Address\AddressInterface|null $address
-     * @param array|null $metadata
+     * @param \SubscribePro\Service\Address\AddressInterface|null    $address
+     * @param array|null                                             $metadata
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -170,15 +190,18 @@ class TransactionService extends AbstractService
             $postData['_meta'] = $metadata;
         }
         $response = $this->httpClient->post("/services/v1/vault/tokens/{$token}/authorize.json", $postData);
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
-     * @param string $token
+     * @param string                                                 $token
      * @param \SubscribePro\Service\Transaction\TransactionInterface $transaction
-     * @param \SubscribePro\Service\Address\AddressInterface|null $address
-     * @param array|null $metadata
+     * @param \SubscribePro\Service\Address\AddressInterface|null    $address
+     * @param array|null                                             $metadata
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -197,14 +220,17 @@ class TransactionService extends AbstractService
             $postData['_meta'] = $metadata;
         }
         $response = $this->httpClient->post("/services/v1/vault/tokens/{$token}/purchase.json", $postData);
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
-     * @param int $transactionId
+     * @param int                                                         $transactionId
      * @param \SubscribePro\Service\Transaction\TransactionInterface|null $transaction
-     * @param array|null $metadata
+     * @param array|null                                                  $metadata
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -219,14 +245,17 @@ class TransactionService extends AbstractService
             $postData['_meta'] = $metadata;
         }
         $response = $this->httpClient->post("/services/v1/vault/transactions/{$transactionId}/capture.json", $postData);
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
-     * @param int $transactionId
+     * @param int                                                         $transactionId
      * @param \SubscribePro\Service\Transaction\TransactionInterface|null $transaction
-     * @param array|null $metadata
+     * @param array|null                                                  $metadata
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\EntityInvalidDataException
      * @throws \SubscribePro\Exception\HttpException
      */
@@ -241,19 +270,23 @@ class TransactionService extends AbstractService
             $postData['_meta'] = $metadata;
         }
         $response = $this->httpClient->post("/services/v1/vault/transactions/{$transactionId}/credit.json", $postData);
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION, $transaction);
     }
 
     /**
-     * @param int $transactionId
+     * @param int        $transactionId
      * @param array|null $metadata
+     *
      * @return \SubscribePro\Service\Transaction\TransactionInterface
+     *
      * @throws \SubscribePro\Exception\HttpException
      */
     public function void($transactionId, $metadata = null)
     {
         $postData = !empty($metadata) ? ['_meta' => $metadata] : [];
         $response = $this->httpClient->post("/services/v1/vault/transactions/{$transactionId}/void.json", $postData);
+
         return $this->retrieveItem($response, self::API_NAME_TRANSACTION);
     }
 }

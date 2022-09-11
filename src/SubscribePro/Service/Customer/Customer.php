@@ -22,7 +22,7 @@ class Customer extends DataObject implements CustomerInterface
         self::CREATE_MAGENTO_CUSTOMER => false,
         self::FIRST_NAME => true,
         self::MIDDLE_NAME => false,
-        self::LAST_NAME => true
+        self::LAST_NAME => true,
     ];
 
     /**
@@ -36,7 +36,7 @@ class Customer extends DataObject implements CustomerInterface
         self::EXTERNAL_VAULT_CUSTOMER_TOKEN => false,
         self::FIRST_NAME => false,
         self::MIDDLE_NAME => false,
-        self::LAST_NAME => false
+        self::LAST_NAME => false,
     ];
 
     /**
@@ -55,15 +55,17 @@ class Customer extends DataObject implements CustomerInterface
         return array_intersect_key($this->data, $this->getFormFields());
     }
 
-    //@codeCoverageIgnoreStart
+    // @codeCoverageIgnoreStart
 
     /**
      * @param int|null $id
+     *
      * @return $this
      */
     public function setId($id)
     {
         $this->setData($this->idField, $id);
+
         return $this;
     }
 
@@ -77,6 +79,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param string $email
+     *
      * @return $this
      */
     public function setEmail($email)
@@ -94,6 +97,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param string $firstName
+     *
      * @return $this
      */
     public function setFirstName($firstName)
@@ -111,6 +115,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param string $lastName
+     *
      * @return $this
      */
     public function setLastName($lastName)
@@ -128,6 +133,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param string|null $middleName
+     *
      * @return $this
      */
     public function setMiddleName($middleName)
@@ -153,6 +159,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param int|null $magentoCustomerId
+     *
      * @return $this
      */
     public function setMagentoCustomerId($magentoCustomerId)
@@ -170,6 +177,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param int|null $magentoCustomerGroupId
+     *
      * @return $this
      */
     public function setMagentoCustomerGroupId($magentoCustomerGroupId)
@@ -187,6 +195,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param int|null $magentoWebsiteId
+     *
      * @return $this
      */
     public function setMagentoWebsiteId($magentoWebsiteId)
@@ -204,6 +213,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param bool $createMagentoCustomer
+     *
      * @return $this
      */
     public function setCreateMagentoCustomer($createMagentoCustomer)
@@ -221,6 +231,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param string|null $externalVaultCustomerToken
+     *
      * @return $this
      */
     public function setExternalVaultCustomerToken($externalVaultCustomerToken)
@@ -254,6 +265,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getCreated($format = null)
@@ -263,6 +275,7 @@ class Customer extends DataObject implements CustomerInterface
 
     /**
      * @param string|null $format
+     *
      * @return string|null
      */
     public function getUpdated($format = null)
@@ -270,5 +283,5 @@ class Customer extends DataObject implements CustomerInterface
         return $this->getDatetimeData(self::UPDATED, $format);
     }
 
-    //@codeCoverageIgnoreEnd
+    // @codeCoverageIgnoreEnd
 }

@@ -24,23 +24,23 @@ class EventTest extends \PHPUnit_Framework_TestCase
             EventInterface::DATA => ['data'],
             EventInterface::DESTINATIONS => [$destination1Mock, $destination2Mock],
         ]);
-        
+
         $expectedData = [
             EventInterface::ID => 111,
             EventInterface::DATA => ['data'],
             EventInterface::DESTINATIONS => [
                 ['first destination data'],
-                ['second destination data']
+                ['second destination data'],
             ],
         ];
-        
+
         $this->assertEquals($expectedData, $event->toArray());
     }
 
     /**
-     * @param array $data
+     * @param array       $data
      * @param string|null $field
-     * @param mixed|null $result
+     * @param mixed|null  $result
      * @dataProvider getEventDataDataProvider
      */
     public function testGetEventData($data, $field, $result)
@@ -62,7 +62,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
                     EventInterface::TYPE => 'type',
                 ],
                 'field' => null,
-                'result' => null
+                'result' => null,
             ],
             'Event data not set:with field' => [
                 'data' => [
@@ -70,7 +70,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
                     EventInterface::TYPE => 'subscription',
                 ],
                 'field' => 'field_value',
-                'result' => null
+                'result' => null,
             ],
             'With event data:without field' => [
                 'data' => [
@@ -79,7 +79,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
                     EventInterface::DATA => ['data'],
                 ],
                 'field' => null,
-                'result' => ['data']
+                'result' => ['data'],
             ],
             'With event data:with field:not found in data' => [
                 'data' => [
@@ -88,7 +88,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
                     EventInterface::DATA => ['field' => 'data'],
                 ],
                 'field' => 'another_field',
-                'result' => null
+                'result' => null,
             ],
             'With event data:with field:field found' => [
                 'data' => [
@@ -97,7 +97,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
                     EventInterface::DATA => ['field' => 'value'],
                 ],
                 'field' => 'field',
-                'result' => 'value'
+                'result' => 'value',
             ],
         ];
     }

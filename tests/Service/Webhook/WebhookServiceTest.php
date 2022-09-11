@@ -75,17 +75,17 @@ class WebhookServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'not array' => [
-                'request' => 'some text'
+                'request' => 'some text',
             ],
             'wrong array' => [
-                'request' => ['test' => 'value']
+                'request' => ['test' => 'value'],
             ],
             'empty webhook_event' => [
-                'request' => ['webhook_event' => '']
+                'request' => ['webhook_event' => ''],
             ],
             'not json webhook_event' => [
-                'request' => ['webhook_event' => 'text']
-            ]
+                'request' => ['webhook_event' => 'text'],
+            ],
         ];
     }
 
