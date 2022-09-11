@@ -36,6 +36,11 @@ class Http
     public const DEFAULT_LOG_MESSAGE_FORMAT = "{method} - {uri}\nRequest body: {req_body}\n{code} {phrase}\nResponse body: {res_body}\n{error}\n";
 
     /**
+     * User agent string for outgoing API requests.
+     */
+    public const USER_AGENT = 'subscribepro-php/1.1';
+
+    /**
      * @var string
      */
     protected $baseUrl;
@@ -86,6 +91,9 @@ class Http
             RequestOptions::HTTP_ERRORS => false,
             RequestOptions::AUTH => [$this->app->getClientId(), $this->app->getClientSecret()],
             RequestOptions::TIMEOUT => $this->requestTimeout,
+            RequestOptions::HEADERS => [
+                'User-Agent' => self::USER_AGENT,
+            ]
         ]);
     }
 
