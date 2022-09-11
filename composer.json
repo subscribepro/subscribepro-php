@@ -1,15 +1,11 @@
 {
   "name": "subscribepro/subscribepro-php",
-  "homepage": "http://www.subscribepro.com",
+  "homepage": "https://www.subscribepro.com",
   "description": "Subscribe Pro PHP SDK",
   "keywords": ["subscribe", "pro", "sdk"],
   "type": "library",
   "license": "MIT",
   "authors": [
-    {
-      "name": "Swarming Technology",
-      "homepage": "http://swarmingtech.com"
-    },
     {
       "name": "SUBSCRIBE PRO INC",
       "homepage": "http://www.subscribepro.com"
@@ -20,10 +16,10 @@
   },
   "require": {
     "php": ">=5.5",
-    "guzzlehttp/guzzle": "~6.0.1|~6.1|~6.2"
+    "guzzlehttp/guzzle": "~6.5|~7.4"
   },
   "require-dev": {
-    "monolog/monolog": "^1.16.0"
+    "monolog/monolog": "~1.27|~2.8|~3.2"
   },
   "autoload": {
     "psr-4": {
