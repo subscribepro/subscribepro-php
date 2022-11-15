@@ -6,7 +6,7 @@ Subscribe Pro PHP Client
 [![Latest Unstable Version](https://poser.pugx.org/subscribepro/subscribepro-php/v/unstable)](https://packagist.org/packages/subscribepro/subscribepro-php)
 [![License](https://poser.pugx.org/subscribepro/subscribepro-php/license)](https://packagist.org/packages/subscribepro/subscribepro-php)
 
-This is our PHP client library for accessing the Subscribe Pro REST API.  Our API documentation is available at https://platform.subscribepro.com/docs/rest.
+This is our PHP client library for accessing the Subscribe Pro REST API.  Our API documentation is available at https://docs.subscribepro.com/technical/rest-api/.
 
 To learn more about Subscribe Pro you can visit us at https://www.subscribepro.com/.
 
