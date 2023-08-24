@@ -50,7 +50,14 @@ class SubscriptionService extends AbstractService
     public function saveSubscription(SubscriptionInterface $subscription, array $metadata = null)
     {
         $url = $subscription->isNew() ? '/services/v2/subscription.json' : "/services/v2/subscriptions/{$subscription->getId()}.json";
-        $payload = [self::API_NAME_SUBSCRIPTION => $subscription->getFormData()];
+        $formData = $subscription->getFormData();
+        $formData = array_filter($formData, function($data) {
+            if (is_array($data)&& count($data) == 0) {
+                return false;
+            }
+            return true;
+        });
+        $payload = [self::API_NAME_SUBSCRIPTION => $formData];
         if (!empty($metadata)) {
             $payload[self::API_NAME_META] = $metadata;
         }
