@@ -28,6 +28,9 @@ interface SubscriptionInterface extends DataInterface
     public const MAGENTO_BILLING_ADDRESS_ID = 'magento_billing_address_id';
     public const SHIPPING_ADDRESS_ID = 'shipping_address_id';
     public const SHIPPING_ADDRESS = 'shipping_address';
+    public const BILLING_ADDRESS_ID = 'billing_address_id';
+    public const BILLING_ADDRESS = 'billing_address';
+
     public const MAGENTO_SHIPPING_ADDRESS_ID = 'magento_shipping_address_id';
     public const MAGENTO_SHIPPING_METHOD_CODE = 'magento_shipping_method_code';
     public const SHIPPING_METHOD_CODE = 'shipping_method_code';

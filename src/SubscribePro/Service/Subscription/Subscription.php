@@ -22,6 +22,8 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::PAYMENT_METHOD_CODE => false,
         self::SHIPPING_ADDRESS_ID => false,
         self::SHIPPING_ADDRESS => false,
+        self::BILLING_ADDRESS_ID => false,
+        self::BILLING_ADDRESS => false,
         self::PRODUCT_SKU => true,
         self::REQUIRES_SHIPPING => true,
         self::QTY => true,
@@ -49,6 +51,8 @@ class Subscription extends DataObject implements SubscriptionInterface
         self::PAYMENT_METHOD_CODE => false,
         self::SHIPPING_ADDRESS_ID => false,
         self::SHIPPING_ADDRESS => false,
+        self::BILLING_ADDRESS_ID => false,
+        self::BILLING_ADDRESS => false,
         self::PRODUCT_SKU => true,
         self::REQUIRES_SHIPPING => true,
         self::QTY => true,
@@ -133,6 +137,12 @@ class Subscription extends DataObject implements SubscriptionInterface
             unset($formData[self::SHIPPING_ADDRESS]);
         } else {
             unset($formData[self::SHIPPING_ADDRESS_ID]);
+        }
+
+        if (!empty($formData[self::BILLING_ADDRESS_ID])) {
+            unset($formData[self::BILLING_ADDRESS]);
+        } else {
+            unset($formData[self::BILLING_ADDRESS_ID]);
         }
 
         return $formData;
@@ -386,6 +396,36 @@ class Subscription extends DataObject implements SubscriptionInterface
     public function getCreditcardLastDigits()
     {
         return $this->getData(self::CREDITCARD_LAST_DIGITS);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getBillingAddressId()
+    {
+        return $this->getData(self::BILLING_ADDRESS_ID);
+    }
+
+    public function setBillingAddressId($shippingAddressId)
+    {
+        return $this->setData(self::BILLING_ADDRESS_ID, $shippingAddressId);
+    }
+
+    /**
+     * @return \SubscribePro\Service\Address\AddressInterface|null
+     */
+    public function getBillingAddress()
+    {
+        return $this->getData(self::BILLING_ADDRESS);
+    }
+
+    /**
+     * @param \SubscribePro\Service\Address\AddressInterface|null $billingAddress
+     * @return $this
+     */
+    public function setBillingAddress($billingAddress)
+    {
+        return $this->setData(self::BILLING_ADDRESS, $billingAddress);
     }
 
     /**

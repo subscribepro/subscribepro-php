@@ -88,6 +88,9 @@ class SubscriptionUtils
             return $dateResult;
         }
 
+        if(!$a->getShippingAddressId()) {
+                return 0;
+        }
         // Compare by shipping address
         $shippingAddressResult = strcmp($a->getShippingAddressId(), $b->getShippingAddressId());
         if (0 != $shippingAddressResult) {
