@@ -88,7 +88,7 @@ class SubscriptionUtils
             return $dateResult;
         }
 
-        if(!$a->getShippingAddressId()) {
+        if(!$a->getShippingAddressId() || !$b->getShippingAddressId()) {
                 return 0;
         }
         // Compare by shipping address
