@@ -107,6 +107,9 @@ class PaymentProfile extends DataObject implements PaymentProfileInterface
         self::CREDITCARD_MONTH => false,
         self::CREDITCARD_YEAR => false,
         self::BILLING_ADDRESS => false,
+        self::CREDITCARD_FIRST_DIGITS => false,
+        self::CREDITCARD_LAST_DIGITS => false,
+        self::CREDITCARD_TYPE => false,
     ];
 
     /**
