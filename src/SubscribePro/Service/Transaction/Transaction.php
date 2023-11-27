@@ -47,7 +47,10 @@ class Transaction extends DataObject implements TransactionInterface
         self::USE_THREE_DS => false,
         self::THREE_DS_TYPE => false,
         self::THREE_DS_REDIRECT_URL => false,
-        self::BROWSER_INFO => false,
+        self::CREDITCARD_TYPE => false,
+        self::CREDITCARD_FIRST_DIGITS => false,
+        self::CREDITCARD_LAST_DIGITS => false,
+        self::BILLING_ADDRESS => true,
     ];
 
     /**
