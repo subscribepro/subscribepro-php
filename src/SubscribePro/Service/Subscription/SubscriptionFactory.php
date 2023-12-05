@@ -53,6 +53,9 @@ class SubscriptionFactory implements DataFactoryInterface
         $addressData = $this->getFieldData($data, SubscriptionInterface::SHIPPING_ADDRESS);
         $data[SubscriptionInterface::SHIPPING_ADDRESS] = $this->addressFactory->create($addressData);
 
+        $addressData = $this->getFieldData($data, SubscriptionInterface::BILLING_ADDRESS);
+        $data[SubscriptionInterface::BILLING_ADDRESS] = $this->addressFactory->create($addressData);
+
         $paymentProfileData = $this->getFieldData($data, SubscriptionInterface::PAYMENT_PROFILE);
         $data[SubscriptionInterface::PAYMENT_PROFILE] = $this->paymentProfileFactory->create($paymentProfileData);
 
