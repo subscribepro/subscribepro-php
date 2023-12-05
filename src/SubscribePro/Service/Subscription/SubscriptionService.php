@@ -51,7 +51,7 @@ class SubscriptionService extends AbstractService
     {
         $url = $subscription->isNew() ? '/services/v2/subscription.json' : "/services/v2/subscriptions/{$subscription->getId()}.json";
         $formData = $subscription->getFormData();
-        $formData = array_filter($formData, function($data) {
+        $formData = array_filter($formData, function ($data) {
             if (is_array($data)&& count($data) == 0) {
                 return false;
             }
