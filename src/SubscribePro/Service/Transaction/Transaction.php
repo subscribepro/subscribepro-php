@@ -404,6 +404,42 @@ class Transaction extends DataObject implements TransactionInterface
     /**
      * @return string|null
      */
+    public function getPaymentToken()
+    {
+        return $this->getData(self::PAYMENT_TOKEN);
+    }
+
+    /**
+     * @param string $paymentToken
+     *
+     * @return $this
+     */
+    public function setPaymentToken($paymentToken)
+    {
+        return $this->setData(self::PAYMENT_TOKEN, $paymentToken);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getThirdPartyPaymentToken()
+    {
+        return $this->getData(self::THIRD_PARTY_PAYMENT_TOKEN);
+    }
+
+    /**
+     * @param string $paymentToken
+     *
+     * @return $this
+     */
+    public function setThirdPartyPaymentToken($paymentToken)
+    {
+        return $this->setData(self::THIRD_PARTY_PAYMENT_TOKEN, $paymentToken);
+    }
+
+    /**
+     * @return string|null
+     */
     public function getToken()
     {
         return $this->getData(self::TOKEN);
