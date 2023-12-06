@@ -32,6 +32,7 @@ interface TransactionInterface extends DataInterface
     public const REF_TRANSACTION_ID = 'ref_transaction_id';
     public const REF_GATEWAY_ID = 'ref_gateway_id';
     public const REF_TOKEN = 'ref_token';
+    public const PAYMENT_TOKEN = 'payment_token';
     public const TOKEN = 'token';
     public const TYPE = 'type';
     public const AMOUNT = 'amount';
@@ -272,6 +273,18 @@ interface TransactionInterface extends DataInterface
      * @return string|null
      */
     public function getRefToken();
+
+    /**
+     * @return string|null
+     */
+    public function getPaymentToken();
+
+    /**
+     * @param string $paymentToken
+     *
+     * @return $this
+     */
+    public function setPaymentToken($paymentToken);
 
     /**
      * @return string|null
