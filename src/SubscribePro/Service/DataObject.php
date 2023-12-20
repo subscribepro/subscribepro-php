@@ -77,7 +77,7 @@ class DataObject implements DataInterface
      *
      * @return mixed|null
      */
-    protected function getData($key, $default = null)
+    public function getData($key, $default = null)
     {
         return isset($this->data[$key]) ? $this->data[$key] : $default;
     }
