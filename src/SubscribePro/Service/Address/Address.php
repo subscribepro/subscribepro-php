@@ -4,6 +4,9 @@ namespace SubscribePro\Service\Address;
 
 use SubscribePro\Service\DataObject;
 
+/**
+ * @method \SubscribePro\Service\Address\Address getRegionCode()
+ */
 class Address extends DataObject implements AddressInterface
 {
     /**
